@@ -85,6 +85,8 @@
 
     </div>
 
+    @yield("modals")
+
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/boostrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/scripts.min.js') }}"></script>

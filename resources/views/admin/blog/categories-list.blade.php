@@ -1,9 +1,7 @@
 @extends('layouts.admin', [
     'mainBar' => [
         'title' => $pageTitle,
-        'buttons' => [
-            t_button_data("Nova categoria", "success", icon_class("plusLg"), route("admin.blog.categories.store"), "jsBtnNewCategory"),
-        ],
+        'buttons' => [t_button_data('Nova categoria', 'success', icon_class('plusLg'), route('admin.blog.categories.store'), null, 'jsBtnNewCategory')],
     ],
 ])
 
@@ -44,6 +42,16 @@
     </div>
 @endsection
 
+@section('scripts')
+    <script>
+        $("#jsNewCategoryModal").modal('show');
+        $(".jsBtnNewCategory").on("click", function() {
+        });
+    </script>
+@endsection
+
 @section('modals')
     @include('includes.modal-confirmation')
+
+    @include('admin.blog.includes.modal-category')
 @endsection

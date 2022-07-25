@@ -101,8 +101,11 @@
                                 <div class="ml-2">
                                     @foreach ($mainBar->buttons as $button)
                                         @if ($button['type'] == 'button')
-                                            <button
-                                                class="btn btn-{{ $button['style'] }} {{ $button['activeIcon'] }}">{{ $button['text'] }}</button>
+                                            <button id="{{ $button['id'] }}"
+                                                class="btn btn-{{ $button['style'] }} {{ $button['activeIcon'] }} {{ $button['id'] }}"
+                                                data-action="{{ $button['link'] }}">
+                                                {{ $button['text'] }}
+                                            </button>
                                         @else
                                         @endif
                                     @endforeach
@@ -174,8 +177,8 @@
                                                 data-target="#moreFilters">
                                             </button>
 
-                                            <button class="btn bg-light {{ icon_class('filter') }} ml-1" type="submit"
-                                                data-active-icon="{{ icon_class('filter') }}"
+                                            <button class="btn bg-light {{ icon_class('filter') }} ml-1"
+                                                type="submit" data-active-icon="{{ icon_class('filter') }}"
                                                 data-alt-icon="{{ icon_class('loading') }}"></button>
                                         </div>
                                     </div>
