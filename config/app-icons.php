@@ -6,6 +6,7 @@ return [
 
     'calendar' => 'bi bi-calendar',
     'calendarCheck' => 'bi bi-calendar-check',
+    'calendarCheckFill' => 'bi bi-calendar-check-fill',
     'calendarEvent' => 'bi bi-calendar-event',
     'calendarX' => 'bi bi-calendar-x',
 
@@ -17,6 +18,7 @@ return [
     'checkCircleFill' => 'bi bi-check-circle-fill',
 
     'filter' => 'bi bi-filter',
+    'folderFill' => 'bi bi-folder-fill',
 
     'grid' => 'bi bi-grid',
     'gridFill' => 'bi bi-grid-fill',
@@ -50,6 +52,7 @@ return [
 
     'trash' => 'bi bi-trash',
     'trashFill' => 'bi bi-trash-fill',
+    'tagsFill' => 'bi bi-tags-fill',
 
     'userFill' => 'bi bi-person-fill',
     'usersFill' => 'bi bi-people-fill',

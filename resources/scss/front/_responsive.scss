@@ -1,0 +1,208 @@
+// Dispositivos small (telefones em modo paisagem, com 576px ou mais)
+@media (min-width: 576px) {
+
+    .right-side {
+
+        .main {}
+
+    }
+
+}
+
+// Dispositivos médios (tablets com 768px ou mais)
+@media (min-width: 768px) {
+    body {
+
+        h1,
+        .h1 {
+            font-size: 1.8rem;
+        }
+
+        h2,
+        .h2 {
+            font-size: 1.6rem;
+        }
+
+        h3,
+        .h3 {
+            font-size: 1.4rem;
+        }
+
+        h4,
+        .h4 {
+            font-size: 1.2rem;
+        }
+
+        h5,
+        .h5 {
+            font-size: 1.1rem;
+        }
+    }
+
+    .right-side {
+
+        .main {
+            .article-summary {
+                .info {
+                    .tags {
+                        display: block;
+                    }
+                }
+
+                &.featured-article {
+                    .article {
+                        align-items: center;
+                        flex-direction: row;
+
+                        .img {
+                            width: 100%;
+                            max-width: 425px;
+                        }
+
+                        .title-and-desc {
+                            align-self: flex-start;
+                            margin-left: $spacer;
+
+                            .title {
+                                font-size: 2.5rem;
+                            }
+                        }
+                    }
+
+                    .info {
+                        padding: $spacer 0 0 0;
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+// Dispositivos large (desktops com 992px ou mais)
+@media (min-width: 992px) {
+    body {
+
+        h1,
+        .h1 {
+            font-size: 2rem;
+        }
+
+        h2,
+        .h2 {
+            font-size: 1.8rem;
+        }
+
+        h3,
+        .h3 {
+            font-size: 1.6rem;
+        }
+
+        h4,
+        .h4 {
+            font-size: 1.4rem;
+        }
+
+        h5,
+        .h5 {
+            font-size: 1.2rem;
+        }
+    }
+
+    .wrapp {
+        flex-direction: row;
+    }
+
+    .left-side {
+        max-width: $sidebar-width;
+        align-items: flex-start;
+        height: 100vh;
+        border-bottom: none;
+        position: fixed;
+        left: 0;
+        top: 0;
+
+        .header {
+            .btn-menu-toggler {
+                display: none;
+            }
+        }
+
+        .sidebar {
+            display: block;
+            width: 100%;
+            position: relative;
+            top: unset;
+        }
+    }
+
+    .right-side {
+        max-width: calc(100% - $sidebar-width);
+        margin-left: $sidebar-width;
+
+        .container-fluid {
+            padding-left: $spacer * 2;
+            padding-right: $spacer * 2;
+        }
+
+        .main {
+            padding-top: $spacer;
+            padding-bottom: $spacer;
+            padding-left: $spacer * 2;
+            padding-right: $spacer * 2;
+
+            .article-summary {
+
+                .info {
+                    font-size: 0.875rem;
+                }
+
+                &.featured-article {
+                    .article {
+                        .img {
+                            width: 100%;
+                            max-width: 525px;
+                        }
+
+                        .title-and-desc {
+                            .title {
+                                font-size: 2.8rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Dispositivos extra large (desktops grandes com 1200px ou mais)
+@media (min-width: 1200px) {
+    body {
+
+        h1,
+        .h1 {
+            font-size: 2.2rem;
+        }
+
+        h2,
+        .h2 {
+            font-size: 2rem;
+        }
+
+        h3,
+        .h3 {
+            font-size: 1.8rem;
+        }
+
+        h4,
+        .h4 {
+            font-size: 1.6rem;
+        }
+
+        h5,
+        .h5 {
+            font-size: 1.4rem;
+        }
+    }
+}

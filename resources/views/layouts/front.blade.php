@@ -24,45 +24,66 @@
 
     <title>{{ config('app.name') }} - {{ $pageTitle }}</title>
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-icons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/front/styles.css') }}">
+
     @yield('styles')
 
-    <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-        }
-    </style>
 </head>
 
 <body>
-    <header class="bg-light border-bottom">
-        <div class="container py-2 d-flex align-items-center">
-            <a href="">{{ config('app.name') }}</a>
-            <nav class="nav ml-auto">
-                @auth
-                    @if (auth()->user()->level === 9)
-                        <a class="nav-link" href="{{ route('admin.home') }}">Administração</a>
-                    @endif
-                    <a class="nav-link" href="{{ route('member.home') }}">Painel</a>
-                    <a class="nav-link jsLogout" href="{{ route('auth.logout') }}">Sair</a>
-                @else
-                    <a class="nav-link" href="{{ route('auth.register') }}">Registro</a>
-                    <a class="nav-link" href="{{ route('auth.login') }}">Login</a>
-                @endauth
-            </nav>
-        </div>
-    </header>
 
-    <main class="main">
-        <div class="container">
-            @include('includes.message')
+    <div class="wrap">
+
+        <div class="left-side">
+            <div class="container-fluid">
+
+                <header class="header">
+                    <h1 class="h5 mb-0">{{ config('app.name') }}</h1>
+                    <button class="btn-menu-toggler {{ icon_class('list') }} jsBtnToggler"></button>
+                </header>
+
+                <div class="sidebar">
+                    <div class="sidebar-elem">
+                        <nav class="nav flex-column">
+                            <a class="nav-link" href="">
+                                Menu 1
+                            </a>
+                            <a class="nav-link" href="">
+                                Menu 2
+                            </a>
+                            <a class="nav-link" href="">
+                                Menu 3
+                            </a>
+                            <a class="nav-link" href="">
+                                Menu 4
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+
+            </div>
         </div>
 
-        @yield('content')
-    </main>
+        <div class="right-side">
+            <div class="container-fluid">
+
+                <main class="main">
+                    @yield("content")
+                </main>
+
+            </div>
+
+            <footer class="footer text-center">
+                <div class="container-fluid">
+                    <small>
+                        Direitos reservados à {{ config('app.name') }} &copy; {{ date('Y') }}
+                    </small>
+                </div>
+            </footer>
+        </div>
+
+    </div>
 
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/boostrap.min.js') }}"></script>
