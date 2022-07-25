@@ -1,0 +1,105 @@
+// Dispositivos small (telefones em modo paisagem, com 576px ou mais)
+@media (min-width: 576px) {}
+
+// Dispositivos médios (tablets com 768px ou mais)
+@media (min-width: 768px) {
+    body {
+
+        h1,
+        .h1 {
+            font-size: 1.8rem;
+        }
+
+        h2,
+        .h2 {
+            font-size: 1.6rem;
+        }
+
+        h3,
+        .h3 {
+            font-size: 1.4rem;
+        }
+
+        h4,
+        .h4 {
+            font-size: 1.2rem;
+        }
+
+        h5,
+        .h5 {
+            font-size: 1.1rem;
+        }
+    }
+}
+
+// Dispositivos large (desktops com 992px ou mais)
+@media (min-width: 992px) {
+    body {
+
+        h1,
+        .h1 {
+            font-size: 2rem;
+        }
+
+        h2,
+        .h2 {
+            font-size: 1.8rem;
+        }
+
+        h3,
+        .h3 {
+            font-size: 1.6rem;
+        }
+
+        h4,
+        .h4 {
+            font-size: 1.4rem;
+        }
+
+        h5,
+        .h5 {
+            font-size: 1.2rem;
+        }
+    }
+
+    .header {
+        .left {
+            width: $sidebar-width;
+        }
+
+        .btn-menu-toggler {
+            margin-right: -25px;
+        }
+    }
+}
+
+// Dispositivos extra large (desktops grandes com 1200px ou mais)
+@media (min-width: 1200px) {
+    body {
+
+        h1,
+        .h1 {
+            font-size: 2.2rem;
+        }
+
+        h2,
+        .h2 {
+            font-size: 2rem;
+        }
+
+        h3,
+        .h3 {
+            font-size: 1.8rem;
+        }
+
+        h4,
+        .h4 {
+            font-size: 1.6rem;
+        }
+
+        h5,
+        .h5 {
+            font-size: 1.4rem;
+        }
+    }
+}

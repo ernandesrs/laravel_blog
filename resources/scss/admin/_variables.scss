@@ -1,0 +1,38 @@
+$header-height: 60px;
+
+$sidebar-sm-width: 250px;
+$sidebar-width: 250px;
+
+$primary: #1e9ed0;
+$primary-light: #04a6e7;
+$primary-dark: #0b85b6;
+
+$secondary: #436ed3;
+$secondary-light: #4f7eec;
+$secondary-dark: #325bbc;
+
+$light: rgb(241, 241, 241);
+$light-light: rgb(252, 252, 252);
+$light-dark: rgb(240, 240, 240);
+
+$dark: rgb(42, 42, 42);
+$dark-light: rgb(53, 53, 53);
+$dark-dark: rgb(35, 35, 35);
+
+$theme-colors: (
+    "primary": $primary,
+    "primary-light": $primary-light,
+    "primary-dark": $primary-dark,
+
+    "secondary": $secondary,
+    "secondary-light": $secondary-light,
+    "secondary-dark": $secondary-dark,
+
+    "light": $light,
+    "light-light": $light-light,
+    "light-dark": $light-dark,
+
+    "dark": $dark,
+    "dark-light": $dark-light,
+    "dark-dark": $dark-dark,
+);

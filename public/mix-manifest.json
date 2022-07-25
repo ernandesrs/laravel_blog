@@ -1,0 +1,16 @@
+{
+    "/assets/css/member/styles.css": "/assets/css/member/styles.css",
+    "/assets/css/bootstrap-icons.min.css": "/assets/css/bootstrap-icons.min.css",
+    "/assets/css/boxicons.min.css": "/assets/css/boxicons.min.css",
+    "/assets/css/auth/styles.css": "/assets/css/auth/styles.css",
+    "/assets/css/front/styles.css": "/assets/css/front/styles.css",
+    "/assets/css/admin/styles.css": "/assets/css/admin/styles.css",
+    "/assets/js/boostrap.min.js": "/assets/js/boostrap.min.js",
+    "/assets/js/jquery.min.js": "/assets/js/jquery.min.js",
+    "/assets/js/jquery-mask.min.js": "/assets/js/jquery-mask.min.js",
+    "/assets/js/scripts.min.js": "/assets/js/scripts.min.js",
+    "/assets/js/admin/scripts.js": "/assets/js/admin/scripts.js",
+    "/assets/js/member/scripts.js": "/assets/js/member/scripts.js",
+    "/assets/js/front/scripts.js": "/assets/js/front/scripts.js",
+    "/assets/js/auth/scripts.js": "/assets/js/auth/scripts.js"
+}

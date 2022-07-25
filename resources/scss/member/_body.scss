@@ -1,0 +1,100 @@
+body {
+    background: $light-light;
+    background: linear-gradient(265deg, $light-light 24%, $light 51%);
+    height: 100vh;
+    overflow-x: hidden;
+    font-family: "Kanit", sans-serif;
+
+    h1,
+    .h1 {
+        font-size: 1.6rem;
+    }
+
+    h2,
+    .h2 {
+        font-size: 1.4rem;
+    }
+
+    h3,
+    .h3 {
+        font-size: 1.2rem;
+    }
+
+    h4,
+    .h4 {
+        font-size: 1.1rem;
+    }
+
+    h5,
+    .h5 {
+        font-size: 1rem;
+    }
+}
+
+.header {
+    height: $header-height;
+
+    .left {
+        .logo {
+            font-size: 1.2rem;
+        }
+    }
+
+    .btn-menu-toggler {
+        background-color: transparent;
+        font-size: 2rem;
+        border: 0;
+    }
+}
+
+.wrapp {
+    min-height: calc(100vh - $header-height);
+    overflow-y: auto;
+
+    .sidebar {
+        background-color: $light-light;
+        width: 100%;
+        max-width: $sidebar-sm-width;
+        min-height: calc(100vh - ($header-height * 2));
+        border-radius: $spacer;
+
+        .nav {
+            .nav-link {
+                display: flex;
+                align-items: center;
+                font-size: 1rem;
+                margin-bottom: 2px;
+
+                .icon {
+                    font-size: 1.5rem;
+                    line-height: 0;
+                    margin-right: $spacer / 2.5;
+                }
+
+                &.active {
+                    border-left: 2px solid $primary;
+                }
+            }
+
+            .subnav {
+                .nav-link {
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
+
+    .main {
+        .profile {
+            .avatar {
+                width: 175px;
+                height: 175px;
+            }
+
+            .profile-info {
+                margin-top: -50px;
+            }
+        }
+
+    }
+}

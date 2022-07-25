@@ -1,0 +1,14 @@
+.alert {
+    display: none;
+    border-left-width: 8px;
+
+    &.alert-float {
+        width: 100%;
+        max-width: 325px;
+        position: fixed;
+        top: $spacer;
+        right: $spacer;
+        box-shadow: 0 0 18px -2px rgb(#000, 0.15);
+        z-index: 990;
+    }
+}
