@@ -6,7 +6,6 @@ use App\Helpers\Message\Message;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
@@ -25,15 +24,7 @@ class LoginController extends Controller
      */
     public function authenticate(Request $request): \Illuminate\Http\JsonResponse
     {
-        $validator = Validator::make($request->only(["email", "password", "g-recaptcha-response"]), [
-            "email" => ["required", "email"],
-            "password" => ["required"],
-            "g-recaptcha-response" => ["required"]
-        ], [
-            "email.required" => "Informe um email válido",
-            "password.required" => "Informe sua senha",
-            "g-recaptcha-response.required" => "Desafio obrigatório"
-        ]);
+        $validator = $this->loginValidator($request);
 
         if ($errors = $validator->errors()->messages()) {
             return response()->json([
@@ -47,20 +38,16 @@ class LoginController extends Controller
 
         $validated = $validator->validated();
 
-        // RECAPTCHA
-        $response = Http::get("https://www.google.com/recaptcha/api/siteverify", [
-            'secret' => env("APP_GOOGLE_RECAPTCHAV2_PRIVATE_KEY"),
-            'response' => $validated["g-recaptcha-response"]
-        ]);
+        if (g_recaptcha()) {
+            if (g_recaptcha_verify($validated) == false) {
+                return response()->json([
+                    "success" => false,
+                    "errors" => ["g-recaptcha-response" => "Falha no desafio"],
+                    "message" => message()->warning("Falha ao validar desafio do recaptcha")->time(10)->render()
+                ]);
+            }
 
-        unset($validated["g-recaptcha-response"]);
-
-        if ($response->json()["success"] == false) {
-            return response()->json([
-                "success" => false,
-                "errors" => ["g-recaptcha-response" => "Falha no desafio"],
-                "message" => message()->warning("Falha ao validar desafio do recaptcha")->time(10)->render()
-            ]);
+            unset($validated["g-recaptcha-response"]);
         }
 
         if (Auth::attempt($validated)) {
@@ -95,5 +82,29 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route("front.home");
+    }
+
+    /**
+     * @param Request $request
+     * @return
+     */
+    private function loginValidator(Request $request)
+    {
+        $only = ["email", "password"];
+        $rules = [
+            "email" => ["required", "email"],
+            "password" => ["required"]
+        ];
+
+        if (g_recaptcha()) {
+            $only = array_merge($only, ["g-recaptcha-response"]);
+            $rules = array_merge($rules, ["g-recaptcha-response" => ["required"]]);
+        }
+
+        return Validator::make($request->only($only), $rules, [
+            "email.required" => "Informe um email válido",
+            "password.required" => "Informe sua senha",
+            "g-recaptcha-response.required" => "Desafio obrigatório"
+        ]);
     }
 }

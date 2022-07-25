@@ -24,6 +24,19 @@ class ForgotController extends Controller
      */
     public function sendLink(Request $request): RedirectResponse
     {
+        if (g_recaptcha()) {
+            $gRecaptchaToken = $request->get('g-recaptcha-response', null);
+            if (!$gRecaptchaToken) {
+                message()->warning("Desafio recaptcha obrigatório")->flash();
+                return redirect()->back();
+            }
+
+            if (g_recaptcha_verify($gRecaptchaToken) == false) {
+                message()->warning("Complete desafio recaptcha")->flash();
+                return redirect()->back();
+            }
+        }
+
         $request->validate(['email' => 'required|email']);
 
         $status = Password::sendResetLink(
@@ -31,15 +44,9 @@ class ForgotController extends Controller
         );
 
         if ($status === Password::RESET_LINK_SENT)
-            session()->flash("flash_message", [
-                "type" => "info",
-                "message" => __($status)
-            ]);
+            message()->info(__($status))->flash();
         else
-            session()->flash("flash_message", [
-                "type" => "warning",
-                "message" => __($status)
-            ]);
+            message()->warning(__($status))->flash();
 
         return redirect()->back();
     }

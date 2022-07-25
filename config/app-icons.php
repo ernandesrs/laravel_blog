@@ -46,6 +46,8 @@ return [
     'pagePlus' => 'bi bi-file-earmark-plus',
     'pageText' => 'bi bi-file-text',
     'pencilSquare' => 'bi bi-pencil-square',
+    'plus' => 'bi bi-plus',
+    'plusLg' => 'bi bi-plus-lg',
 
     'shield' => 'bi bi-shield',
     'shieldFill' => 'bi bi-shield-fill',

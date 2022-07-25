@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class ResetController extends Controller
@@ -28,14 +29,19 @@ class ResetController extends Controller
      */
     public function updatePassword(Request $request): RedirectResponse
     {
-        $request->validate([
+        $validator = Validator::make($request->only("email", "password", "password_confirmation", "token"), [
             'token' => 'required',
             'email' => 'required|email',
             'password' => 'required|min:8|confirmed',
         ]);
 
+        if ($validator->fails()) {
+            message()->warning("Erro! Informe todos dados e tente de novo.")->flash();
+            return back();
+        }
+
         $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
+            $validator->validated(),
             function ($user, $password) {
                 $user->forceFill([
                     'password' => Hash::make($password)
@@ -48,16 +54,10 @@ class ResetController extends Controller
         );
 
         if ($status === Password::PASSWORD_RESET) {
-            session()->flash("flash_message", [
-                "type" => "success",
-                "message" => __($status)
-            ]);
+            message()->success(__($status))->flash();
             return redirect()->route("auth.login");
         } else {
-            session()->flash("flash_message", [
-                "type" => "warning",
-                "message" => __($status)
-            ]);
+            message()->warning(__($status))->flash();
             return redirect()->back();
         }
     }

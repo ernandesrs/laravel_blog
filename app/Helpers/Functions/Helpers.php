@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\GoogleRecaptcha;
 use App\Helpers\Message\Message;
 use Rolandstarke\Thumbnail\Facades\Thumbnail;
 
@@ -58,4 +59,41 @@ function thumb(?string $path, int $width, ?int $height = null): ?string
 function message(): Message
 {
     return (new Message());
+}
+
+/**
+ * @param [type] $str
+ * @param integer $decimals
+ * @return string
+ */
+function money_formatter($str, int $decimals = 2): string
+{
+    return number_format($str, $decimals, ",", ".");
+}
+
+/**
+ * @return boolean
+ */
+function g_recaptcha(): bool
+{
+    return env("APP_USE_RECAPTCHA", false);
+}
+
+/**
+ * Renderiza o desafio
+ * @return void
+ */
+function g_recaptcha_render(): void
+{
+    GoogleRecaptcha::gRecaptchaRender();
+    return;
+}
+
+/**
+ * @param string|array $param string com o token ou array com os dados do formulário com o token
+ * @return boolean
+ */
+function g_recaptcha_verify($param): bool
+{
+    return GoogleRecaptcha::gRecaptchaVerify($param);
 }

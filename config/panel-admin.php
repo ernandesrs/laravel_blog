@@ -45,6 +45,31 @@ return [
             ]
         ],
         [
+            "icon" => icon_class("page"),
+            "text" => "Blog",
+            "title" => "",
+            "activeIn" => ["admin.blog.categories.index", "admin.blog.tags.index"],
+            "target" => "_self",
+            "items" => [
+                [
+                    "icon" => icon_class("folderFill"),
+                    "text" => "Categorias",
+                    "title" => "",
+                    "route" => "admin.blog.categories.index",
+                    "target" => "_self",
+                    "activeIn" => ["admin.blog.categories.index"]
+                ],
+                [
+                    "icon" => icon_class("tagsFill"),
+                    "text" => "Tags",
+                    "title" => "",
+                    "route" => "admin.blog.tags.index",
+                    "target" => "_self",
+                    "activeIn" => ["admin.blog.tags.index"]
+                ],
+            ],
+        ],
+        [
             "icon" => icon_class("pageEarmarkText"),
             "text" => "Páginas",
             "title" => "",

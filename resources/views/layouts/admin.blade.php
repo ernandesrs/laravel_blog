@@ -52,8 +52,8 @@
                                 data-target="#item{{ $key }}">
                                 <i class="icon {{ $item['icon'] }}"></i> {{ $item['text'] }}
                             </a>
-                            <div class="subnav collapse {{ $active ? 'show' : null }}"
-                                id="item{{ $key }}" data-parent="#sidebar">
+                            <div class="subnav collapse {{ $active ? 'show' : null }}" id="item{{ $key }}"
+                                data-parent="#sidebar">
                                 @foreach ($item['items'] as $i)
                                     @if ($i['visibleIn'] ?? null)
                                         @if (in_array(Route::currentRouteName(), $i['visibleIn'] ?? []))
@@ -95,8 +95,19 @@
                     @endphp
                     <div class="row justify-content-start align-items-center py-3">
                         {{-- MAIN TITLE --}}
-                        <div class="col-12 col-md-4 col-xl-7">
-                            <h1 class="h5 pb-2 pb-md-0">{{ $mainBar->title }}</h1>
+                        <div class="col-12 col-md-4 col-xl-7 d-flex align-items-center">
+                            <h1 class="h5 pb-2 pb-md-0 mb-0">{{ $mainBar->title }}</h1>
+                            @if ($mainBar->buttons ?? null)
+                                <div class="ml-2">
+                                    @foreach ($mainBar->buttons as $button)
+                                        @if ($button['type'] == 'button')
+                                            <button
+                                                class="btn btn-{{ $button['style'] }} {{ $button['activeIcon'] }}">{{ $button['text'] }}</button>
+                                        @else
+                                        @endif
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
 
                         {{-- MAIN FILTER --}}
@@ -159,12 +170,12 @@
                                             <button
                                                 class="btn bg-transparent {{ icon_class('caretDownFill') }} ml-2 jsShowMoreFilters"
                                                 type="button" data-active-icon="{{ icon_class('caretDownFill') }}"
-                                                data-alt-icon="{{ icon_class('caretUpFill') }}"
-                                                data-toggle="collapse" data-target="#moreFilters">
+                                                data-alt-icon="{{ icon_class('caretUpFill') }}" data-toggle="collapse"
+                                                data-target="#moreFilters">
                                             </button>
 
-                                            <button class="btn bg-light {{ icon_class('filter') }} ml-1"
-                                                type="submit" data-active-icon="{{ icon_class('filter') }}"
+                                            <button class="btn bg-light {{ icon_class('filter') }} ml-1" type="submit"
+                                                data-active-icon="{{ icon_class('filter') }}"
                                                 data-alt-icon="{{ icon_class('loading') }}"></button>
                                         </div>
                                     </div>

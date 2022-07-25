@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\TagController as AdminTagController;
 use App\Http\Controllers\Auth\ForgotController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -107,4 +109,16 @@ Route::group([
     Route::post("/pagina/update/{page}", [AdminPageController::class, "update"])->name("admin.pages.update");
     Route::post("/pagina/excluir/{page}", [AdminPageController::class, "destroy"])->name("admin.pages.destroy");
     Route::post("/pagina/excluir-capa/{page}", [AdminPageController::class, "coverRemove"])->name("admin.pages.coverRemove");
+
+    // BLOG: CATEGORIAS
+    Route::get("/blog/categorias", [AdminCategoryController::class, "index"])->name("admin.blog.categories.index");
+    Route::post("/blog/categoria/salvar", [AdminCategoryController::class, "store"])->name("admin.blog.categories.store");
+    Route::post("/blog/categoria/atualizar/{category}", [AdminCategoryController::class, "update"])->name("admin.blog.categories.update");
+    Route::post("/blog/categoria/excluir/{category}", [AdminCategoryController::class, "destroy"])->name("admin.blog.categories.destroy");
+
+    // BLOG: TAGS
+    Route::get("/blog/tags", [AdminTagController::class, "index"])->name("admin.blog.tags.index");
+    Route::post("/blog/tag/salvar", [AdminTagController::class, "store"])->name("admin.blog.tags.store");
+    Route::post("/blog/tag/atualizar/{tag}", [AdminTagController::class, "update"])->name("admin.blog.tags.update");
+    Route::post("/blog/tag/excluir/{tag}", [AdminTagController::class, "destroy"])->name("admin.blog.tags.destroy");
 });

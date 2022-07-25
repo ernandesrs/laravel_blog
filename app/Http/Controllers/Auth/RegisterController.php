@@ -27,14 +27,7 @@ class RegisterController extends Controller
      */
     public function store(Request $request): \Illuminate\Http\JsonResponse
     {
-        $validator = Validator::make($request->only(["first_name", "last_name", "email", "g-recaptcha-response", "password", "password_confirmation"]), [
-            "first_name" => ["required"],
-            "last_name" => ["required"],
-            "email" => ["required", "unique:App\Models\User"],
-            "password" => ["required", "confirmed"],
-            "password_confirmation" => ["required"],
-            "g-recaptcha-response" => ["required"]
-        ]);
+        $validator = $this->registerValidator($request);
 
         if ($errors = $validator->errors()->messages()) {
             return response()->json([
@@ -48,18 +41,14 @@ class RegisterController extends Controller
 
         $validated = $validator->validated();
 
-        // RECAPTCHA
-        $response = Http::get("https://www.google.com/recaptcha/api/siteverify", [
-            'secret' => env("APP_GOOGLE_RECAPTCHAV2_PRIVATE_KEY"),
-            'response' => $validated["g-recaptcha-response"]
-        ]);
-
-        if ($response->json()["success"] == false) {
-            return response()->json([
-                "success" => false,
-                "errors" => ["g-recaptcha-response" => "Falha no desafio"],
-                "message" => message()->warning("Falha ao validar desafio do recaptcha")->time(10)->render()
-            ]);
+        if (g_recaptcha()) {
+            if (g_recaptcha_verify($validated) == false) {
+                return response()->json([
+                    "success" => false,
+                    "errors" => ["g-recaptcha-response" => "Falha no desafio"],
+                    "message" => message()->warning("Falha ao validar desafio do recaptcha")->time(10)->render()
+                ]);
+            }
         }
 
         $validated = (object) $validated;
@@ -68,7 +57,9 @@ class RegisterController extends Controller
         $user->name = $validated->first_name . " " . $validated->last_name;
         $user->first_name = $validated->first_name;
         $user->last_name = $validated->last_name;
+        $user->username = $validated->username;
         $user->email = $validated->email;
+        $user->phone = str_replace(["+", "(", ")", " ", "-"], "", $validated->phone);
         $user->password = Hash::make($validated->password);
 
         if (!$user->save()) {
@@ -86,5 +77,30 @@ class RegisterController extends Controller
             "success" => true,
             "redirect" => route("auth.login")
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return
+     */
+    private function registerValidator(Request $request)
+    {
+        $only = ["first_name", "last_name", "username", "email", "phone", "password", "password_confirmation"];
+        $rules = [
+            "first_name" => ["required", "max:50"],
+            "last_name" => ["required", "max:50"],
+            "username" => ["required", "max:25"],
+            "email" => ["required", "unique:App\Models\User", "email", "max:255"],
+            "phone" => ["required", "max:20"],
+            "password" => ["required", "confirmed"],
+            "password_confirmation" => ["required"],
+        ];
+
+        if (g_recaptcha()) {
+            $only = array_merge($only, ["g-recaptcha-response"]);
+            $rules = array_merge($rules, ["g-recaptcha-response" => ["required"]]);
+        }
+
+        return Validator::make($request->only($only), $rules);
     }
 }
