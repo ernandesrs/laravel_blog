@@ -143,12 +143,17 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        $slug = $category->slugs();
+
         if(!$category->delete()){
             return response()->json([
                 "success"=>false,
                 "message"=>message()->warning("Houve um erro inesperado ao tentar excluir a categoria. Um log foi registrado.")->render(),
             ]);
         }
+        
+        if($slug)
+            $slug->delete();
 
         message()->success("A categoria foi excluída com sucesso.")->float()->flash();
         return response()->json([
