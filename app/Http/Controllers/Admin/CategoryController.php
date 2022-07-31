@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\CategoryStoreRequest;
 use App\Models\Category;
+use App\Models\Slug;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -31,12 +33,41 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  CategoryStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryStoreRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $lang = config("app.locale");
+
+        // CREATE SLUG
+        $slug = (new Slug())->set($validated["title"], $lang);
+        if (!$slug->save()) {
+            return response()->json([
+                "success" => false,
+                "message" => message()->warning("Houve um erro inesperado ao criar o slug para a categoria. Um log foi registrado.")->render()
+            ]);
+        }
+
+        $category = new Category();
+        $category->title = $validated["title"];
+        $category->description = $validated["description"] ?? null;
+        $category->lang = $lang;
+        $category->slug_id = $slug->id;
+        if (!$category->save()) {
+            return response()->json([
+                "success" => false,
+                "message" => message()->warning("Houve um erro inesperado ao salvar a categoria. Um log foi registrado.")->render()
+            ]);
+        }
+
+        message()->success("Uma nova categoria foi cadastrada com sucesso.")->float()->flash();
+        return response()->json([
+            "success" => true,
+            "redirect" => route("admin.blog.categories.index")
+        ]);
     }
 
     /**

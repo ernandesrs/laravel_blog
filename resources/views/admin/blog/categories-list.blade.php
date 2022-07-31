@@ -44,9 +44,24 @@
 
 @section('scripts')
     <script>
-        $("#jsNewCategoryModal").modal('show');
+        let modal = $("#jsNewCategoryModal");
+
         $(".jsBtnNewCategory").on("click", function() {
+            let action = $(this).attr("data-action");
+
+            modalCreate();
+            modal.find("form").attr("action", action);
+
+            modal.modal('show');
         });
+
+        function modalCreate() {
+            modal.find(".btn").removeClass("btn-info").addClass("btn-success").text("Salvar");
+        }
+
+        function modalUpdate() {
+            modal.find(".btn").removeClass("btn-success").addClass("btn-info").text("Atualizar");
+        }
     </script>
 @endsection
 
