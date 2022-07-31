@@ -15,10 +15,32 @@
                 @foreach ($categories ?? [] as $category)
                     <tr>
                         <td class="align-middle">
+                            <div class="d-flex flex-column">
+                                <span class="font-weight-bold">
+                                    {{ $category->title }}
+                                </span>
+                                <p class="text-muted mb-0">
+                                    <small>
+                                        {{ $category->description }}
+                                    </small>
+                                </p>
+                            </div>
                         </td>
                         <td class="align-middle text-right">
+                            @include('includes.button', [
+                                'button' => t_button_data(
+                                    '',
+                                    'primary',
+                                    icon_class('pencilSquare'),
+                                    route('admin.blog.categories.update', ['category' => $category->id]),
+                                    null,
+                                    'jsBtnEditCategory'
+                                ),
+                            ])
                             @include('includes.button-confirmation', [
-                                'btnAction' => route('admin.categories.destroy', ['page' => $category->id]),
+                                'btnAction' => route('admin.blog.categories.destroy', [
+                                    'category' => $category->id,
+                                ]),
                                 'btnClass' => 'btn-sm btn-outline-danger',
                                 'btnIcon' => icon_class('trash'),
                                 'btnType' => 'danger',
@@ -46,10 +68,16 @@
     <script>
         let modal = $("#jsNewCategoryModal");
 
-        $(".jsBtnNewCategory").on("click", function() {
+        $(".jsBtnNewCategory, .jsBtnEditCategory").on("click", function() {
             let action = $(this).attr("data-action");
+            let data = null;
 
-            modalCreate();
+            if ($(this).hasClass("jsBtnNewCategory")) modalCreate();
+            else {
+
+                modalUpdate();
+            }
+
             modal.find("form").attr("action", action);
 
             modal.modal('show');

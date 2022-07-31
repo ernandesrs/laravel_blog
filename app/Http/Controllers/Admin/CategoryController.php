@@ -17,7 +17,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view("admin.blog.categories-list", ["pageTitle" => "Categorias"]);
+        return view("admin.blog.categories-list", [
+            "pageTitle" => "Categorias",
+            "categories" => Category::all()
+        ]);
     }
 
     /**
