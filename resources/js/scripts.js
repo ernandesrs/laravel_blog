@@ -1,9 +1,6 @@
 let timeoutHandler = null;
 
 $(function () {
-    let messageArea = $(".message-area");
-    let modal = $(".jsModalConfirmation");
-
     $('[data-toggle="tooltip"]').tooltip()
 
     $.ajaxSetup({
@@ -11,19 +8,38 @@ $(function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+});
+
+$(function () {
+    let messageArea = $(".message-area");
+    let modal = $(".jsModalConfirmation");
 
     $(document).on("submit", ".jsFormSubmit", function (e) {
-        messageArea = $(this).find(".message-area").length ? $(this).find(".message-area") : messageArea;
+        let form = $(this);
+        messageArea = form.find(".message-area").length ? form.find(".message-area") : messageArea;
 
-        $(this).submited(e, null, function (response) {
+        form.submited(e, null, function (response) {
             // success
             if (response.message)
                 addAlert($(response.message), messageArea);
+
+            addFormErrors(form, response.errors);
         }, function (response) {
             // complete
+            if (response.responseJSON) {
+                let resp = response.responseJSON;
+                let errors = resp.errors;
+
+                if (message = errors.message) {
+                    addAlert($(message[0]), messageArea);
+                }
+
+                addFormErrors(form, errors);
+            } else {
+                addAlert($(`<div class="alert alert-danger text-center"><small>Sem resposta do servidor. Verifique sua coenxão ou se isso persistir entre em contato.</small></div>`), messageArea);
+            }
         }, function () {
             // error
-            addAlert($(`<div class="alert alert-danger text-center"><small>Sem resposta do servidor. Verifique sua coenxão ou se isso persistir entre em contato.</small></div>`), messageArea);
         });
     });
 
@@ -73,6 +89,36 @@ $(function () {
     });
 });
 
+/**
+ * @param {jQuery} formObject
+ * @param {Array} errs
+ */
+function addFormErrors(formObject, errs) {
+    let fields = formObject.find("input, select, textarea");
+    let errors = errs ?? [];
+
+    if (!fields.length) return;
+
+    $.each(fields, function (fieldKey, field) {
+        let fieldObj = $(field);
+        let fieldName = fieldObj.attr("name");
+
+        if (errors[fieldName]) {
+            let invalid = fieldObj.parent().find(".invalid-feedback");
+
+            if (invalid.length) invalid.html(errors[fieldName]);
+            else fieldObj.parent().append(`<div class="invalid-feedback">${errors[fieldName]}</div>`);
+
+            fieldObj.addClass("is-invalid");
+        } else {
+            fieldObj
+                .removeClass("is-invalid")
+                .parent().find(".invalid-feedback").hide("fade", function () {
+                    $(this).remove();
+                });
+        }
+    });
+}
 
 /**
  *

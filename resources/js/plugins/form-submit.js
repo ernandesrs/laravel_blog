@@ -35,8 +35,6 @@
                     return;
                 }
 
-                addFormErrors(form, response.errors);
-
                 if (success) success(response);
             },
 
@@ -121,36 +119,4 @@
             .removeClass(buttonObject.attr("data-alt-icon"))
             .prop("disabled", false);
     }
-
-    /**
-     * @param {jQuery} formObject
-     * @param {Array} errs
-     */
-    function addFormErrors(formObject, errs) {
-        let fields = formObject.find("input, select, textarea");
-        let errors = errs ?? [];
-
-        if (!fields.length) return;
-
-        $.each(fields, function (fieldKey, field) {
-            let fieldObj = $(field);
-            let fieldName = fieldObj.attr("name");
-
-            if (errors[fieldName]) {
-                let invalid = fieldObj.parent().find(".invalid-feedback");
-
-                if (invalid.length) invalid.html(errors[fieldName]);
-                else fieldObj.parent().append(`<div class="invalid-feedback">${errors[fieldName]}</div>`);
-
-                fieldObj.addClass("is-invalid");
-            } else {
-                fieldObj
-                    .removeClass("is-invalid")
-                    .parent().find(".invalid-feedback").hide("fade", function () {
-                        $(this).remove();
-                    });
-            }
-        });
-    }
-
 }(jQuery));
