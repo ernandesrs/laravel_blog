@@ -23,18 +23,20 @@ $(function () {
             if (response.message)
                 addAlert($(response.message), messageArea);
 
-            addFormErrors(form, response.errors);
+            if (response.errors ?? null)
+                addFormErrors(form, response.errors);
         }, function (response) {
             // complete
             if (response.responseJSON) {
                 let resp = response.responseJSON;
-                let errors = resp.errors;
+                let errors = resp.errors ?? null;
 
-                if (message = errors.message) {
-                    addAlert($(message[0]), messageArea);
+                if (errors && (errors.message ?? null)) {
+                    addAlert($(errors.message[0]), messageArea);
                 }
 
-                addFormErrors(form, errors);
+                if (errors)
+                    addFormErrors(form, errors);
             } else {
                 addAlert($(`<div class="alert alert-danger text-center"><small>Sem resposta do servidor. Verifique sua coenxão ou se isso persistir entre em contato.</small></div>`), messageArea);
             }
