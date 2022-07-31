@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ArticleRequest;
 use App\Models\Article;
 use Illuminate\Http\Request;
 
@@ -30,7 +32,7 @@ class ArticleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ArticleRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -63,7 +65,7 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ArticleRequest  $request
      * @param  \App\Models\Article  $article
      * @return \Illuminate\Http\Response
      */

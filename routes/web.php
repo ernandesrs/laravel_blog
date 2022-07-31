@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\TagController as AdminTagController;
 use App\Http\Controllers\Auth\ForgotController;
@@ -109,6 +110,15 @@ Route::group([
     Route::post("/pagina/update/{page}", [AdminPageController::class, "update"])->name("admin.pages.update");
     Route::post("/pagina/excluir/{page}", [AdminPageController::class, "destroy"])->name("admin.pages.destroy");
     Route::post("/pagina/excluir-capa/{page}", [AdminPageController::class, "coverRemove"])->name("admin.pages.coverRemove");
+
+    // ARTICLES
+    Route::get("/artigos/list", [AdminArticleController::class, "index"])->name("admin.article.index");
+    Route::get("/artigo/novo", [AdminArticleController::class, "create"])->name("admin.article.create");
+    Route::post("/artigo/salvar", [AdminArticleController::class, "store"])->name("admin.article.store");
+    Route::get("/artigo/editar/{page}", [AdminArticleController::class, "edit"])->name("admin.article.edit");
+    Route::post("/artigo/update/{page}", [AdminArticleController::class, "update"])->name("admin.article.update");
+    Route::post("/artigo/excluir/{page}", [AdminArticleController::class, "destroy"])->name("admin.article.destroy");
+    Route::post("/artigo/excluir-capa/{page}", [AdminArticleController::class, "coverRemove"])->name("admin.article.coverRemove");
 
     // BLOG: CATEGORIAS
     Route::get("/blog/categorias", [AdminCategoryController::class, "index"])->name("admin.blog.categories.index");
