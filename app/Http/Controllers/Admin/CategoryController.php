@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CategoryStoreRequest;
+use App\Http\Requests\Admin\CategoryUpdateRequest;
 use App\Models\Category;
 use App\Models\Slug;
 use Illuminate\Http\Request;
@@ -92,19 +93,45 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return response()->json([
+            "success"=>true,
+            "category"=> $category
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  CategoryUpdateRequest  $request
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryUpdateRequest $request, Category $category)
     {
-        //
+        $validated = $request->validated();
+
+        $category->title = $validated["title"];
+        $category->description = $validated["description"]??null;
+
+        if($category->title != $category->getOriginal("title")){
+            // UPDATE SLUG
+            $slug = Slug::where("id", $category->slug_id)->first();
+            $slug->set($category->title, $category->lang);
+            $slug->save();
+        }
+
+        if (!$category->save()) {
+            return response()->json([
+                "success" => false,
+                "message" => message()->warning("Houve um erro inesperado ao atualizar a categoria. Um log foi registrado.")->render()
+            ]);
+        }
+
+        message()->success("As alterações desta categoria foram salvas com sucesso.")->float()->flash();
+        return response()->json([
+            "success" => true,
+            "redirect" => route("admin.blog.categories.index")
+        ]);
     }
 
     /**

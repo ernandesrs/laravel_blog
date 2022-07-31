@@ -113,6 +113,7 @@ Route::group([
     // BLOG: CATEGORIAS
     Route::get("/blog/categorias", [AdminCategoryController::class, "index"])->name("admin.blog.categories.index");
     Route::post("/blog/categoria/salvar", [AdminCategoryController::class, "store"])->name("admin.blog.categories.store");
+    Route::get("/blog/categoria/editar/{category}", [AdminCategoryController::class, "edit"])->name("admin.blog.categories.edit");
     Route::post("/blog/categoria/atualizar/{category}", [AdminCategoryController::class, "update"])->name("admin.blog.categories.update");
     Route::post("/blog/categoria/excluir/{category}", [AdminCategoryController::class, "destroy"])->name("admin.blog.categories.destroy");
 

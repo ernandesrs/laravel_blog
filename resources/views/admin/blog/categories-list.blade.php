@@ -32,7 +32,7 @@
                                     '',
                                     'primary',
                                     icon_class('pencilSquare'),
-                                    route('admin.blog.categories.update', ['category' => $category->id]),
+                                    route('admin.blog.categories.edit', ['category' => $category->id]),
                                     null,
                                     'jsBtnEditCategory'
                                 ),
@@ -72,13 +72,30 @@
             let action = $(this).attr("data-action");
             let data = null;
 
-            if ($(this).hasClass("jsBtnNewCategory")) modalCreate();
-            else {
+            if ($(this).hasClass("jsBtnNewCategory")) {
+                modalCreate();
+                modal.find("form").attr("action", action);
+            } else {
+                let updateAction = "{{ route('admin.blog.categories.update', ['category' => '__id__']) }}";
+
+                $.get(action, null,
+                    function(data, textStatus, jqXHR) {
+                        if (data.success) {
+                            modal.find("#title").val(data.category.title ?? null);
+                            modal.find("#description").val(data.category.description ?? null);
+
+                            modal.find("form")
+                                .attr("action", updateAction.replace("__id__", data.category.id));
+                        } else {
+                            // 
+                        }
+                    },
+                    "json"
+                );
 
                 modalUpdate();
             }
 
-            modal.find("form").attr("action", action);
 
             modal.modal('show');
         });
