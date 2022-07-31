@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Page;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
@@ -25,6 +26,8 @@ class FrontController extends Controller
             "pageFollow" => $page->follow ?? true,
             "pageCover" => ($page ?? null) ? m_page_cover_thumb($page, [800, 600]) : null,
             "pageUrl" => route("front.home"),
+
+            "categories"=>Category::all()
         ]);
     }
 

@@ -46,18 +46,14 @@
                 <div class="sidebar">
                     <div class="sidebar-elem">
                         <nav class="nav flex-column">
-                            <a class="nav-link" href="">
-                                Menu 1
-                            </a>
-                            <a class="nav-link" href="">
-                                Menu 2
-                            </a>
-                            <a class="nav-link" href="">
-                                Menu 3
-                            </a>
-                            <a class="nav-link" href="">
-                                Menu 4
-                            </a>
+                            @foreach ($categories as $category)
+                                @php
+                                    $slugs = $category->slugs();
+                                @endphp
+                                <a class="nav-link" href="#{{ $slugs->slug(app()->getLocale()) }}">
+                                    {{ $category->title }}
+                                </a>
+                            @endforeach
                         </nav>
                     </div>
                 </div>
@@ -69,7 +65,7 @@
             <div class="container-fluid">
 
                 <main class="main">
-                    @yield("content")
+                    @yield('content')
                 </main>
 
             </div>
@@ -85,7 +81,7 @@
 
     </div>
 
-    @yield("modals")
+    @yield('modals')
 
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/boostrap.min.js') }}"></script>
