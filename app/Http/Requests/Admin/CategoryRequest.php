@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryUpdateRequest extends FormRequest
+class CategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,6 +15,16 @@ class CategoryUpdateRequest extends FormRequest
     {
         return true;
     }
+    
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([]);
+    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -23,8 +33,13 @@ class CategoryUpdateRequest extends FormRequest
      */
     public function rules()
     {
+        if($this->category)
+            $unique = "unique:categories,title," . $this->category->id;
+        else
+            $unique = "unique:categories,title";
+        
         return [
-            "title" => ["required", "string", "unique:categories,title,".$this->category->id, "min:2", "max:25"],
+            "title" => ["required", "string", $unique, "min:2", "max:25"],
             "description" => ["nullable", "string", "max:125"],
         ];
     }
