@@ -96,15 +96,22 @@
                 modalUpdate();
             }
 
-
             modal.modal('show');
         });
 
+        modal.on("hidden.bs.modal", function(e) {
+            modal.find(".modal-title").html("");
+            modal.find(".message-area").html("");
+            addFormErrors($(modal.find("form")), []);
+        });
+
         function modalCreate() {
+            modal.find(".modal-title").html("Nova categoria");
             modal.find(".btn").removeClass("btn-info").addClass("btn-success").text("Salvar");
         }
 
         function modalUpdate() {
+            modal.find(".modal-title").html("Atualizar categoria");
             modal.find(".btn").removeClass("btn-success").addClass("btn-info").text("Atualizar");
         }
     </script>

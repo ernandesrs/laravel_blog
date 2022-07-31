@@ -3,6 +3,8 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="card card-body border-0">
+                    <h1 class="h4 modal-title"></h1>
+                    <hr>
                     <form class="jsFormSubmit" action="" method="post">
                         <div class="form-row">
                             @csrf
