@@ -103,6 +103,7 @@
                                         @if ($button['type'] == 'button')
                                             @include('includes.button', ['button' => $button])
                                         @else
+                                            @include('includes.link', ['button' => $button])
                                         @endif
                                     @endforeach
                                 </div>
