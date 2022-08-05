@@ -112,13 +112,13 @@ Route::group([
     Route::post("/pagina/excluir-capa/{page}", [AdminPageController::class, "coverRemove"])->name("admin.pages.coverRemove");
 
     // ARTICLES
-    Route::get("/artigos/list", [AdminArticleController::class, "index"])->name("admin.article.index");
-    Route::get("/artigo/novo", [AdminArticleController::class, "create"])->name("admin.article.create");
-    Route::post("/artigo/salvar", [AdminArticleController::class, "store"])->name("admin.article.store");
-    Route::get("/artigo/editar/{page}", [AdminArticleController::class, "edit"])->name("admin.article.edit");
-    Route::post("/artigo/update/{page}", [AdminArticleController::class, "update"])->name("admin.article.update");
-    Route::post("/artigo/excluir/{page}", [AdminArticleController::class, "destroy"])->name("admin.article.destroy");
-    Route::post("/artigo/excluir-capa/{page}", [AdminArticleController::class, "coverRemove"])->name("admin.article.coverRemove");
+    Route::get("/artigos/list", [AdminArticleController::class, "index"])->name("admin.blog.articles.index");
+    Route::get("/artigo/novo", [AdminArticleController::class, "create"])->name("admin.blog.articles.create");
+    Route::post("/artigo/salvar", [AdminArticleController::class, "store"])->name("admin.blog.articles.store");
+    Route::get("/artigo/editar/{page}", [AdminArticleController::class, "edit"])->name("admin.blog.articles.edit");
+    Route::post("/artigo/update/{page}", [AdminArticleController::class, "update"])->name("admin.blog.articles.update");
+    Route::post("/artigo/excluir/{page}", [AdminArticleController::class, "destroy"])->name("admin.blog.articles.destroy");
+    Route::post("/artigo/excluir-capa/{page}", [AdminArticleController::class, "coverRemove"])->name("admin.blog.articles.coverRemove");
 
     // BLOG: CATEGORIAS
     Route::get("/blog/categorias", [AdminCategoryController::class, "index"])->name("admin.blog.categories.index");

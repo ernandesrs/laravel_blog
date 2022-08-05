@@ -48,9 +48,17 @@ return [
             "icon" => icon_class("page"),
             "text" => "Blog",
             "title" => "",
-            "activeIn" => ["admin.blog.categories.index", "admin.blog.tags.index"],
+            "activeIn" => ["admin.blog.articles.index", "admin.blog.articles.create", "admin.blog.articles.edit", "admin.blog.categories.index", "admin.blog.tags.index"],
             "target" => "_self",
             "items" => [
+                [
+                    "icon"=>icon_class("pageFillEarmarkText"),
+                    "text"=>"Artigos",
+                    "title"=>"",
+                    "route"=>"admin.blog.articles.index",
+                    "target"=>"_self",
+                    "activeIn"=>["admin.blog.articles.index", "admin.blog.articles.create", "admin.blog.articles.edit"]
+                ],
                 [
                     "icon" => icon_class("folderFill"),
                     "text" => "Categorias",

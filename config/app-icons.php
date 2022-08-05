@@ -3,6 +3,8 @@
 return [
     'app' => 'bi bi-app',
     'appIndicator' => 'bi bi-app-indicator',
+    "arrowLeft"=>"bi bi-arrow-left",
+    "arrowRight"=>"bi bi-arrow-right",
 
     'calendar' => 'bi bi-calendar',
     'calendarCheck' => 'bi bi-calendar-check',
@@ -43,6 +45,7 @@ return [
     'page' => 'bi bi-file',
     'pageEarmark' => 'bi bi-file-earmark',
     'pageEarmarkText' => 'bi bi-file-earmark-text',
+    'pageFillEarmarkText' => 'bi bi-file-earmark-text-fill',
     'pagePlus' => 'bi bi-file-earmark-plus',
     'pageText' => 'bi bi-file-text',
     'pencilSquare' => 'bi bi-pencil-square',
