@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ArticleRequest;
 use App\Models\Article;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -16,7 +17,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        //
+        return view("admin.blog.articles-list", [
+            "pageTitle"=>"Lista de artigos",
+        ]);
     }
 
     /**
@@ -26,7 +29,10 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        return view("admin.blog.articles-new", [
+            "pageTitle"=>"Novo artigo",
+            "categories"=>Category::all()
+        ]);
     }
 
     /**
