@@ -19,7 +19,7 @@ class CreateArticlesTable extends Migration
 
             $table->string("title")->fulltext()->nullable(false);
             $table->string("description")->fulltext()->nullable(false);
-            $table->string("cover")->nullable();
+            $table->string("cover")->nullable(true);
             $table->string("lang", 5)->nullable(false)->default(config("app.locale"));
             $table->string("content")->nullable(true);
             $table->integer("protection")->nullable(false)->default(Page::PROTECTION_AUTHOR);
@@ -30,11 +30,11 @@ class CreateArticlesTable extends Migration
             $table->timestamp("scheduled_to")->nullable(true);
 
             // FOREIGN KEYS
-            $table->foreignId("author")->unsigned()->nullable(true);
-            $table->foreignId("slug")->unsigned()->nullable(false);
+            $table->foreignId("user_id")->unsigned()->nullable(true);
+            $table->foreignId("slug_id")->unsigned()->nullable(false);
 
-            $table->foreign("author")->references("id")->on("users")->nullOnDelete();
-            $table->foreign("slug")->references("id")->on("slugs")->restrictOnDelete();
+            $table->foreign("user_id")->references("id")->on("users")->nullOnDelete();
+            $table->foreign("slug_id")->references("id")->on("slugs")->restrictOnDelete();
             
             $table->timestamps();
         });
