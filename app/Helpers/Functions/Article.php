@@ -13,7 +13,7 @@ function m_article_cover_thumb(Article $article, $size = "normal"): string
     $predefinedDimensions = [
         "small" => [125, 75],
         "normal" => [375, 200],
-        "medium" => [600, 400],
+        "medium" => [800, 600],
         "large" => [1200, 800],
     ];
 
@@ -25,9 +25,7 @@ function m_article_cover_thumb(Article $article, $size = "normal"): string
     if ($article->cover && file_exists(Storage::path($article->cover)))
         return thumb(Storage::path($article->cover), $width, $height);
 
-    $hash = md5(strtolower(trim($article->email)));
-
-    return "https://www.gravatar.com/avatar/{$hash}?s={$width}&d=robohash";
+    return thumb(resource_path("img/default-image.png"), $width, $height);
 }
 
 /**

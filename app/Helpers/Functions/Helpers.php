@@ -2,7 +2,8 @@
 
 use App\Helpers\GoogleRecaptcha;
 use App\Helpers\Message\Message;
-use Rolandstarke\Thumbnail\Facades\Thumbnail;
+use App\Helpers\Thumb;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Obtém valor de $data
@@ -50,7 +51,7 @@ function icon_elem(string $name, ?string $alt = null): string
 function thumb(?string $path, int $width, ?int $height = null): ?string
 {
     if (!$path) return null;
-    return Thumbnail::src($path)->crop($width, $height ?? $width)->url();
+    return Storage::url(Thumb::make($path, $width, $height));
 }
 
 /**

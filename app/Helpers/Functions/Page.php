@@ -25,9 +25,7 @@ function m_page_cover_thumb(Page $page, $size = "normal"): string
     if ($page->cover && file_exists(Storage::path($page->cover)))
         return thumb(Storage::path($page->cover), $width, $height);
 
-    $hash = md5(strtolower(trim($page->email)));
-
-    return "https://www.gravatar.com/avatar/{$hash}?s={$width}&d=robohash";
+    return thumb(resource_path("img/default-image.png"), $width, $height);
 }
 
 /**
