@@ -54,11 +54,7 @@
 
         @php
             $categories = \App\Models\Category::all();
-            $articleCategories = $article->categories()->get();
-            
-            $articleCategoriesIds = $articleCategories->map(function ($item) {
-                return $item->id;
-            });
+            $articleCategories = $article->categoriesId();
         @endphp
         <div class="col-12">
             <div class="form-group">
@@ -69,7 +65,7 @@
                     @if ($categories->count())
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}"
-                                {{ $articleCategoriesIds->contains($category->id) ? 'selected' : null }}>
+                                {{ $articleCategories->contains($category->id) ? 'selected' : null }}>
                                 {{ $category->title }}</option>
                         @endforeach
                     @else
