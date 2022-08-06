@@ -46,6 +46,9 @@
                 <div class="sidebar">
                     <div class="sidebar-elem">
                         <nav class="nav flex-column">
+                            @php
+                                $categories = \App\Models\Category::all();
+                            @endphp
                             @foreach ($categories as $category)
                                 @php
                                     $slugs = $category->slugs()->first();
