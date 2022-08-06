@@ -7,7 +7,6 @@ use App\Http\Requests\Admin\ArticleRequest;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Slug;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
@@ -119,8 +118,8 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        return view("admin.blog.articles-new", [
-            "pageTitle"=>"Novo artigo",
+        return view("admin.blog.articles-edit", [
+            "pageTitle"=>"Editar artigo",
             "article"=>$article
         ]);
     }
@@ -132,9 +131,82 @@ class ArticleController extends Controller
      * @param  \App\Models\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Article $article)
+    public function update(ArticleRequest $request, Article $article)
     {
-        //
+        $validated = $request->validated();
+
+        /**
+         * 
+         * TODOS OS IDS DAS CATEGORIAS DO ARTIGO
+         * 
+         */
+        $articleCategories = $article->categoriesId();
+
+        /**
+         * 
+         * CATEGORIAS ADICIONADAS
+         * 
+         */
+        $addedCategories = $validated["categories"]->diff($articleCategories);
+        $article->categories()->attach($addedCategories);
+
+        /**
+         * 
+         * CATEGORIAS REMOVIDAS
+         * 
+         */
+        $removedCategories = $articleCategories->diff($validated["categories"]);
+        $article->categories()->detach($removedCategories);
+
+        /**
+         * 
+         * ATUALIZAR O ARTIGO
+         * 
+         */
+        $article->title = $validated["title"];
+        $article->description = $validated["description"];
+        $article->content = $validated["content"];
+        $article->status = $validated["status"];
+
+        if($article->status == Article::STATUS_SCHEDULED){
+            $article->scheduled_to = date("Y-m-d H:i:s", strtotime($validated["scheduled_to"]));
+            $article->published_at = null;
+        }else if($article->status == Article::STATUS_PUBLISHED){
+            $article->published_at = date("Y-m-d H:i:s");
+            $article->scheduled_to = null;
+        }else{
+            $article->published_at = null;
+            $article->scheduled_to = null;
+        }
+
+        if($article->getOriginal("title") != $article->title){
+            $slug = $article->slugs()->set($article->title, $article->lang);
+            $slug->save();
+        }
+
+        if($cover = $validated["cover"] ?? null){
+            $newCover = $cover->store("public/images/covers");
+            if($article->cover)
+                Storage::delete($article->cover);
+            
+            $article->cover = $newCover;
+        }
+
+        if(!$article->save()){
+            if($article->cover)
+                Storage::delete($article->cover);
+
+            return response()->json([
+                "success"=>false,
+                "message"=>message()->warning("Houve um erro ao tentar atualizar o artigo. Um log será registrado.")->float()->render(),
+            ]);
+        }
+
+        message()->success("O artigo <strong>{$article->title}</strong> foi atualizado com sucesso!")->float()->flash();
+        return response()->json([
+            "success"=>true,
+            "redirect"=>route("admin.blog.articles.edit", ["article"=>$article])
+        ]);
     }
 
     /**

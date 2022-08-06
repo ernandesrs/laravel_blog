@@ -4,6 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use App\Models\Article;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 
 class ArticleRequest extends FormRequest
@@ -26,7 +27,7 @@ class ArticleRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            "categories"=>explode(",", $this->categories??"")
+            "categories"=> !empty($this->categories)? Collection::make(explode(",", $this->categories)):null
         ]);
     }
 
@@ -37,8 +38,15 @@ class ArticleRequest extends FormRequest
      */
     public function rules()
     {
+        $title_unique = "unique:articles,title";
+        
+        // UPDATE
+        if($this->article){
+            $title_unique .= "," . $this->article->id;
+        }
+
         return [
-            "title"=>["required", "unique:articles,title","max:255"],
+            "title"=>["required", $title_unique, "max:255"],
             "description"=>["required", "min:5", "max:255"],
             "content"=>["required"],
             "cover"=>["nullable","mimes:png,jpg,webp","max:3500"],
