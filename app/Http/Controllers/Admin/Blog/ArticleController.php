@@ -217,6 +217,24 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        //
+        $slugs = $article->slugs()->first();
+
+        if ($article->cover)
+            Storage::delete($article->cover);
+
+        if (!$article->delete()) {
+            return response()->json([
+                "success" => false,
+                "message" => message()->warning("Houve um erro ao tentar excluir o artigo. Um log será registrado.")->float()->render(),
+            ]);
+        }
+
+        $slugs->delete();
+
+        message()->success("O artigo foi excluído com sucesso!")->float()->flash();
+        return response()->json([
+            "success" => true,
+            "redirect" => route("admin.blog.articles.index")
+        ]);
     }
 }

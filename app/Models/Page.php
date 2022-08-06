@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Page extends Model
 {
@@ -98,11 +99,11 @@ class Page extends Model
     }
 
     /**
-     * @return Slug|null
+     * @return HasOne
      */
-    public function slugs(): ?Slug
+    public function slugs(): HasOne
     {
-        return $this->hasOne(Slug::class, "id", "slug_id")->get()->first();
+        return $this->hasOne(Slug::class, "id", "slug_id");
     }
 
     /**

@@ -4,10 +4,32 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Slug extends Model
 {
     use HasFactory;
+
+    /**
+     * @return HasMany
+     */
+    public function pages(): HasMany
+    {
+        return $this->hasMany(Page::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function articles(): HasMany
+    {
+        return $this->hasMany(Article::class);
+    }
+
+    public function categories(): HasMany
+    {
+        return $this->hasMany(Category::class);
+    }
 
     /**
      * @param string $string

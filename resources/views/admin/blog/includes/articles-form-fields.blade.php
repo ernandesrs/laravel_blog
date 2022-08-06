@@ -54,18 +54,22 @@
 
         @php
             $categories = \App\Models\Category::all();
-            $articleCategories = $article->categoriesId();
+            
+            if ($article ?? null) {
+                $articleCategories = $article->categoriesId();
+            }
         @endphp
         <div class="col-12">
             <div class="form-group">
-                <input type="hidden" name="categories" value="{{ $articleCategories->join(',') }}">
+                <input type="hidden" name="categories"
+                    value="{{ $article ?? null ? $articleCategories->join(',') : null }}">
                 <label for="categories_list">Categorias:</label>
                 <select class="form-control selectpicker" name="categories_list" id="categories_list" multiple
                     title="Escolha categorias" data-live-search="true" data-actions-box="true">
                     @if ($categories->count())
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}"
-                                {{ $articleCategories->contains($category->id) ? 'selected' : null }}>
+                                {{ $article ?? null ? ($articleCategories->contains($category->id) ? 'selected' : null) : null }}>
                                 {{ $category->title }}</option>
                         @endforeach
                     @else
@@ -89,11 +93,11 @@
         </div>
 
         <div
-            class="col-12 {{ ($article ?? null) ? ($article->status == \App\Models\Article::STATUS_SCHEDULED ? '' : 'd-none') : 'd-none' }}">
+            class="col-12 {{ $article ?? null ? ($article->status == \App\Models\Article::STATUS_SCHEDULED ? '' : 'd-none') : 'd-none' }}">
             <div class="form-group">
                 <label for="scheduled_to">Agendar para:</label>
                 <input class="form-control" type="date" name="scheduled_to" id="scheduled_to"
-                    value="{{ ($article ?? null) ? date('Y-m-d', strtotime(input_value($article, 'scheduled_to'))) : null }}">
+                    value="{{ $article ?? null ? date('Y-m-d', strtotime(input_value($article, 'scheduled_to'))) : null }}">
             </div>
         </div>
 
