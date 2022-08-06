@@ -21,7 +21,7 @@ class CreateArticlesTable extends Migration
             $table->string("description")->fulltext()->nullable(false);
             $table->string("cover")->nullable(true);
             $table->string("lang", 5)->nullable(false)->default(config("app.locale"));
-            $table->string("content")->nullable(true);
+            $table->text("content")->nullable(true);
             $table->integer("protection")->nullable(false)->default(Page::PROTECTION_AUTHOR);
             $table->boolean("follow")->nullable(false)->default(true);
 
