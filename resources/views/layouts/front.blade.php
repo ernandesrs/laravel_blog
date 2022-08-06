@@ -70,11 +70,12 @@
             <div class="container-fluid">
                 <main class="main">
                     <div class="search-bar pb-4">
-                        <form action="{{route("front.search")}}" method="get">
-                            <input class="form-control text-center" type="search" name="s">
+                        <form action="{{ route('front.search') }}" method="get">
+                            <input class="form-control text-center" type="search" name="s"
+                                value="{{ input_value($_GET ?? null, 's') }}" placeholder="Pesquise por um artigo">
                         </form>
                     </div>
-                    @include("includes.message")
+                    @include('includes.message')
                     @yield('content')
                 </main>
 
