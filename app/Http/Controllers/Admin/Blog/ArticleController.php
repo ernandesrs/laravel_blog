@@ -180,7 +180,7 @@ class ArticleController extends Controller
         }
 
         if ($article->getOriginal("title") != $article->title) {
-            $slug = $article->slugs()->set($article->title, $article->lang);
+            $slug = $article->slugs()->first()->set($article->title, $article->lang);
             $slug->save();
         }
 
