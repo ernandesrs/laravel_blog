@@ -15,15 +15,15 @@
                 @foreach ($articles ?? [] as $article)
                     <tr>
                         <td class="align-middle">
-                            <div class="d-flex">
-                                <img class="img-fluid img-thumbnail mr-2" src="{{ m_article_cover_thumb($article, 'small') }}"
+                            <div class="d-flex align-items-center">
+                                <img class="img-fluid img-thumbnail mr-2 d-none d-sm-block" src="{{ m_article_cover_thumb($article, 'small') }}"
                                     alt="">
 
                                 <div class="d-flex flex-column">
                                     <span class="font-weight-bold">
                                         {{ $article->title }}
                                     </span>
-                                    <p class="text-muted mb-0">
+                                    <p class="text-muted mb-0 d-none d-sm-block">
                                         <small>
                                             {{ $article->description }}
                                         </small>
@@ -36,7 +36,6 @@
                                         <span class="badge badge-light">
                                             {{ $author->name }}
                                         </span>
-                                        <span class="mx-2">|</span>
                                         <span>
                                             @foreach ($categories as $category)
                                                 <span class="badge badge-secondary">{{ $category->title }}</span>
@@ -47,13 +46,13 @@
                             </div>
                         </td>
                         <td class="align-middle text-right">
-                            <a class="btn btn-primary {{ icon_class('pencilSquare') }}"
+                            <a class="btn btn-primary {{ icon_class('pencilSquare') }} mb-1 mb-xl-0"
                                 href="{{ route('admin.blog.articles.edit', ['article' => $article->id]) }}"></a>
                             @include('includes.button-confirmation', [
                                 'btnAction' => route('admin.blog.articles.destroy', [
                                     'article' => $article->id,
                                 ]),
-                                'btnClass' => 'btn-sm btn-outline-danger',
+                                'btnClass' => 'btn-outline-danger',
                                 'btnIcon' => icon_class('trash'),
                                 'btnType' => 'danger',
                                 'btnMessage' =>
