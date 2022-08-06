@@ -31,11 +31,11 @@ class CreatePagesTable extends Migration
             $table->timestamp("scheduled_to")->nullable(true);
 
             // FOREIGN KEYS
-            $table->foreignId("author")->unsigned()->nullable(true);
-            $table->foreignId("slug")->unsigned()->nullable(false);
+            $table->foreignId("user_id")->unsigned()->nullable(true);
+            $table->foreignId("slug_id")->unsigned()->nullable(false);
 
-            $table->foreign("author")->references("id")->on("users")->nullOnDelete();
-            $table->foreign("slug")->references("id")->on("slugs")->restrictOnDelete();
+            $table->foreign("user_id")->references("id")->on("users")->nullOnDelete();
+            $table->foreign("slug_id")->references("id")->on("slugs")->restrictOnDelete();
 
             $table->timestamps();
         });
