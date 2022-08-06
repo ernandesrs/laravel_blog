@@ -6,7 +6,7 @@
 ])
 
 @section('content')
-    <form action="{{ route('admin.blog.articles.store') }}" method="post" enctype="multipart/form-data">
+    <form class="jsFormSubmit" action="{{ route('admin.blog.articles.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="form-row">
             @include('admin.blog.includes.articles-form-fields')
