@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Article;
 use App\Models\Category;
 use App\Models\Page;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class FrontController extends Controller
@@ -27,8 +27,18 @@ class FrontController extends Controller
             "pageCover" => ($page ?? null) ? m_page_cover_thumb($page, [800, 600]) : null,
             "pageUrl" => route("front.home"),
 
-            "categories"=>Category::all()
+            "categories" => Category::all(),
+            "articles" => Article::paginate(12)
         ]);
+    }
+
+    /**
+     * @param string $slug
+     * @return void
+     */
+    public function article(string $slug)
+    {
+        var_dump($slug);
     }
 
     /**

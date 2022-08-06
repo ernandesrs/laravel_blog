@@ -55,6 +55,9 @@ Route::post('/reset-password', [ResetController::class, "updatePassword"])->midd
  *
  */
 Route::get("/", [FrontController::class, "index"])->name("front.home");
+Route::get("/{slug}", [FrontController::class, "article"])->name("front.article");
+Route::get("/categoria/{slug}", [FrontController::class, "category"])->name("front.category");
+
 Route::get("/home", function () {
     return redirect()->route("front.home");
 });

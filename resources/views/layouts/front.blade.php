@@ -48,9 +48,11 @@
                         <nav class="nav flex-column">
                             @foreach ($categories as $category)
                                 @php
-                                    $slugs = $category->slugs();
+                                    $slugs = $category->slugs()->first();
                                 @endphp
-                                <a class="nav-link" href="#{{ $slugs->slug(app()->getLocale()) }}">
+                                <a class="nav-link"
+                                    href="{{ route('front.category', ['slug' => $slugs->slug(app()->getLocale())]) }}"
+                                    title="Ver artigos em {{ $category->title }}">
                                     {{ $category->title }}
                                 </a>
                             @endforeach
