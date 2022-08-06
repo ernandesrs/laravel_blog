@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ArticleRequest;
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Page;
+use App\Models\Slug;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
@@ -45,7 +48,57 @@ class ArticleController extends Controller
     {
         $validated = $request->validated();
 
-        var_dump($validated);
+        // MAKE SLUG
+        $slug = (new Slug())->set($validated["title"], config("app.locale"));
+        if(!$slug->save()){
+            return response()->json([
+                "success"=>false,
+                "message"=>message()->warning("Houve um erro ao tentar criar um slug para o artigo")->float()->render(),
+                "errors"=>[
+                    "title"=>"Erro ao criar slug com este título"
+                ]
+            ]);
+        }
+
+        // MAKE ARTICLE
+        $article = new Article();
+        $article->slug_id = $slug->id;
+        $article->user_id = $request->user()->id;
+        $article->title = $validated["title"];
+        $article->description = $validated["description"];
+        $article->lang = config("app.locale");
+        $article->content = $validated["content"];
+        $article->status = $validated["status"];
+
+        if($validated["status"] == Article::STATUS_SCHEDULED)
+            $article->scheduled_to = $validated["scheduled_to"];
+        elseif($validated["status"] == Article::STATUS_PUBLISHED)
+            $article->published_at = date("Y-m-d H:i:s");
+        
+        if($cover = $validated["cover"]){
+            $article->cover = $cover->store("images/covers");
+        }
+
+        if(!$article->save()){
+            if($article->cover)
+                Storage::delete($article->cover);
+
+            return response()->json([
+                "success"=>false,
+                "message"=>message()->warning("Houve um erro ao tentar salvar o artigo. Um log será registrado.")->float()->render(),
+            ]);
+        }
+
+        if(count($validated["categories"])){
+            $categories = Category::find($validated["categories"]);
+            $article->categories()->attach($categories);
+        }
+
+        message()->success("O artigo <strong>{$article->title}</strong> foi criado com sucesso!")->float()->flash();
+        return response()->json([
+            "success"=>true,
+            "redirect"=>route("admin.blog.articles.index")
+        ]);
     }
 
     /**

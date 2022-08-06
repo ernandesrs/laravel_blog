@@ -9,6 +9,11 @@ class Category extends Model
 {
     use HasFactory;
 
+    public function articles()
+    {
+        return $this->belongsToMany(Article::class);
+    }
+
     /**
      * @return Slug|null
      */
