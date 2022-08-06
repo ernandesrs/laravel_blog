@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->integer('level')->default(1);
             $table->string('gender')->default('n');
             $table->string('photo')->nullable();
+            $table->fullText(["name", "first_name", "last_name", "username", "email"], "fulltext_search_index");
 
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

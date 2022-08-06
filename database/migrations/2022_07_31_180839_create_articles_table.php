@@ -17,13 +17,14 @@ class CreateArticlesTable extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
 
-            $table->string("title")->fulltext()->nullable(false);
-            $table->string("description")->fulltext()->nullable(false);
+            $table->string("title")->nullable(false);
+            $table->string("description")->nullable(false);
             $table->string("cover")->nullable(true);
             $table->string("lang", 5)->nullable(false)->default(config("app.locale"));
             $table->text("content")->nullable(true);
             $table->integer("protection")->nullable(false)->default(Page::PROTECTION_AUTHOR);
             $table->boolean("follow")->nullable(false)->default(true);
+            $table->fullText(["title", "description"], "fulltext_search_index");
 
             $table->string("status")->nullable(false)->default("draft");
             $table->timestamp("published_at")->nullable(true);
@@ -35,7 +36,7 @@ class CreateArticlesTable extends Migration
 
             $table->foreign("user_id")->references("id")->on("users")->nullOnDelete();
             $table->foreign("slug_id")->references("id")->on("slugs")->restrictOnDelete();
-            
+
             $table->timestamps();
         });
     }
