@@ -21,18 +21,24 @@
         </span>
         <span class="ml-auto ml-lg-2">
             {{ icon_elem('calendarCheckFill') }}
-            <span>{{ date('d/m/Y', strtotime($article->created_at)) }}</span>
+            <span>{{ date('d/m/Y H:i:s', strtotime($article->published_at)) }}</span>
         </span>
     </div>
 
     <div class="d-flex">
         <span class="mr-2 categories">
             {{ icon_elem('folderFill') }}
+            @php
+                $articleCategories = $article->categories();
+                $total = $articleCategories->count();
+                $count = 0;
+            @endphp
             @foreach ($article->categories()->get() as $category)
+                @php
+                    $count++;
+                @endphp
                 <a href="{{ route('front.category', ['slug' => $category->slugs()->first()->slug(app()->getLocale())]) }}"
-                    title="Ver todos os artigos em {{ $category->title }}">
-                    {{ $category->title }}
-                </a>,
+                    title="Ver todos os artigos em {{ $category->title }}">{{ $category->title }}</a>{{ $count < $total ? ',' : null }}
             @endforeach
         </span>
     </div>

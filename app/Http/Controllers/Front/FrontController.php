@@ -28,7 +28,7 @@ class FrontController extends Controller
             "pageUrl" => route("front.home"),
 
             "categories" => Category::all(),
-            "articles" => Article::paginate(12)
+            "articles" => Article::where("status", Article::STATUS_PUBLISHED)->orderBy("published_at", "DESC")->paginate(12)
         ]);
     }
 
