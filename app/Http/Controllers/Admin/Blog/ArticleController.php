@@ -19,8 +19,8 @@ class ArticleController extends Controller
     public function index()
     {
         return view("admin.blog.articles-list", [
-            "pageTitle"=>"Lista de artigos",
-            "articles"=>Article::whereNotNull("id")->paginate(12)
+            "pageTitle" => "Lista de artigos",
+            "articles" => Article::whereNotNull("id")->paginate(12)
         ]);
     }
 
@@ -32,7 +32,7 @@ class ArticleController extends Controller
     public function create()
     {
         return view("admin.blog.articles-new", [
-            "pageTitle"=>"Novo artigo",
+            "pageTitle" => "Novo artigo",
         ]);
     }
 
@@ -48,12 +48,12 @@ class ArticleController extends Controller
 
         // MAKE SLUG
         $slug = (new Slug())->set($validated["title"], config("app.locale"));
-        if(!$slug->save()){
+        if (!$slug->save()) {
             return response()->json([
-                "success"=>false,
-                "message"=>message()->warning("Houve um erro ao tentar criar um slug para o artigo")->float()->render(),
-                "errors"=>[
-                    "title"=>"Erro ao criar slug com este título"
+                "success" => false,
+                "message" => message()->warning("Houve um erro ao tentar criar um slug para o artigo")->float()->render(),
+                "errors" => [
+                    "title" => "Erro ao criar slug com este título"
                 ]
             ]);
         }
@@ -68,34 +68,34 @@ class ArticleController extends Controller
         $article->content = $validated["content"];
         $article->status = $validated["status"];
 
-        if($validated["status"] == Article::STATUS_SCHEDULED)
+        if ($validated["status"] == Article::STATUS_SCHEDULED)
             $article->scheduled_to = $validated["scheduled_to"];
-        elseif($validated["status"] == Article::STATUS_PUBLISHED)
+        elseif ($validated["status"] == Article::STATUS_PUBLISHED)
             $article->published_at = date("Y-m-d H:i:s");
-        
-        if($cover = $validated["cover"]){
+
+        if ($cover = $validated["cover"]) {
             $article->cover = $cover->store("public/images/covers");
         }
 
-        if(!$article->save()){
-            if($article->cover)
+        if (!$article->save()) {
+            if ($article->cover)
                 Storage::delete($article->cover);
 
             return response()->json([
-                "success"=>false,
-                "message"=>message()->warning("Houve um erro ao tentar salvar o artigo. Um log será registrado.")->float()->render(),
+                "success" => false,
+                "message" => message()->warning("Houve um erro ao tentar salvar o artigo. Um log será registrado.")->float()->render(),
             ]);
         }
 
-        if(count($validated["categories"])){
+        if (count($validated["categories"])) {
             $categories = Category::find($validated["categories"]);
             $article->categories()->attach($categories);
         }
 
         message()->success("O artigo <strong>{$article->title}</strong> foi criado com sucesso!")->float()->flash();
         return response()->json([
-            "success"=>true,
-            "redirect"=>route("admin.blog.articles.index")
+            "success" => true,
+            "redirect" => route("admin.blog.articles.index")
         ]);
     }
 
@@ -119,8 +119,8 @@ class ArticleController extends Controller
     public function edit(Article $article)
     {
         return view("admin.blog.articles-edit", [
-            "pageTitle"=>"Editar artigo",
-            "article"=>$article
+            "pageTitle" => "Editar artigo",
+            "article" => $article
         ]);
     }
 
@@ -168,44 +168,44 @@ class ArticleController extends Controller
         $article->content = $validated["content"];
         $article->status = $validated["status"];
 
-        if($article->status == Article::STATUS_SCHEDULED){
+        if ($article->status == Article::STATUS_SCHEDULED) {
             $article->scheduled_to = date("Y-m-d H:i:s", strtotime($validated["scheduled_to"]));
             $article->published_at = null;
-        }else if($article->status == Article::STATUS_PUBLISHED){
+        } else if ($article->status == Article::STATUS_PUBLISHED) {
             $article->published_at = date("Y-m-d H:i:s");
             $article->scheduled_to = null;
-        }else{
+        } else {
             $article->published_at = null;
             $article->scheduled_to = null;
         }
 
-        if($article->getOriginal("title") != $article->title){
+        if ($article->getOriginal("title") != $article->title) {
             $slug = $article->slugs()->set($article->title, $article->lang);
             $slug->save();
         }
 
-        if($cover = $validated["cover"] ?? null){
+        if ($cover = $validated["cover"] ?? null) {
             $newCover = $cover->store("public/images/covers");
-            if($article->cover)
+            if ($article->cover)
                 Storage::delete($article->cover);
-            
+
             $article->cover = $newCover;
         }
 
-        if(!$article->save()){
-            if($article->cover)
+        if (!$article->save()) {
+            if ($article->cover)
                 Storage::delete($article->cover);
 
             return response()->json([
-                "success"=>false,
-                "message"=>message()->warning("Houve um erro ao tentar atualizar o artigo. Um log será registrado.")->float()->render(),
+                "success" => false,
+                "message" => message()->warning("Houve um erro ao tentar atualizar o artigo. Um log será registrado.")->float()->render(),
             ]);
         }
 
         message()->success("O artigo <strong>{$article->title}</strong> foi atualizado com sucesso!")->float()->flash();
         return response()->json([
-            "success"=>true,
-            "redirect"=>route("admin.blog.articles.edit", ["article"=>$article])
+            "success" => true,
+            "redirect" => route("admin.blog.articles.edit", ["article" => $article])
         ]);
     }
 

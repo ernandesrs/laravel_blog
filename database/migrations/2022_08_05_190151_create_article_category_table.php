@@ -20,7 +20,7 @@ class CreateArticleCategoryTable extends Migration
             $table->foreignId("article_id")->unsigned()->nullable(true);
             $table->foreignId("category_id")->unsigned()->nullable(false);
 
-            $table->foreign("article_id")->references("id")->on("articles")->nullOnDelete();
+            $table->foreign("article_id")->references("id")->on("articles")->cascadeOnDelete();
             $table->foreign("category_id")->references("id")->on("categories")->restrictOnDelete();
         });
     }
