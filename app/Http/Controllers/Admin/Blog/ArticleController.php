@@ -34,7 +34,6 @@ class ArticleController extends Controller
     {
         return view("admin.blog.articles-new", [
             "pageTitle"=>"Novo artigo",
-            "categories"=>Category::all()
         ]);
     }
 
@@ -120,7 +119,10 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        //
+        return view("admin.blog.articles-new", [
+            "pageTitle"=>"Novo artigo",
+            "article"=>$article
+        ]);
     }
 
     /**

@@ -19,7 +19,7 @@
         <div class="col-12">
             <div class="form-group">
                 <label for="content">Conteúdo:</label>
-                <textarea id="summernoteContent" name="content"></textarea>
+                <textarea id="summernoteContent" name="content">{{ input_value($article ?? null, 'content') }}</textarea>
             </div>
         </div>
     </div>
@@ -34,7 +34,8 @@
                     <div class="d-flex justify-content-center align-items-center border cover-preview"
                         style="width:250px;height:125px;">
                         @if (($article ?? null) && $article->cover)
-                            <img src="" alt="{{ input_value($article ?? null, 'title') }} Cover">
+                            <img class="img-fluid img-thumbnail" src="{{ m_article_cover_thumb($article, 'normal') }}"
+                                alt="{{ input_value($article ?? null, 'title') }} Cover">
                         @else
                             <p class="mb-0 text-muted text-center">
                                 Cover preview
@@ -51,6 +52,14 @@
             </div>
         </div>
 
+        @php
+            $categories = \App\Models\Category::all();
+            $articleCategories = $article->categories()->get();
+            
+            $articleCategoriesIds = $articleCategories->map(function ($item) {
+                return $item->id;
+            });
+        @endphp
         <div class="col-12">
             <div class="form-group">
                 <input type="hidden" name="categories" value="">
@@ -59,7 +68,9 @@
                     title="Escolha categorias" data-live-search="true" data-actions-box="true">
                     @if ($categories->count())
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->title }}</option>
+                            <option value="{{ $category->id }}"
+                                {{ $articleCategoriesIds->contains($category->id) ? 'selected' : null }}>
+                                {{ $category->title }}</option>
                         @endforeach
                     @else
                         <option value="none">Sem categorias cadastradas</option>
@@ -81,11 +92,12 @@
             </div>
         </div>
 
-        <div class="col-12 d-none">
+        <div
+            class="col-12 {{ $article ?? null ? ($article->status == \App\Models\Article::STATUS_SCHEDULED ? '' : 'd-none') : 'd-none' }}">
             <div class="form-group">
                 <label for="scheduled_to">Agendar para:</label>
                 <input class="form-control" type="date" name="scheduled_to" id="scheduled_to"
-                    value="{{ $article ?? null ? date('d/m/Y', strtotime(input_value($article, 'scheduled_to'))) : null }}">
+                    value="{{ $article ?? null ? date('Y-m-d', strtotime(input_value($article, 'scheduled_to'))) : null }}">
             </div>
         </div>
 
@@ -94,7 +106,15 @@
                 <button class="btn btn-primary {{ icon_class('checkLg') }}"
                     data-active-icon="{{ icon_class('checkLg') }}" data-alt-icon="{{ icon_class('loading') }}"
                     type="submit">
-                    Salvar artigo
+                    @if ($article ?? null)
+                        @if ($article->status == \App\Models\Article::STATUS_SCHEDULED)
+                            Atualizar artigo
+                        @else
+                            Salvar artigo
+                        @endif
+                    @else
+                        Salvar artigo
+                    @endif
                 </button>
             </div>
         </div>
