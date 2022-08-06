@@ -15,6 +15,7 @@ use App\Http\Controllers\Member\MemberController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Front\FrontController;
+use App\Http\Controllers\Front\BlogController;
 
 /**
  *
@@ -126,9 +127,9 @@ Route::group([
  * FRONT ROUTES
  *
  */
-Route::get("/", [FrontController::class, "index"])->name("front.home");
-Route::get("/{slug}", [FrontController::class, "article"])->name("front.article");
-Route::get("/categoria/{slug}", [FrontController::class, "category"])->name("front.category");
+Route::get("/", [BlogController::class, "index"])->name("front.home");
+Route::get("/{slug}", [BlogController::class, "article"])->name("front.article");
+Route::get("/categoria/{slug}", [BlogController::class, "category"])->name("front.category");
 
 Route::get("/home", function () {
     return redirect()->route("front.home");

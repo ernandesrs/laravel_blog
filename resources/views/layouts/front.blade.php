@@ -68,8 +68,8 @@
 
         <div class="right-side">
             <div class="container-fluid">
-
                 <main class="main">
+                    @include("includes.message")
                     @yield('content')
                 </main>
 
