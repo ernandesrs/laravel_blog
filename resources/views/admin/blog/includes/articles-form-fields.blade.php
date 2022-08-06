@@ -1,5 +1,5 @@
 {{-- left side --}}
-<div class="col-12 col-md-8 col-lg-9">
+<div class="col-12 col-md-8 col-lg-9 mb-3 mb-md-0">
     <div class="form-row">
         <div class="col-12">
             <div class="form-group">
