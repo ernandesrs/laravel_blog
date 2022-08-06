@@ -51,22 +51,6 @@ Route::post('/reset-password', [ResetController::class, "updatePassword"])->midd
 
 /**
  *
- * FRONT ROUTES
- *
- */
-Route::get("/", [FrontController::class, "index"])->name("front.home");
-Route::get("/{slug}", [FrontController::class, "article"])->name("front.article");
-Route::get("/categoria/{slug}", [FrontController::class, "category"])->name("front.category");
-
-Route::get("/home", function () {
-    return redirect()->route("front.home");
-});
-Route::get("/termos-e-condicoes", [FrontController::class, "termsAndConditions"])->name("front.termsAndConditions");
-Route::get("/p/{slug}", [FrontController::class, "dinamicPage"])->name("front.dinamicPage");
-Route::get("/builder", [FrontController::class, "builder"]);
-
-/**
- *
  * MEMBER ROUTES
  *
  */
@@ -136,3 +120,19 @@ Route::group([
     Route::post("/blog/tag/atualizar/{tag}", [AdminTagController::class, "update"])->name("admin.blog.tags.update");
     Route::post("/blog/tag/excluir/{tag}", [AdminTagController::class, "destroy"])->name("admin.blog.tags.destroy");
 });
+
+/**
+ *
+ * FRONT ROUTES
+ *
+ */
+Route::get("/", [FrontController::class, "index"])->name("front.home");
+Route::get("/{slug}", [FrontController::class, "article"])->name("front.article");
+Route::get("/categoria/{slug}", [FrontController::class, "category"])->name("front.category");
+
+Route::get("/home", function () {
+    return redirect()->route("front.home");
+});
+Route::get("/termos-e-condicoes", [FrontController::class, "termsAndConditions"])->name("front.termsAndConditions");
+Route::get("/p/{slug}", [FrontController::class, "dinamicPage"])->name("front.dinamicPage");
+Route::get("/builder", [FrontController::class, "builder"]);
