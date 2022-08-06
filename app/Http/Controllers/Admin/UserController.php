@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Message\Message;
+use App\Helpers\Thumb;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -173,7 +174,7 @@ class UserController extends Controller
 
             // REMOÇÃO DE FOTO ANTIGA
             if ($user->photo) {
-                Thumbnail::src(Storage::path($user->photo))->delete();
+                Thumb::clear($user->photo);
                 Storage::delete($user->photo);
             }
 
@@ -218,7 +219,7 @@ class UserController extends Controller
     public function photoRemove(Request $request, User $user): JsonResponse
     {
         if ($user->photo) {
-            Thumbnail::src(Storage::path($user->photo))->delete();
+            Thumb::clear($user->photo);
             Storage::delete($user->photo);
         }
 
@@ -246,7 +247,7 @@ class UserController extends Controller
         }
 
         if ($user->photo) {
-            Thumbnail::src(Storage::path($user->photo))->delete();
+            Thumb::clear($user->photo);
             Storage::delete($user->photo);
         }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Blog;
 
+use App\Helpers\Thumb;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ArticleRequest;
 use App\Models\Article;
@@ -73,13 +74,15 @@ class ArticleController extends Controller
         elseif ($validated["status"] == Article::STATUS_PUBLISHED)
             $article->published_at = date("Y-m-d H:i:s");
 
-        if ($cover = $validated["cover"]) {
+        if ($cover = $validated["cover"] ?? null) {
             $article->cover = $cover->store("public/images/covers");
         }
 
         if (!$article->save()) {
-            if ($article->cover)
+            if ($article->cover) {
+                Thumb::clear($article->cover);
                 Storage::delete($article->cover);
+            }
 
             return response()->json([
                 "success" => false,
@@ -186,15 +189,19 @@ class ArticleController extends Controller
 
         if ($cover = $validated["cover"] ?? null) {
             $newCover = $cover->store("public/images/covers");
-            if ($article->cover)
+            if ($article->cover) {
+                Thumb::clear($article->cover);
                 Storage::delete($article->cover);
+            }
 
             $article->cover = $newCover;
         }
 
         if (!$article->save()) {
-            if ($article->cover)
+            if ($article->cover) {
+                Thumb::clear($article->cover);
                 Storage::delete($article->cover);
+            }
 
             return response()->json([
                 "success" => false,
@@ -219,8 +226,10 @@ class ArticleController extends Controller
     {
         $slugs = $article->slugs()->first();
 
-        if ($article->cover)
+        if ($article->cover) {
+            Thumb::clear($article->cover);
             Storage::delete($article->cover);
+        }
 
         $article->delete();
         $slugs->delete();
