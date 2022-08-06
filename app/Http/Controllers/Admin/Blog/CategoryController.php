@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Blog;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CategoryRequest;
-use App\Http\Requests\Admin\CategoryStoreRequest;
-use App\Http\Requests\Admin\CategoryUpdateRequest;
 use App\Models\Category;
 use App\Models\Slug;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {

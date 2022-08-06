@@ -3,9 +3,9 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
-use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
-use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
-use App\Http\Controllers\Admin\TagController as AdminTagController;
+use App\Http\Controllers\Admin\Blog\ArticleController as AdminArticleController;
+use App\Http\Controllers\Admin\Blog\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\Blog\TagController as AdminTagController;
 use App\Http\Controllers\Auth\ForgotController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
