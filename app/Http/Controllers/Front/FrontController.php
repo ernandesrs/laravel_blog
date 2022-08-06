@@ -49,13 +49,41 @@ class FrontController extends Controller
             return;
         }
 
-        return view("front.page", [
+        return view("front.blog-page", [
             "pageTitle" => $article->title ?? "Home",
             "pageDescription" => $article->description ?? "",
             "pageFollow" => $article->follow ?? true,
             "pageCover" => ($article ?? null) ? m_article_cover_thumb($article, [800, 600]) : null,
             "pageUrl" => route("front.article", ["slug" => $slug]),
             "article" => $article
+        ]);
+    }
+
+    /**
+     * @param string $slug
+     * @return void
+     */
+    public function category(string $slug)
+    {
+        $slugs = Slug::where(app()->getLocale(), $slug)->first();
+        if (!$slugs) {
+            return;
+        }
+
+        $category = Category::where("slug_id", $slugs->id)->first();
+
+        if (!$category) {
+            return;
+        }
+
+        return view("front.blog-page", [
+            "pageTitle" => $category->title ?? "Home",
+            "pageDescription" => $category->description ?? "",
+            "pageFollow" => true,
+            "pageCover" => null,
+            "pageUrl" => route("front.category", ["slug" => $slug]),
+            "category" => $category,
+            "articles" => $category->articles()->where("status", Article::STATUS_PUBLISHED)->orderBy("published_at", "DESC")->paginate(12)->withQueryString()
         ]);
     }
 

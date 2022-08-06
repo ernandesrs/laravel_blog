@@ -116,6 +116,15 @@ body {
             &.featured-article {}
         }
 
+        .blog-page {
+            .jumbotron {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                min-height: 375px;
+            }
+        }
+
     }
 
     .footer {
