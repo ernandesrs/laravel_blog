@@ -23,6 +23,12 @@
                 </div>
             @endforeach
         </div>
+
+        <div class="row justify-content-center py-2">
+            <div class="col-12">
+                {{ $articles->links() }}
+            </div>
+        </div>
     @else
         <div class="row">
             <div class="col-12">

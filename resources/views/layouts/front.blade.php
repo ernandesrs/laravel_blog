@@ -69,6 +69,11 @@
         <div class="right-side">
             <div class="container-fluid">
                 <main class="main">
+                    <div class="search-bar pb-4">
+                        <form action="{{route("front.search")}}" method="get">
+                            <input class="form-control text-center" type="search" name="s">
+                        </form>
+                    </div>
                     @include("includes.message")
                     @yield('content')
                 </main>

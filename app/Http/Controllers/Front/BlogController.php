@@ -13,6 +13,9 @@ use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
+    /** @var int $articlesLimit */
+    private $articlesLimit = 16;
+
     /**
      * @return View
      */
@@ -27,7 +30,7 @@ class BlogController extends Controller
             "pageCover" => ($page ?? null) ? m_page_cover_thumb($page, [800, 600]) : null,
             "pageUrl" => route("front.home"),
 
-            "articles" => Article::where("status", Article::STATUS_PUBLISHED)->orderBy("published_at", "DESC")->paginate(12)
+            "articles" => Article::where("status", Article::STATUS_PUBLISHED)->orderBy("published_at", "DESC")->paginate($this->articlesLimit)
         ]);
     }
 
@@ -86,7 +89,30 @@ class BlogController extends Controller
             "pageCover" => null,
             "pageUrl" => route("front.category", ["slug" => $slug]),
             "category" => $category,
-            "articles" => $category->articles()->where("status", Article::STATUS_PUBLISHED)->orderBy("published_at", "DESC")->paginate(12)->withQueryString()
+            "articles" => $category->articles()->where("status", Article::STATUS_PUBLISHED)->orderBy("published_at", "DESC")->paginate($this->articlesLimit)->withQueryString()
+        ]);
+    }
+
+    /**
+     * @return View|RedirectResponse
+     */
+    public function search()
+    {
+        $search = filter_input(INPUT_GET, "s");
+
+        if (empty($search))
+            return redirect()->route("front.home");
+
+        $articles = Article::whereNotNull("id")->whereRaw("MATCH(title, description) AGAINST('{$search}')");
+
+        return view("front.blog-page", [
+            "pageTitle" => "Resultados para a busca: " . $search,
+            "pageDescription" => "Página de resultado de busca para " . $search,
+            "pageFollow" => false,
+            "pageCover" => null,
+            "pageUrl" => route("front.search", ["s" => $search]),
+
+            "articles" => $articles->orderBy("published_at", "DESC")->paginate($this->articlesLimit)->withQueryString()
         ]);
     }
 }

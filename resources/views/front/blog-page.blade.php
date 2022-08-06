@@ -3,6 +3,7 @@
 @php
 $isArticle = $article ?? null ? true : false;
 $isCategory = $category ?? null ? true : false;
+$isSearchResult = empty($_GET['s']) ? false : true;
 @endphp
 
 @section('content')
@@ -14,6 +15,8 @@ $isCategory = $category ?? null ? true : false;
                     {{ $article->title }}
                 @elseif ($isCategory)
                     Artigos para a categoria: {{ $category->title }}
+                @else
+                    Resultado de pesquisa
                 @endif
             </h1>
             @if ($isArticle)
@@ -64,10 +67,18 @@ $isCategory = $category ?? null ? true : false;
                         {{ $category->description }}
                     @endif
                 </p>
+            @elseif($isSearchResult)
+                <p class="lead">
+                    @if ($articles->count())
+                        Mostrando resultados para sua pesquisa: {{ input_value($_GET ?? null, 's') }}
+                    @else
+                        Sem resultados para sua pesquisa
+                    @endif
+                </p>
             @endif
         </header>
 
-        @if ($isCategory)
+        @if ($isCategory || $isSearchResult)
             <div class="row justify-content">
                 @foreach ($articles as $article)
                     <div class="col-12 col-sm-6 col-lg-12 col-xl-6 mb-4">
@@ -77,7 +88,13 @@ $isCategory = $category ?? null ? true : false;
                     </div>
                 @endforeach
             </div>
-        @else
+
+            <div class="row justify-content-center py-2">
+                <div class="col-12">
+                    {{ $articles->links() }}
+                </div>
+            </div>
+        @elseif($isArticle)
             <div class="">
                 {!! $article->content !!}
             </div>

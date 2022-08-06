@@ -130,6 +130,7 @@ Route::group([
 Route::get("/", [BlogController::class, "index"])->name("front.home");
 Route::get("/{slug}", [BlogController::class, "article"])->name("front.article");
 Route::get("/categoria/{slug}", [BlogController::class, "category"])->name("front.category");
+Route::get("/busca/resultados", [BlogController::class, "search"])->name("front.search");
 
 Route::get("/home", function () {
     return redirect()->route("front.home");
