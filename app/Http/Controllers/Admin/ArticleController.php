@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ArticleRequest;
 use App\Models\Article;
 use App\Models\Category;
-use App\Models\Page;
 use App\Models\Slug;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -22,6 +21,7 @@ class ArticleController extends Controller
     {
         return view("admin.blog.articles-list", [
             "pageTitle"=>"Lista de artigos",
+            "articles"=>Article::whereNotNull("id")->paginate(12)
         ]);
     }
 
@@ -76,7 +76,7 @@ class ArticleController extends Controller
             $article->published_at = date("Y-m-d H:i:s");
         
         if($cover = $validated["cover"]){
-            $article->cover = $cover->store("images/covers");
+            $article->cover = $cover->store("public/images/covers");
         }
 
         if(!$article->save()){
