@@ -222,13 +222,7 @@ class ArticleController extends Controller
         if ($article->cover)
             Storage::delete($article->cover);
 
-        if (!$article->delete()) {
-            return response()->json([
-                "success" => false,
-                "message" => message()->warning("Houve um erro ao tentar excluir o artigo. Um log será registrado.")->float()->render(),
-            ]);
-        }
-
+        $article->delete();
         $slugs->delete();
 
         message()->success("O artigo foi excluído com sucesso!")->float()->flash();
