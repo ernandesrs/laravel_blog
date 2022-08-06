@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Models\Article;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ArticleRequest extends FormRequest
 {
@@ -23,7 +25,9 @@ class ArticleRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        $this->merge([]);
+        $this->merge([
+            "categories"=>explode(",", $this->categories??"")
+        ]);
     }
 
     /**
@@ -34,7 +38,13 @@ class ArticleRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "title"=>["required", "unique:articles,title","max:255"],
+            "description"=>["required", "min:5", "max:255"],
+            "content"=>["required"],
+            "cover"=>["nullable","mimes:png,jpg,webp","max:3500"],
+            "categories"=>["required"],
+            "status"=>["required", Rule::in(Article::STATUS)],
+            "scheduled_to"=>["required_if:status,".Article::STATUS_SCHEDULED]
         ];
     }
 

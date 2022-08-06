@@ -83,8 +83,8 @@
 
         <div class="col-12 d-none">
             <div class="form-group">
-                <label for="schedule_to">Agendar para:</label>
-                <input class="form-control" type="date" name="schedule_to" id="schedule_to"
+                <label for="scheduled_to">Agendar para:</label>
+                <input class="form-control" type="date" name="scheduled_to" id="scheduled_to"
                     value="{{ $article ?? null ? date('d/m/Y', strtotime(input_value($article, 'scheduled_to'))) : null }}">
             </div>
         </div>
@@ -318,11 +318,11 @@
             let option = select.val();
 
             if (option == "scheduled") {
-                $("#schedule_to").parent().parent().removeClass("d-none").hide().show("blind", function() {
+                $("#scheduled_to").parent().parent().removeClass("d-none").hide().show("blind", function() {
                     select.parents().eq(3).find("button[type=submit]").text("Agendar artigo");
                 });
             } else {
-                $("#schedule_to").parent().parent().hide("blind", function() {
+                $("#scheduled_to").parent().parent().hide("blind", function() {
                     $(this).addClass("d-none");
                     select.parents().eq(3).find("button[type=submit]").text("Salvar artigo");
                 });

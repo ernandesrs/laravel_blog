@@ -41,9 +41,11 @@ class ArticleController extends Controller
      * @param  ArticleRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ArticleRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        var_dump($validated);
     }
 
     /**
