@@ -59,19 +59,18 @@ foreach ($keys as $key => $value) {
                             </div>
                         </td>
                         <td class="align-middle text-right">
-                            <a class="btn btn-sm btn-info {{ icon_class('pencilSquare') }}"
+                            <a class="btn btn-info {{ icon_class('pencilSquare') }}"
                                 href="{{ route('admin.users.edit', ['user' => $user->id]) }}"></a>
 
                             @include('includes.button-confirmation', [
-                                'btnAction' => route('admin.users.destroy', ['user' => $user->id]),
-                                'btnClass' => 'btn-sm btn-outline-danger',
-                                'btnIcon' => icon_class('trash'),
-                                'btnType' => 'danger',
-                                'btnMessage' =>
-                                    'Você está excluindo <strong>"' .
-                                    $user->email .
-                                    '"</strong> permanentemente e isso não pode ser desfeito, confirme para continuar.',
-                                'btnText' => '',
+                                'button' => t_button_confirmation_data(
+                                    'danger',
+                                    'btn btn-outline-danger',
+                                    'Você está excluindo este usuário permanentemente e isso não pode ser desfeito.',
+                                    route('admin.users.destroy', ['user' => $user->id]),
+                                    null,
+                                    icon_class('trash')
+                                ),
                             ])
                         </td>
                     </tr>

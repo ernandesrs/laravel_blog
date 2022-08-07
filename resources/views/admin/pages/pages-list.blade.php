@@ -35,10 +35,10 @@ foreach ($keys as $key => $value) {
                     @php
                         /** @var \App\Models\User $author */
                         $author = $page->author();
-
+                        
                         /** @var \App\Models\Slug $slugs */
                         $slugs = $page->slugs();
-
+                        
                         $slug = $slugs->slug($page->lang);
                     @endphp
                     <tr>
@@ -95,15 +95,14 @@ foreach ($keys as $key => $value) {
                                 href="{{ route('admin.pages.edit', ['page' => $page->id]) }}"></a>
 
                             @include('includes.button-confirmation', [
-                                'btnAction' => route('admin.pages.destroy', ['page' => $page->id]),
-                                'btnClass' => 'btn-sm btn-outline-danger',
-                                'btnIcon' => icon_class('trash'),
-                                'btnType' => 'danger',
-                                'btnMessage' =>
-                                    'Você está excluindo <strong>"' .
-                                    $page->title .
-                                    '"</strong> permanentemente e isso não pode ser desfeito, confirme para continuar.',
-                                'btnText' => '',
+                                'button' => t_button_confirmation_data(
+                                    'danger',
+                                    'btn btn-outline-danger',
+                                    'Você está excluindo uma página permanentemente e isso não pode ser desfeito.',
+                                    route('admin.pages.destroy', ['page' => $page->id]),
+                                    null,
+                                    icon_class('trash')
+                                ),
                             ])
                         </td>
                     </tr>

@@ -100,7 +100,10 @@
                             @if ($mainBar->buttons ?? null)
                                 <div class="ml-2">
                                     @foreach ($mainBar->buttons as $button)
-                                        @if ($button['type'] == 'button')
+                                        @php
+                                            $button = (object) $button;
+                                        @endphp
+                                        @if ($button->btnType == 'button')
                                             @include('includes.button', ['button' => $button])
                                         @else
                                             @include('includes.link', ['button' => $button])

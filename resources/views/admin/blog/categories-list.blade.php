@@ -1,7 +1,7 @@
 @extends('layouts.admin', [
     'mainBar' => [
         'title' => $pageTitle,
-        'buttons' => [t_button_data('Nova categoria', 'success', icon_class('plusLg'), route('admin.blog.categories.store'), null, 'jsBtnNewCategory')],
+        'buttons' => [t_button_data('btn btn-success', 'Nova categoria', route('admin.blog.categories.store'), icon_class('plusLg'), null, 'jsBtnNewCategory')],
     ],
 ])
 
@@ -29,26 +29,23 @@
                         <td class="align-middle text-right">
                             @include('includes.button', [
                                 'button' => t_button_data(
+                                    'btn btn-primary',
                                     '',
-                                    'primary',
-                                    icon_class('pencilSquare'),
                                     route('admin.blog.categories.edit', ['category' => $category->id]),
+                                    icon_class('pencilSquare'),
                                     null,
                                     'jsBtnEditCategory'
                                 ),
                             ])
                             @include('includes.button-confirmation', [
-                                'btnAction' => route('admin.blog.categories.destroy', [
-                                    'category' => $category->id,
-                                ]),
-                                'btnClass' => 'btn-sm btn-outline-danger',
-                                'btnIcon' => icon_class('trash'),
-                                'btnType' => 'danger',
-                                'btnMessage' =>
-                                    'Você está excluindo <strong>"' .
-                                    $category->title .
-                                    '"</strong> permanentemente e isso não pode ser desfeito, confirme para continuar.',
-                                'btnText' => '',
+                                'button' => t_button_confirmation_data(
+                                    'danger',
+                                    'btn btn-outline-danger',
+                                    'Você está excluindo uma categoria permanentemente e isso não pode ser desfeito.',
+                                    route('admin.blog.categories.destroy', ['category' => $category->id]),
+                                    null,
+                                    icon_class('trash')
+                                ),
                             ])
                         </td>
                     </tr>

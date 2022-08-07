@@ -1,7 +1,7 @@
 @extends('layouts.admin', [
     'mainBar' => [
         'title' => $pageTitle,
-        'buttons' => [t_button_link_data('Novo upload', 'outline-success', icon_class('plusLg'), route('admin.images.store'), null, 'jsNewUpload')],
+        'buttons' => [t_button_link_data('btn btn-outline-success', 'Novo upload', route('admin.images.store'), icon_class('plusLg'), null, 'jsNewUpload')],
     ],
 ])
 
@@ -17,9 +17,9 @@
                                     src="{{ thumb(Storage::path('public/' . $image->path), 350, 225) }}"
                                     alt="{{ $image->name }}">
                             </div>
-                            <div class="py-2 text-center">
+                            <div class="pt-2 text-center">
                                 <small>
-                                    <p class="mb-1">
+                                    <p class="mb-0">
                                         <span>
                                             Nome:
                                             <span data-toggle="tooltip" data-placement="top" title="{{ $image->name }}">
@@ -29,7 +29,7 @@
                                             </span>
                                         </span>
                                     </p>
-                                    <p class="mb-0">
+                                    <p class="mb-2">
                                         <span>
                                             Tamanho:
                                             <span>
@@ -37,6 +37,28 @@
                                             </span>
                                         </span>
                                     </p>
+                                    <div>
+                                        @include('includes.button', [
+                                            'button' => t_button_data(
+                                                'btn btn-sm btn-secondary',
+                                                null,
+                                                null,
+                                                icon_class('pencilSquare'),
+                                                null,
+                                                'jsImageEdit'
+                                            ),
+                                        ])
+                                        @include('includes.button-confirmation', [
+                                            'button' => t_button_confirmation_data(
+                                                'danger',
+                                                'btn btn-sm btn-outline-danger',
+                                                'Você está excluindo esta imagem definitivamente e isso não pode ser desfeito.',
+                                                route('admin.images.destroy', ['image' => $image->id]),
+                                                null,
+                                                icon_class('trash')
+                                            ),
+                                        ])
+                                    </div>
                                 </small>
                             </div>
                         </div>
@@ -60,6 +82,7 @@
 @endsection
 
 @include('admin.medias.includes.modal-image')
+@include('includes.modal-confirmation')
 
 @section('scripts')
     <script>

@@ -1,7 +1,7 @@
 @extends('layouts.admin', [
     'mainBar' => [
         'title' => $pageTitle,
-        'buttons' => [t_button_link_data('Voltar', 'primary', icon_class('arrowLeft'), route('admin.blog.articles.index'), null, null)],
+        'buttons' => [t_button_link_data('btn btn-primary', 'Voltar', route('admin.blog.articles.index'), icon_class('arrowLeft'), null, null)],
     ],
 ])
 

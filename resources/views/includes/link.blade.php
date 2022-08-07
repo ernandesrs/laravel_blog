@@ -1,5 +1,4 @@
-<a href="{{ $button['link'] }}" id="{{ $button['id'] }}"
-    class="btn btn-{{ $button['style'] }} {{ $button['activeIcon'] }} {{ $button['id'] }}"
-    data-action="{{ $button['link'] }}">
-    {{ $button['text'] }}
+<a class="{{ $button->btnClass }} {{ $button->btnActiveIcon }} {{ $button->btnId }}" id="{{ $button->btnId }}" href="{{ $button->btnLink }}"
+    data-action="{{ $button->btnLink }}">
+    {{ $button->btnText }}
 </a>

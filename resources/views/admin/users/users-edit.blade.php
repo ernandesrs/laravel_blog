@@ -11,13 +11,16 @@
                 alt="{{ $user->name }}">
             <div class="py-2">
                 @if ($user->photo)
-                    <div class="card card-body">
-                        <form class="jsFormSubmit" action="{{ route('admin.users.photoRemove', ['user' => $user->id]) }}">
-                            @include('includes.message')
-                            @csrf
-                            <button class="btn btn-link text-danger">Excluir foto</button>
-                        </form>
-                    </div>
+                    @include('includes.button-confirmation', [
+                        'button' => t_button_confirmation_data(
+                            'danger',
+                            'btn btn-outline-danger',
+                            'Você está excluindo a foto deste usuário permanentemente e isso não pode ser desfeito.',
+                            route('admin.users.photoRemove', ['user' => $user->id]),
+                            'Excluir foto',
+                            icon_class('trash')
+                        ),
+                    ])
                     <hr>
                 @endif
                 <small>
@@ -37,8 +40,8 @@
 
         <div class="col-12 col-md-7 col-lg-8">
             <div class="card card-body">
-                <form class="jsFormSubmit" action="{{ route('admin.users.update', ['user' => $user->id]) }}"
-                    method="post" enctype="multipart/form-data">
+                <form class="jsFormSubmit" action="{{ route('admin.users.update', ['user' => $user->id]) }}" method="post"
+                    enctype="multipart/form-data">
                     @csrf
 
                     @include('admin.users.includes.users-form-fields')
@@ -53,3 +56,5 @@
         </div>
     </div>
 @endsection
+
+@include('includes.modal-confirmation')
