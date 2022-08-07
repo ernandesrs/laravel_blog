@@ -126,6 +126,8 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 @endsection
 
+@include('admin.medias.includes.modal-image')
+
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
@@ -306,10 +308,40 @@
                     },
                     'pre', 'h2', 'h3', 'h4', 'h5', 'h6'
                 ],
+
+                callbacks: {
+                    onImageUpload: function(files) {
+                        let data = new FormData();
+
+                        data.append("tags", "no,tags");
+                        data.append("image", files[0]);
+
+                        $.ajax({
+                            type: "post",
+                            url: "{{ route('admin.images.store') }}",
+                            data: data,
+                            dataType: "json",
+                            contentType: false,
+                            processData: false,
+
+                            success: function(response) {
+                                if (response.success) {
+                                    $("#summernoteContent").summernote('insertImage',
+                                        response.url,
+                                        function($image) {
+                                            $image.attr("class", "img-thumb px-3")
+                                            $image.attr('data-filename', response.name);
+                                        });
+                                }
+                            }
+                        });
+                    }
+                }
             });
         });
 
         $('.select').selectpicker();
+
         $('.selectpicker').on('changed.bs.select', function(e, clickedIndex, isSelected, previousValue) {
             let categories = [];
             let value = $(this).find("option").eq(clickedIndex).val();

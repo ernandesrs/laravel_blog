@@ -49,7 +49,9 @@ class ImageController extends Controller
         message()->success("Upload de nova image concluída com sucesso!")->float()->flash();
         return response()->json([
             "success" => true,
-            "redirect" => route("admin.images.index")
+            "redirect" => route("admin.images.index"),
+            "url" => Storage::url($image->path),
+            "name" => $image->name
         ]);
     }
 
