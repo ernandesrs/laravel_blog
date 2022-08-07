@@ -39,7 +39,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view("admin.blog.articles-new", [
+        return view("admin.blog.articles-edit", [
             "pageTitle" => "Novo artigo",
         ]);
     }
