@@ -98,5 +98,19 @@
             modal.modal();
 
         });
+
+        modal.on("hidden.bs.modal", function() {
+
+            modal.find("form").attr("action", "");
+            modal.find(".title").html("");
+            modal.find(".message-area").html("");
+
+            modal.find("#image").val("");
+            modal.find("#tags").val("");
+            modal.find("#name").val("");
+
+            addFormErrors($(modal.find("form"), []));
+
+        });
     </script>
 @endsection
