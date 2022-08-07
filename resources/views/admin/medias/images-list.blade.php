@@ -1,7 +1,7 @@
 @extends('layouts.admin', [
     'mainBar' => [
         'title' => $pageTitle,
-        'buttons' => [t_button_link_data('btn btn-outline-success', 'Novo upload', route('admin.images.store'), icon_class('plusLg'), null, 'jsNewUpload')],
+        'buttons' => [t_button_link_data('btn btn-outline-success', 'Novo upload', route('admin.images.store'), icon_class('plusLg'), null, 'jsBtnImageUploadModal')],
     ],
 ])
 
@@ -84,33 +84,3 @@
 @include('admin.medias.includes.modal-image')
 @include('includes.modal-confirmation')
 
-@section('scripts')
-    <script>
-        let modal = $("#jsImageUpload")
-
-        $("#jsNewUpload").on("click", function(e) {
-            e.preventDefault();
-            let button = $(this);
-
-            modal.find("form").attr("action", button.attr("data-action"));
-            modal.find(".title").html("Upload de nova imagem");
-
-            modal.modal();
-
-        });
-
-        modal.on("hidden.bs.modal", function() {
-
-            modal.find("form").attr("action", "");
-            modal.find(".title").html("");
-            modal.find(".message-area").html("");
-
-            modal.find("#image").val("");
-            modal.find("#tags").val("");
-            modal.find("#name").val("");
-
-            addFormErrors($(modal.find("form"), []));
-
-        });
-    </script>
-@endsection

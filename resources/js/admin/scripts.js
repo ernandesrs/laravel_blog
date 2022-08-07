@@ -30,3 +30,34 @@ $(function () {
     }
 
 });
+
+$(function () {
+
+    let modal = $("#jsImageUploadModal")
+
+    $(".jsBtnImageUploadModal").on("click", function (e) {
+        e.preventDefault();
+        let button = $(this);
+
+        modal.find("form").attr("action", button.attr("data-action"));
+        modal.find(".title").html("Upload de nova imagem");
+
+        modal.modal();
+
+    });
+
+    modal.on("hidden.bs.modal", function () {
+
+        modal.find("form").attr("action", "");
+        modal.find(".title").html("");
+        modal.find(".message-area").html("");
+
+        modal.find("#image").val("");
+        modal.find("#tags").val("");
+        modal.find("#name").val("");
+
+        addFormErrors($(modal.find("form"), []));
+
+    });
+
+});
