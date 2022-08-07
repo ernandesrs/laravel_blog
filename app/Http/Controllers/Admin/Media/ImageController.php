@@ -1,13 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Media;
+namespace App\Http\Controllers\Admin\Media;
 
 use App\Http\Controllers\Controller;
 use App\Models\Media\Image;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class ImageController extends Controller
 {
+    public function index(): View
+    {
+        return view("", [
+            "pageTitle" => "Gerenciando imagens"
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
