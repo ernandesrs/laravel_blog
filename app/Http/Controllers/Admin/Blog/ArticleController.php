@@ -86,7 +86,7 @@ class ArticleController extends Controller
         if (!$article->save()) {
             if ($article->cover) {
                 Thumb::clear($article->cover);
-                Storage::delete($article->cover);
+                Storage::disk("public")->delete($article->cover);
             }
 
             return response()->json([
@@ -196,7 +196,7 @@ class ArticleController extends Controller
             $newCover = $cover->store($this->coversPath, "public");
             if ($article->cover) {
                 Thumb::clear($article->cover);
-                Storage::delete($article->cover);
+                Storage::disk("public")->delete($article->cover);
             }
 
             $article->cover = $newCover;
@@ -205,7 +205,7 @@ class ArticleController extends Controller
         if (!$article->save()) {
             if ($article->cover) {
                 Thumb::clear($article->cover);
-                Storage::delete($article->cover);
+                Storage::disk("public")->delete($article->cover);
             }
 
             return response()->json([
@@ -233,7 +233,7 @@ class ArticleController extends Controller
 
         if ($article->cover) {
             Thumb::clear($article->cover);
-            Storage::delete($article->cover);
+            Storage::disk("public")->delete($article->cover);
         }
 
         $article->delete();

@@ -120,7 +120,7 @@ class UserController extends Controller
 
         if (!$user->save()) {
             if ($path)
-                Storage::delete($path);
+                Storage::disk("public")->delete($path);
 
             return response()->json([
                 "success" => false,
@@ -179,7 +179,7 @@ class UserController extends Controller
             // REMOÇÃO DE FOTO ANTIGA
             if ($user->photo) {
                 Thumb::clear($user->photo);
-                Storage::delete($user->photo);
+                Storage::disk("public")->delete($user->photo);
             }
 
             $user->photo = $newPhotoPath;
@@ -224,7 +224,7 @@ class UserController extends Controller
     {
         if ($user->photo) {
             Thumb::clear($user->photo);
-            Storage::delete($user->photo);
+            Storage::disk("public")->delete($user->photo);
         }
 
         $user->photo = null;
@@ -252,7 +252,7 @@ class UserController extends Controller
 
         if ($user->photo) {
             Thumb::clear($user->photo);
-            Storage::delete($user->photo);
+            Storage::disk("public")->delete($user->photo);
         }
 
         $user->delete();

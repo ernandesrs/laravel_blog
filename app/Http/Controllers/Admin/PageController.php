@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\Thumb;
 use App\Http\Controllers\Controller;
 use App\Models\Page;
 use App\Models\Slug;
@@ -89,7 +90,7 @@ class PageController extends Controller
         if (!$page->save()) {
 
             $slug->delete();
-            Storage::delete($page->cover);
+            Storage::disk("public")->delete($page->cover);
 
             return response()->json([
                 "success" => false,
@@ -154,8 +155,8 @@ class PageController extends Controller
         // UPLOAD DE CAPA
         if ($cover = $validated["cover"] ?? null) {
             if ($page->cover) {
-                Thumbnail::src(Storage::path($page->cover))->delete();
-                Storage::delete($page->cover);
+                Thumb::clear($page->cover);
+                Storage::disk("public")->delete($page->cover);
             }
 
             $page->cover = $cover->store($this->coversPath, "public");
@@ -163,7 +164,7 @@ class PageController extends Controller
 
         if (!$page->save()) {
 
-            Storage::delete($page->cover);
+            Storage::disk("public")->delete($page->cover);
 
             return response()->json([
                 "success" => false,
@@ -197,8 +198,8 @@ class PageController extends Controller
         $slugs = $page->slugs();
 
         if ($page->cover) {
-            Thumbnail::src(Storage::path($page->cover))->delete();
-            Storage::delete($page->cover);
+            Thumb::clear($page->cover);
+            Storage::disk("public")->delete($page->cover);
         }
 
         $page->delete();

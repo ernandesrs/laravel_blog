@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin\Media;
 
+use App\Helpers\Thumb;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ImageRequest;
 use App\Models\Media\Image;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
@@ -82,6 +84,22 @@ class ImageController extends Controller
      */
     public function destroy(Image $image)
     {
-        //
+        /**
+         * remove os thumbnails
+         */
+        Thumb::clear($image->path);
+
+        /**
+         * remove a imagem
+         */
+        Storage::disk("public")->delete($image->path);
+
+        $image->delete();
+
+        message()->success("Imagem excluída com sucesso!")->float()->flash();
+        return response()->json([
+            "success" => false,
+            "reload" => true
+        ]);
     }
 }
