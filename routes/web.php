@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\Blog\ArticleController as AdminArticleController;
 use App\Http\Controllers\Admin\Blog\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\Blog\TagController as AdminTagController;
-use App\Http\Controllers\Admin\ImageController as AdminImageController;
+use App\Http\Controllers\Admin\Media\ImageController as AdminImageController;
 use App\Http\Controllers\Auth\ForgotController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -123,6 +123,7 @@ Route::group([
     Route::post("/blog/tag/excluir/{tag}", [AdminTagController::class, "destroy"])->name("admin.blog.tags.destroy");
 
     // IMAGE
+    Route::get("/images", [AdminImageController::class, "index"])->name("admin.images.index");
     Route::post("/image/salvar", [AdminImageController::class, "store"])->name("admin.images.store");
     Route::post("/image/atualizar/{image}", [AdminImageController::class, "update"])->name("admin.images.update");
     Route::post("/image/excluir/{image}", [AdminImageController::class, "destroy"])->name("admin.images.destroy");
