@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Storage;
 class ArticleController extends Controller
 {
     /**
+     * @var string
+     */
+    private $coversPath = "images/covers";
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -75,7 +80,7 @@ class ArticleController extends Controller
             $article->published_at = date("Y-m-d H:i:s");
 
         if ($cover = $validated["cover"] ?? null) {
-            $article->cover = $cover->store("public/images/covers");
+            $article->cover = $cover->store($this->coversPath, "public");
         }
 
         if (!$article->save()) {
@@ -188,7 +193,7 @@ class ArticleController extends Controller
         }
 
         if ($cover = $validated["cover"] ?? null) {
-            $newCover = $cover->store("public/images/covers");
+            $newCover = $cover->store($this->coversPath, "public");
             if ($article->cover) {
                 Thumb::clear($article->cover);
                 Storage::delete($article->cover);

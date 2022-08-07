@@ -22,8 +22,8 @@ function m_page_cover_thumb(Page $page, $size = "normal"): string
     $width = $dimensions[0];
     $height = $dimensions[1];
 
-    if ($page->cover && file_exists(Storage::path($page->cover)))
-        return thumb(Storage::path($page->cover), $width, $height);
+    if ($page->cover && file_exists(Storage::path("public/{$page->cover}")))
+        return thumb(Storage::path("public/{$page->cover}"), $width, $height);
 
     return thumb(resource_path("img/default-image.png"), $width, $height);
 }

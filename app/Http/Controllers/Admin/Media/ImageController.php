@@ -10,6 +10,11 @@ use Illuminate\Contracts\View\View;
 class ImageController extends Controller
 {
     /**
+     * @var string
+     */
+    private $imagesPath = "images";
+
+    /**
      * @return View
      */
     public function index(): View
@@ -35,7 +40,7 @@ class ImageController extends Controller
         $image->tags = $validated["tags"];
         $image->extension = $validated["image"]->getClientOriginalExtension();
         $image->size = $validated["image"]->getSize();
-        $image->path = $validated["image"]->store("public/images");
+        $image->path = $validated["image"]->store($this->imagesPath, "public");
 
         $image->save();
 

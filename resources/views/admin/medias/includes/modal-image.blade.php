@@ -14,8 +14,10 @@
 
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="name">Nome:</label>
-                                <input class="form-control text-center" type="text" name="name" id="name">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="image" name="image">
+                                    <label class="custom-file-label" for="image">Escolher arquivo</label>
+                                </div>
                             </div>
                         </div>
 
@@ -31,10 +33,8 @@
 
                         <div class="col-12">
                             <div class="form-group">
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="image" name="image">
-                                    <label class="custom-file-label" for="image">Escolher arquivo</label>
-                                </div>
+                                <label for="name">Nome:</label>
+                                <input class="form-control text-center" type="text" name="name" id="name">
                             </div>
                         </div>
 

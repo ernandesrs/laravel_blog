@@ -14,10 +14,14 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use Rolandstarke\Thumbnail\Facades\Thumbnail;
 
 class UserController extends Controller
 {
+    /**
+     * @var string
+     */
+    private $avatarsPath = "avatars";
+
     /**
      * @return View
      */
@@ -101,7 +105,7 @@ class UserController extends Controller
         // PHOTO UPLOAD
         if ($validated["photo"] ?? null) {
             $photo = $validated["photo"];
-            $path = $photo->store("public/avatars");
+            $path = $photo->store($this->avatarsPath, "public");
 
             $user->photo = $path;
         }
@@ -170,7 +174,7 @@ class UserController extends Controller
         // PHOTO UPLOAD
         if ($validated["photo"] ?? null) {
             $photo = $validated["photo"];
-            $newPhotoPath = $photo->store("public/avatars");
+            $newPhotoPath = $photo->store($this->avatarsPath, "public");
 
             // REMOÇÃO DE FOTO ANTIGA
             if ($user->photo) {

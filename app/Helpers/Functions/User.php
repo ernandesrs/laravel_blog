@@ -22,8 +22,8 @@ function m_user_photo_thumb(User $user, $size = "normal"): string
     $width = $dimensions[0];
     $height = $dimensions[1];
 
-    if ($user->photo && file_exists(Storage::path($user->photo)))
-        return thumb(Storage::path($user->photo), $width, $height);
+    if ($user->photo && file_exists(Storage::path("public/{$user->photo}")))
+        return thumb(Storage::path("public/{$user->photo}"), $width, $height);
 
     return thumb(resource_path("img/default-user-light.png"), $width, $height);
 }

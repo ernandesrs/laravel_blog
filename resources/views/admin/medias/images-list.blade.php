@@ -13,7 +13,8 @@
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                         <div class="card card-body border-0 shadow">
                             <div class="">
-                                <img class="img-fluid img-thumbnail" src="{{ thumb(Storage::path($image->path), 350, 225) }}"
+                                <img class="img-fluid img-thumbnail"
+                                    src="{{ thumb(Storage::path('public/' . $image->path), 350, 225) }}"
                                     alt="{{ $image->name }}">
                             </div>
                             <div class="py-2 text-center">
@@ -22,7 +23,9 @@
                                         <span>
                                             Nome:
                                             <span data-toggle="tooltip" data-placement="top" title="{{ $image->name }}">
-                                                {{ substr($image->name, 0, 12) }}...
+                                                <a href="{{ Storage::url($image->path) }}" target="_blank">
+                                                    {{ substr($image->name, 0, 12) }}...
+                                                </a>
                                             </span>
                                         </span>
                                     </p>
@@ -46,6 +49,12 @@
                     </p>
                 </div>
             @endif
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-12">
+                {{ $images->links() }}
+            </div>
         </div>
     </div>
 @endsection

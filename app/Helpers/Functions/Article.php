@@ -22,8 +22,8 @@ function m_article_cover_thumb(Article $article, $size = "normal"): string
     $width = $dimensions[0];
     $height = $dimensions[1];
 
-    if ($article->cover && file_exists(Storage::path($article->cover)))
-        return thumb(Storage::path($article->cover), $width, $height);
+    if ($article->cover && file_exists(Storage::path("public/{$article->cover}")))
+        return thumb(Storage::path("public/{$article->cover}"), $width, $height);
 
     return thumb(resource_path("img/default-image.png"), $width, $height);
 }

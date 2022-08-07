@@ -43,7 +43,7 @@ function icon_elem(string $name, ?string $alt = null): string
 }
 
 /**
- * @param string|null $path
+ * @param string|null $path caminho completo até a imagem
  * @param integer $width
  * @param integer|null $height
  * @return null|string

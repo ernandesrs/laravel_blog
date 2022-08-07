@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Page;
 use App\Models\Slug;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -15,6 +14,11 @@ use Illuminate\Support\Str;
 
 class PageController extends Controller
 {
+    /**
+     * @var string
+     */
+    private $coversPath = "covers";
+
     /**
      * Display a listing of the resource.
      *
@@ -80,7 +84,7 @@ class PageController extends Controller
 
         // UPLOAD DE CAPA
         if ($cover = $validated["cover"] ?? null)
-            $page->cover = $cover->store("public/pages/covers");
+            $page->cover = $cover->store($this->coversPath, "public");
 
         if (!$page->save()) {
 
@@ -154,7 +158,7 @@ class PageController extends Controller
                 Storage::delete($page->cover);
             }
 
-            $page->cover = $cover->store("public/pages/covers");
+            $page->cover = $cover->store($this->coversPath, "public");
         }
 
         if (!$page->save()) {
