@@ -45,6 +45,31 @@ return [
             ]
         ],
         [
+            "icon" => icon_class("media"),
+            "text" => "Mídias",
+            "title" => "",
+            "activeIn" => ["admin.images.index"],
+            "target" => "_self",
+            "items" => [
+                [
+                    "icon" => icon_class("images"),
+                    "text" => "Imagens",
+                    "title" => "",
+                    "route" => "admin.images.index",
+                    "target" => "_self",
+                    "activeIn" => ["admin.images.index"]
+                ],
+                [
+                    "icon" => icon_class("video"),
+                    "text" => "Vídeos",
+                    "title" => "",
+                    "route" => "admin.images.index",
+                    "target" => "_self",
+                    "activeIn" => ["admin.images.index"]
+                ]
+            ],
+        ],
+        [
             "icon" => icon_class("page"),
             "text" => "Blog",
             "title" => "",
@@ -52,12 +77,12 @@ return [
             "target" => "_self",
             "items" => [
                 [
-                    "icon"=>icon_class("pageFillEarmarkText"),
-                    "text"=>"Artigos",
-                    "title"=>"",
-                    "route"=>"admin.blog.articles.index",
-                    "target"=>"_self",
-                    "activeIn"=>["admin.blog.articles.index", "admin.blog.articles.create", "admin.blog.articles.edit"]
+                    "icon" => icon_class("pageFillEarmarkText"),
+                    "text" => "Artigos",
+                    "title" => "",
+                    "route" => "admin.blog.articles.index",
+                    "target" => "_self",
+                    "activeIn" => ["admin.blog.articles.index", "admin.blog.articles.create", "admin.blog.articles.edit"]
                 ],
                 [
                     "icon" => icon_class("folderFill"),

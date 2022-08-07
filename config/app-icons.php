@@ -3,8 +3,8 @@
 return [
     'app' => 'bi bi-app',
     'appIndicator' => 'bi bi-app-indicator',
-    "arrowLeft"=>"bi bi-arrow-left",
-    "arrowRight"=>"bi bi-arrow-right",
+    "arrowLeft" => "bi bi-arrow-left",
+    "arrowRight" => "bi bi-arrow-right",
 
     'calendar' => 'bi bi-calendar',
     'calendarCheck' => 'bi bi-calendar-check',
@@ -27,6 +27,13 @@ return [
 
     'heart' => 'bi bi-heart',
     'heartFill' => 'bi bi-heart-fill',
+
+    "image" => "bi bi-card-image",
+    "imageFill" => "bi bi-image-fill",
+    "images" => "bi bi-images",
+
+    'media' => 'bi bi-collection-play',
+    'mediaFill' => 'bi bi-collection-play-fill',
 
     'list' => 'bi bi-list',
     'listCheck' => 'bi bi-list-check',
@@ -74,6 +81,9 @@ return [
     'userX' => 'bi bi-person-x',
     'userMinus' => 'bi bi-person-dash',
     'userInfo' => 'bi bi-person-lines',
+
+    "video" => "bi bi-play-btn",
+    "videoFill" => "bi bi-play-btn-fill",
 
     'x' => 'bi bi-x',
     'xLg' => 'bi bi-x-lg',
