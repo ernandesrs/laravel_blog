@@ -53,6 +53,7 @@ class ImageController extends Controller
         $response = [
             "success" => true,
             "redirect" => route("admin.images.index"),
+            "id" => $image->id,
             "url" => Storage::url($image->path),
             "thumb" => thumb(Storage::path("public/{$image->path}"), 200, 125),
             "name" => $image->name,

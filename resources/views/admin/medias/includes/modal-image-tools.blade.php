@@ -4,7 +4,7 @@
             <div class="modal-body">
                 @php
                     $images = [];
-                    $images = \App\Models\Media\Image::whereNotNull('id')->orderBy("created_at", "DESC")->paginate(12);
+                    $images = \App\Models\Media\Image::whereNotNull('id')->orderBy("created_at", "DESC")->paginate(9);
                 @endphp
 
                 <div class="row">

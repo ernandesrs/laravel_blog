@@ -2,6 +2,8 @@
     <img class="img-fluid" src="{{ $image ? thumb(Storage::path("public/{$image->path}"), 200, 125) : null }}"
         alt="">
     <div class="pt-2 text-center">
+        <input type="hidden" name="image-id" id="image-id" value="{{ $image ? $image->id : null }}">
+        <input type="hidden" name="image-thumb" id="image-thumb" value="{{ $image ? thumb(Storage::path("public/{$image->path}"), 200, 125) : null }}">
         <input type="hidden" name="image-url" id="image-url" value="{{ $image ? Storage::url($image->path) : null }}">
         @include('includes.button', [
             'button' => t_button_data(

@@ -25,8 +25,8 @@ if ($article ?? null) {
     </form>
 @endsection
 
-@section("modals")
-@include('admin.medias.includes.modal-image-tools')
+@section('modals')
+    @include('admin.medias.includes.modal-image-tools')
 @endsection
 
 @section('styles')
@@ -285,6 +285,28 @@ if ($article ?? null) {
                     select.parents().eq(3).find("button[type=submit]").text("Salvar artigo");
                 });
             }
+        });
+
+        $("#jsButtonInsertCover").on("click", function(e) {
+            e.preventDefault();
+
+            $("#jsImageToolsModal")
+                .attr("data-local-id", "#cover")
+                .attr("data-local-thumb", ".cover-preview")
+                .attr("data-local-url", null)
+                .modal();
+
+        });
+
+        $(document).on("click", ".jsInsertImage", function(e) {
+            e.preventDefault();
+            let modal = $("#jsImageToolsModal");
+            let insertButton = $(this);
+
+            $(modal.attr("data-local-thumb")).find("img").attr("src", insertButton.parent().find("#image-thumb")
+                .val());
+            $(modal.attr("data-local-id")).val(insertButton.parent().find("#image-id").val());
+
         });
     </script>
 @endsection

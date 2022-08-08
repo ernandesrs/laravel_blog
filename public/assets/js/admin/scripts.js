@@ -37,8 +37,6 @@ $(function () {
     let modalImageTools = $("#jsImageToolsModal");
     let modalImageToolsForm = modalImageTools.find("form");
 
-    modalImageTools.modal();
-
     $(".jsBtnImageUploadModal").on("click", function (e) {
         e.preventDefault();
         let button = $(this);
@@ -57,11 +55,13 @@ $(function () {
 
             if (!response.success)
                 return;
-            
+
             let itemClone = modalImageTools.find(".model .image-list-item").clone();
-            
-            itemClone.find(".img-fluid").attr("src", response.thumb);
+
+            itemClone.find("#image-id").val(response.id);
             itemClone.find("#image-url").val(response.url);
+            itemClone.find("#image-thumb").val(response.thumb);
+            itemClone.find(".img-fluid").attr("src", response.thumb);
 
             modalImageTools.find(".image-list").prepend(itemClone.hide().show("fade"));
 

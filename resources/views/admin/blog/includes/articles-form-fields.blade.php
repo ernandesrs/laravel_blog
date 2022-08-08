@@ -32,7 +32,7 @@
             <div class="form-group">
                 <div class="d-flex justify-content-center pb-4">
                     <div class="d-flex justify-content-center align-items-center border cover-preview"
-                        style="width:250px;height:125px;">
+                        style="width:200px;height:125px;">
                         @if (($article ?? null) && $article->cover)
                             <img class="img-fluid img-thumbnail" src="{{ m_article_cover_thumb($article, 'normal') }}"
                                 alt="{{ input_value($article ?? null, 'title') }} Cover">
@@ -46,8 +46,17 @@
 
                 <label for="cover">Capa:</label>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="cover" name="cover">
-                    <label class="custom-file-label" for="cover">Escolher arquivo</label>
+                    <input type="hidden" class="custom-file-input" id="cover" name="cover">
+                    @include('includes.button', [
+                        'button' => t_button_data(
+                            'btn btn-primary',
+                            'Inserir capa',
+                            null,
+                            icon_class('image'),
+                            null,
+                            'jsButtonInsertCover'
+                        ),
+                    ])
                 </div>
             </div>
         </div>
