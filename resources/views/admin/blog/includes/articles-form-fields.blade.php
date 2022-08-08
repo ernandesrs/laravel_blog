@@ -31,11 +31,11 @@
         <div class="col-12">
             <div class="form-group">
                 <div class="d-flex justify-content-center pb-4">
-                    <div class="d-flex justify-content-center align-items-center border cover-preview"
+                    <div class="d-flex justify-content-center align-items-center cover-preview"
                         style="width:200px;height:125px;">
                         @if (($article ?? null) && $article->cover)
                             <img class="img-fluid img-thumbnail" src="{{ m_article_cover_thumb($article, 'normal') }}"
-                                alt="{{ input_value($article ?? null, 'title') }} Cover">
+                                alt="Cover preview">
                         @else
                             <p class="mb-0 text-muted text-center">
                                 Cover preview

@@ -15,11 +15,6 @@ use Illuminate\Support\Facades\Storage;
 class ArticleController extends Controller
 {
     /**
-     * @var string
-     */
-    private $coversPath = "images/covers";
-
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -28,7 +23,7 @@ class ArticleController extends Controller
     {
         return view("admin.blog.articles-list", [
             "pageTitle" => "Lista de artigos",
-            "articles" => Article::whereNotNull("id")->paginate(12)
+            "articles" => Article::whereNotNull("id")->orderBy("published_at", "DESC")->paginate(12)
         ]);
     }
 
@@ -82,15 +77,12 @@ class ArticleController extends Controller
             $article->published_at = date("Y-m-d H:i:s");
 
         if ($cover = $validated["cover"] ?? null) {
-            $article->cover = $cover->store($this->coversPath, "public");
+            $image = Image::where("id", $cover)->first();
+            if ($image)
+                $article->cover = $image->path;
         }
 
         if (!$article->save()) {
-            if ($article->cover) {
-                Thumb::clear($article->cover);
-                Storage::disk("public")->delete($article->cover);
-            }
-
             return response()->json([
                 "success" => false,
                 "message" => message()->warning("Houve um erro ao tentar salvar o artigo. Um log será registrado.")->float()->render(),
@@ -194,22 +186,13 @@ class ArticleController extends Controller
             $slug->save();
         }
 
-        if ($cover = $validated["cover"] ?? null) {
-            $newCover = $cover->store($this->coversPath, "public");
-            if ($article->cover) {
-                Thumb::clear($article->cover);
-                Storage::disk("public")->delete($article->cover);
-            }
-
-            $article->cover = $newCover;
+        if ($validated["cover"] ?? null) {
+            $image = Image::where("id", $validated["cover"])->first();
+            if ($image)
+                $article->cover = $image->path;
         }
 
         if (!$article->save()) {
-            if ($article->cover) {
-                Thumb::clear($article->cover);
-                Storage::disk("public")->delete($article->cover);
-            }
-
             return response()->json([
                 "success" => false,
                 "message" => message()->warning("Houve um erro ao tentar atualizar o artigo. Um log será registrado.")->float()->render(),

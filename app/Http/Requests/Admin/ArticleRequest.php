@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use App\Models\Article;
+use App\Models\Media\Image;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
@@ -18,7 +19,7 @@ class ArticleRequest extends FormRequest
     {
         return true;
     }
-    
+
     /**
      * Prepare the data for validation.
      *
@@ -27,7 +28,7 @@ class ArticleRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            "categories"=> !empty($this->categories)? Collection::make(explode(",", $this->categories)):null
+            "categories" => !empty($this->categories) ? Collection::make(explode(",", $this->categories)) : null
         ]);
     }
 
@@ -39,20 +40,20 @@ class ArticleRequest extends FormRequest
     public function rules()
     {
         $title_unique = "unique:articles,title";
-        
+
         // UPDATE
-        if($this->article){
+        if ($this->article) {
             $title_unique .= "," . $this->article->id;
         }
 
         return [
-            "title"=>["required", $title_unique, "max:255"],
-            "description"=>["required", "min:5", "max:255"],
-            "content"=>["required"],
-            "cover"=>["nullable","mimes:png,jpg,webp","max:3500"],
-            "categories"=>["required"],
-            "status"=>["required", Rule::in(Article::STATUS)],
-            "scheduled_to"=>["required_if:status,".Article::STATUS_SCHEDULED]
+            "title" => ["required", $title_unique, "max:255"],
+            "description" => ["required", "min:5", "max:255"],
+            "content" => ["required"],
+            "cover" => ["nullable", "integer"],
+            "categories" => ["required"],
+            "status" => ["required", Rule::in(Article::STATUS)],
+            "scheduled_to" => ["required_if:status," . Article::STATUS_SCHEDULED]
         ];
     }
 

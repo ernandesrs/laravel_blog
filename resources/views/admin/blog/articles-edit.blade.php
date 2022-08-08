@@ -303,8 +303,10 @@ if ($article ?? null) {
             let modal = $("#jsImageToolsModal");
             let insertButton = $(this);
 
-            $(modal.attr("data-local-thumb")).find("img").attr("src", insertButton.parent().find("#image-thumb")
-                .val());
+            let image = $(`<img class="img-fluid img-thumbnail" src="" alt="Cover preview">`)
+                .attr("src", insertButton.parent().find("#image-thumb").val());
+
+            $(modal.attr("data-local-thumb")).html(image)
             $(modal.attr("data-local-id")).val(insertButton.parent().find("#image-id").val());
 
         });
