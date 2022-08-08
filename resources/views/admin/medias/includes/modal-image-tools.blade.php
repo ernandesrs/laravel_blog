@@ -4,17 +4,21 @@
             <div class="modal-body">
                 @php
                     $images = [];
-                    $images = \App\Models\Media\Image::whereNotNull('id')->paginate(12);
+                    $images = \App\Models\Media\Image::whereNotNull('id')->orderBy("created_at", "DESC")->paginate(12);
                 @endphp
 
                 <div class="row">
-                    <div class="col-12 col-lg-4 order-lg-12">
+                    <div class="col-12 col-md-5 col-lg-4 order-md-12">
                         <h5 class="mb-0">Novo upload</h5>
                         <hr>
-                        @include('admin.medias.includes.image-form-fields')
+                        @include('admin.medias.includes.image-form-fields', [
+                            'params' => [
+                                'redirect' => false,
+                            ],
+                        ])
                     </div>
 
-                    <div class="col-12 col-lg-8 order-lg-1">
+                    <div class="col-12 col-md-7 col-lg-8 order-md-1">
                         <h5 class="mb-0">Imagem existente</h5>
                         <hr>
                         <div class="form-row">

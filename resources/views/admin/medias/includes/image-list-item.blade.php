@@ -1,4 +1,4 @@
-<div class="col-6 col-md-4 mb-4 image-list-item">
+<div class="col-6 col-sm-4 col-md-6 col-lg-4 mb-4 image-list-item">
     <img class="img-fluid" src="{{ $image ? thumb(Storage::path("public/{$image->path}"), 200, 125) : null }}"
         alt="">
     <div class="pt-2 text-center">
