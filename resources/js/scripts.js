@@ -11,38 +11,11 @@ $(function () {
 });
 
 $(function () {
-    let messageArea = $(".message-area");
     let modal = $(".jsModalConfirmation");
 
     $(document).on("submit", ".jsFormSubmit", function (e) {
         let form = $(this);
-        messageArea = form.find(".message-area").length ? form.find(".message-area") : messageArea;
-
-        form.submited(e, null, function (response) {
-            // success
-            if (response.message)
-                addAlert($(response.message), messageArea);
-
-            if (response.errors ?? null)
-                addFormErrors(form, response.errors);
-        }, function (response) {
-            // complete
-            if (response.responseJSON) {
-                let resp = response.responseJSON;
-                let errors = resp.errors ?? null;
-
-                if (errors && (errors.message ?? null)) {
-                    addAlert($(errors.message[0]), messageArea);
-                }
-
-                if (errors)
-                    addFormErrors(form, errors);
-            } else {
-                addAlert($(`<div class="alert alert-danger text-center"><small>Sem resposta do servidor. Verifique sua coenxão ou se isso persistir entre em contato.</small></div>`), messageArea);
-            }
-        }, function () {
-            // error
-        });
+        formSubmit(e, form);
     });
 
     $(".jsButtonConfirmation").on("click", function (e) {
@@ -90,6 +63,56 @@ $(function () {
             clearTimeout(timeoutHandler);
     });
 });
+
+/**
+ * 
+ * @param {*} e o evento
+ * @param {jQuery} form formulário
+ * @param {Function} before 
+ * @param {Function} success 
+ * @param {Function} complete 
+ * @param {Function} error 
+ */
+function formSubmit(e, form, before = null, success = null, complete = null, error = null) {
+    let messageArea = $(".message-area");
+
+    messageArea = form.find(".message-area").length ? form.find(".message-area") : messageArea;
+
+    form.submited(e, null, function (response) {
+        // success
+        if (response.message)
+            addAlert($(response.message), messageArea);
+
+        if (response.errors ?? null)
+            addFormErrors(form, response.errors);
+
+        if (success)
+            success(response);
+    }, function (response) {
+        // complete
+        if (response.responseJSON) {
+            let resp = response.responseJSON;
+            let errors = resp.errors ?? null;
+
+            if (errors && (errors.message ?? null)) {
+                addAlert($(errors.message[0]), messageArea);
+            }
+
+            if (errors)
+                addFormErrors(form, errors);
+
+            if (complete)
+                complete(response);
+        } else {
+            addAlert($(`<div class="alert alert-danger text-center"><small>Sem resposta do servidor. Verifique sua coenxão ou se isso persistir entre em contato.</small></div>`), messageArea);
+        }
+    }, function () {
+        // error
+
+        if (error)
+            error();
+    });
+}
 
 /**
  * @param {jQuery} formObject

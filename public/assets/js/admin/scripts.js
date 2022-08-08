@@ -35,6 +35,7 @@ $(function () {
 
     let modal = $("#jsImageUploadModal");
     let modalImageTools = $("#jsImageToolsModal");
+    let modalImageToolsForm = modalImageTools.find("form");
 
     modalImageTools.modal();
 
@@ -49,6 +50,28 @@ $(function () {
 
     });
 
+    modalImageToolsForm.on("submit", function (e) {
+        e.preventDefault();
+
+        formSubmit(e, $(this), null, function (response) {
+
+            if (!response.success)
+                return;
+            
+            let itemClone = modalImageTools.find(".model .image-list-item").clone();
+            
+            itemClone.find(".img-fluid").attr("src", response.thumb);
+            itemClone.find("#image-url").val(response.url);
+
+            modalImageTools.find(".image-list").prepend(itemClone.hide().show("fade"));
+
+        }, null, null);
+
+    });
+
+    /**
+     * reseta modal jsImageUploadModal
+     */
     modal.on("hidden.bs.modal", function () {
 
         modal.find("form").attr("action", "");
@@ -62,8 +85,11 @@ $(function () {
 
     });
 
-    modalImageTools.on("hidden.bs.modal", function(){
-        
+    /**
+     * reseta modal jsImageToolsModal
+     */
+    modalImageTools.on("hidden.bs.modal", function () {
+
         modal.find("form").attr("action", "");
         modal.find(".message-area").html("");
 
