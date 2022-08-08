@@ -49,7 +49,7 @@
                     <input type="hidden" class="custom-file-input" id="cover" name="cover">
                     @include('includes.button', [
                         'button' => t_button_data(
-                            'btn btn-primary',
+                            'btn btn-primary btn-block',
                             'Inserir capa',
                             null,
                             icon_class('image'),
