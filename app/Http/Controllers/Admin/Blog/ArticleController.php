@@ -23,7 +23,7 @@ class ArticleController extends Controller
     {
         return view("admin.blog.articles-list", [
             "pageTitle" => "Lista de artigos",
-            "articles" => Article::whereNotNull("id")->orderBy("published_at", "DESC")->paginate(12)
+            "articles" => Article::whereNotNull("id")->orderBy("created_at", "DESC")->paginate(12)
         ]);
     }
 

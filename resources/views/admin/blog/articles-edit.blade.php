@@ -254,6 +254,8 @@ if ($article ?? null) {
                             `<img class="img-fluid px-3" src="${insertButton.parent().find("#image-url").val()}" alt="${insertButton.parent().find("#image-name").val()}">`;
 
                         cursorPosition.insertNode(image);
+
+                        modal.modal("hide");
                     });
 
                     modal.modal();
@@ -324,6 +326,7 @@ if ($article ?? null) {
                 $(modal.attr("data-local-thumb")).html(image)
                 $(modal.attr("data-local-id")).val(insertButton.parent().find("#image-id").val());
 
+                modal.modal("hide");
             });
         });
     </script>

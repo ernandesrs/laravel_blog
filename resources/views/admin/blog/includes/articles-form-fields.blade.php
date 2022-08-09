@@ -74,7 +74,7 @@
                     value="{{ $article ?? null ? $articleCategories->join(',') : null }}">
                 <label for="categories_list">Categorias:</label>
                 <select class="form-control selectpicker" name="categories_list" id="categories_list" multiple
-                    title="Escolha categorias" data-live-search="true" data-actions-box="true">
+                    title="Escolha categorias" data-live-search="true">
                     @if ($categories->count())
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}"
