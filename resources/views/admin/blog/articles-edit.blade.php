@@ -203,6 +203,19 @@ if ($article ?? null) {
                 minHeight: 275,
                 maxHeight: 575,
                 lang: 'pt-BR',
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'InsertImageCustomButton', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ],
+
+                buttons: {
+                    InsertImageCustomButton: InsertImageCustomButton
+                },
 
                 styleTags: [
                     'p',
@@ -214,37 +227,40 @@ if ($article ?? null) {
                     },
                     'pre', 'h2', 'h3', 'h4', 'h5', 'h6'
                 ],
-
-                callbacks: {
-                    onImageUpload: function(files) {
-                        let data = new FormData();
-
-                        data.append("tags", "no,tags");
-                        data.append("image", files[0]);
-
-                        $.ajax({
-                            type: "post",
-                            url: "{{ route('admin.images.store') }}",
-                            data: data,
-                            dataType: "json",
-                            contentType: false,
-                            processData: false,
-
-                            success: function(response) {
-                                if (response.success) {
-                                    $("#summernoteContent").summernote('insertImage',
-                                        response.url,
-                                        function($image) {
-                                            $image.attr("class", "img-thumb px-3")
-                                            $image.attr('data-filename', response.name);
-                                        });
-                                }
-                            }
-                        });
-                    }
-                }
             });
         });
+
+        var InsertImageCustomButton = function(context) {
+            var ui = $.summernote.ui;
+
+            // create button
+            var button = ui.button({
+                contents: '<i class="note-icon-picture"/>',
+                tooltip: 'Inserir imagem',
+
+                click: function() {
+                    let modal = $("#jsImageToolsModal");
+                    let cursorPosition = $('#summernoteContent').summernote('editor.getLastRange');
+                    let image = document.createElement("img");
+
+                    $(document).on("click", ".jsInsertImage", function(e) {
+                        e.preventDefault();
+                        let insertButton = $(this);
+
+                        image.src = insertButton.parent().find("#image-url").val();
+                        image.alt = insertButton.parent().find("#image-name").val();
+                        image.classList.add("img-fluid");
+                        image.classList.add("px-3");
+
+                        cursorPosition.insertNode(image);
+                    });
+
+                    modal.modal();
+                }
+            });
+
+            return button.render(); // return button as jquery object
+        }
 
         $('.select').selectpicker();
 
@@ -296,19 +312,18 @@ if ($article ?? null) {
                 .attr("data-local-url", null)
                 .modal();
 
-        });
+            $(document).on("click", ".jsInsertImage", function(e) {
+                e.preventDefault();
+                let modal = $("#jsImageToolsModal");
+                let insertButton = $(this);
 
-        $(document).on("click", ".jsInsertImage", function(e) {
-            e.preventDefault();
-            let modal = $("#jsImageToolsModal");
-            let insertButton = $(this);
+                let image = $(`<img class="img-fluid img-thumbnail" src="" alt="Cover preview">`)
+                    .attr("src", insertButton.parent().find("#image-thumb").val());
 
-            let image = $(`<img class="img-fluid img-thumbnail" src="" alt="Cover preview">`)
-                .attr("src", insertButton.parent().find("#image-thumb").val());
+                $(modal.attr("data-local-thumb")).html(image)
+                $(modal.attr("data-local-id")).val(insertButton.parent().find("#image-id").val());
 
-            $(modal.attr("data-local-thumb")).html(image)
-            $(modal.attr("data-local-id")).val(insertButton.parent().find("#image-id").val());
-
+            });
         });
     </script>
 @endsection

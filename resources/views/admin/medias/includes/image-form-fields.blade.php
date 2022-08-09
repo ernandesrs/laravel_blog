@@ -1,4 +1,4 @@
-<form class="" action="{{ route('admin.images.store', $params ?? []) }}" method="post"
+<form class="jsFormSubmit" action="{{ route('admin.images.store', $params ?? []) }}" method="post"
     enctype="multipart/form-data">
     @csrf
 
