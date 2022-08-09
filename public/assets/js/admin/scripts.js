@@ -37,6 +37,14 @@ $(function () {
     let modalImageTools = $("#jsImageToolsModal");
     let modalImageToolsForm = modalImageTools.find("form");
 
+    /**
+     * 
+     * remove classe jsFormSubmit pois a submissão do formulário será tratado de maneira particular
+     * e não da forma padrão
+     * 
+     */
+    modalImageToolsForm.removeClass("jsFormSubmit");
+
     $(".jsBtnImageUploadModal").on("click", function (e) {
         e.preventDefault();
         let button = $(this);
