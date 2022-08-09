@@ -81,6 +81,7 @@
     </div>
 @endsection
 
-@include('admin.medias.includes.modal-image')
-@include('includes.modal-confirmation')
-
+@section('modals')
+    @include('admin.medias.includes.modal-image')
+    @include('includes.modal-confirmation')
+@endsection

@@ -57,4 +57,6 @@
     </div>
 @endsection
 
-@include('includes.modal-confirmation')
+@section('modals')
+    @include('includes.modal-confirmation')
+@endsection
