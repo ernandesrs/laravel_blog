@@ -203,13 +203,14 @@ if ($article ?? null) {
                 minHeight: 275,
                 maxHeight: 575,
                 lang: 'pt-BR',
+
                 toolbar: [
                     ['style', ['style']],
                     ['font', ['bold', 'underline', 'clear']],
                     ['color', ['color']],
                     ['para', ['ul', 'ol', 'paragraph']],
                     ['table', ['table']],
-                    ['insert', ['link', 'InsertImageCustomButton', 'video']],
+                    ['insert', ['link', 'picture', 'InsertImageCustomButton', 'video']],
                     ['view', ['fullscreen', 'codeview', 'help']]
                 ],
 
@@ -236,21 +237,21 @@ if ($article ?? null) {
             // create button
             var button = ui.button({
                 contents: '<i class="note-icon-picture"/>',
-                tooltip: 'Inserir imagem',
+                tooltip: 'Escolher da lista de imagens',
 
                 click: function() {
                     let modal = $("#jsImageToolsModal");
                     let cursorPosition = $('#summernoteContent').summernote('editor.getLastRange');
-                    let image = document.createElement("img");
+                    let image = document.createElement("p");
 
                     $(document).on("click", ".jsInsertImage", function(e) {
                         e.preventDefault();
                         let insertButton = $(this);
 
-                        image.src = insertButton.parent().find("#image-url").val();
-                        image.alt = insertButton.parent().find("#image-name").val();
-                        image.classList.add("img-fluid");
-                        image.classList.add("px-3");
+                        image.style.cssText =
+                            'text-align: center';
+                        image.innerHTML =
+                            `<img class="img-fluid px-3" src="${insertButton.parent().find("#image-url").val()}" alt="${insertButton.parent().find("#image-name").val()}">`;
 
                         cursorPosition.insertNode(image);
                     });
