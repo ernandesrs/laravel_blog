@@ -53,8 +53,10 @@ $(function () {
     $.each(messageAreas, function (k, v) {
         let alert = $(v).find(".alert");
 
-        if (alert.length) {
+        if (k == 0 && alert.length) {
             showAlert(alert);
+        } else {
+            alert.remove();
         }
     });
 
