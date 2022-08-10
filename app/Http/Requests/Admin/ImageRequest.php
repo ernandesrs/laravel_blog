@@ -29,7 +29,7 @@ class ImageRequest extends FormRequest
         ];
 
         if (!$this->image)
-            $rules += ["image" => ["required", "max:5000", "mimes:png,jpg,webp"]];
+            $rules += ["image_file" => ["required", "max:5000", "mimes:png,jpg,webp"]];
 
         return $rules;
     }

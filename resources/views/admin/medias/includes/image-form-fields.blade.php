@@ -10,8 +10,8 @@
         <div class="col-12">
             <div class="form-group">
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="image" name="image">
-                    <label class="custom-file-label" for="image">Escolher arquivo</label>
+                    <input type="file" class="custom-file-input" id="image_file" name="image_file">
+                    <label class="custom-file-label" for="image_file">Escolher arquivo</label>
                 </div>
             </div>
         </div>

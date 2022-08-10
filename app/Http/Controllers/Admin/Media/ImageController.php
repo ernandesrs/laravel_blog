@@ -89,11 +89,11 @@ class ImageController extends Controller
         $validated = $request->validated();
 
         $image = new Image();
-        $image->name = $validated["name"] ?? $validated["image"]->getClientOriginalName();
+        $image->name = $validated["name"] ?? $validated["image_file"]->getClientOriginalName();
         $image->tags = $validated["tags"];
-        $image->extension = $validated["image"]->getClientOriginalExtension();
-        $image->size = $validated["image"]->getSize();
-        $image->path = $validated["image"]->store($this->imagesPath, "public");
+        $image->extension = $validated["image_file"]->getClientOriginalExtension();
+        $image->size = $validated["image_file"]->getSize();
+        $image->path = $validated["image_file"]->store($this->imagesPath, "public");
 
         $image->save();
 
