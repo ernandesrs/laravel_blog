@@ -2,10 +2,6 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
-                @php
-                    $images = [];
-                    $images = \App\Models\Media\Image::whereNotNull('id')->orderBy("created_at", "DESC")->paginate(9);
-                @endphp
 
                 <div class="row">
                     <div class="col-12 col-md-5 col-lg-4 order-md-12">
@@ -23,7 +19,7 @@
                         <hr>
                         <div class="form-row">
                             <div class="col-12">
-                                <form method="POST" class="jsFormSubmit" action="#">
+                                <form method="GET" class="jsFormSubmit" action="{{ route('admin.images.index') }}">
                                     @csrf
                                     <div class="form-row justify-content-center">
                                         <div class="col-12">
@@ -44,19 +40,18 @@
                             </div>
                         </div>
 
-                        <div class="row justify-content image-list">
+                        <div class="row images-list" data-action="{{ route('admin.images.get') }}">
                             <div class="model d-none">
                                 @include('admin.medias.includes.image-list-item', ['image' => null])
                             </div>
-                            @foreach ($images as $image)
-                                @include('admin.medias.includes.image-list-item', ['image' => $image])
-                            @endforeach
-                            <div class="col-12 image-pagination">
-                                {{ $images->links() }}
+                            <div class="col-12">
+                                <div class="row justify-content list"></div>
                             </div>
+                            <div class="col-12 images-pagination"></div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

@@ -27,8 +27,38 @@ class ImageController extends Controller
 
         return view("admin.medias.images-list", [
             "pageTitle" => "Gerenciando imagens",
-            "images" => $images
+            "images" => $images->paginate(12)->withQueryString()
         ]);
+    }
+
+    public function get(Request $request)
+    {
+        $images = $this->filter($request);
+
+        if ($request->isXmlHttpRequest()) {
+            $images = $images->paginate(9)->withQueryString();
+
+            $imagesArr = [];
+            foreach ($images as $image) {
+                $imagesArr[] = [
+                    "id" => $image->id,
+                    "url" => Storage::url($image->path),
+                    "thumb" => thumb(Storage::path("public/{$image->path}"), 200, 125),
+                    "name" => $image->name,
+                    "tags" => $image->tags
+                ];
+            }
+
+            return response()->json([
+                "success" => true,
+                "images" => $imagesArr,
+                "pagination" => $images->links()->render()
+            ]);
+        }
+
+        return [
+            "images" => $images,
+        ];
     }
 
     private function filter(Request $request)
@@ -38,10 +68,10 @@ class ImageController extends Controller
 
         $images = Image::whereNotNull("id");
         if ($filter && !empty($search)) {
-            $images->whereRaw("MATCH(name,tags) AGAINST('{$search}')");
+            $images->whereRaw("MATCH() AGAINST('{$search}')");
         }
 
-        return $images->orderBy("created_at", "DESC")->paginate(12)->withQueryString();
+        return $images->orderBy("created_at", "DESC");
     }
 
     /**

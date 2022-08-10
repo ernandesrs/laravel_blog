@@ -1,7 +1,7 @@
 let timeoutHandler = null;
 
 $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip();
 
     $.ajaxSetup({
         headers: {

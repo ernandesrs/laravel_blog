@@ -64,17 +64,59 @@ $(function () {
             if (!response.success)
                 return;
 
-            let itemClone = modalImageTools.find(".model .image-list-item").clone();
+            let itemClone = modalImageTools.find(".model .images-list-item").clone().hide();
 
             itemClone.find("#image-id").val(response.id);
             itemClone.find("#image-url").val(response.url);
             itemClone.find("#image-thumb").val(response.thumb);
-            itemClone.find(".img-fluid").attr("src", response.thumb);
+            itemClone.find(".img-fluid").attr("src", response.thumb).attr("title", response.tags).attr("data-original-title", response.tags);
 
-            modalImageTools.find(".image-list").prepend(itemClone.hide().show("fade"));
+            let allItems = modalImageTools.find(".images-list .list .images-list-item");
+            console.log(allItems.length);
+            if (allItems.length == 9) {
+                $(allItems[8]).fadeOut(function () {
+                    $(this).remove();
+                    addItemClone(itemClone);
+                });
+            } else addItemClone(itemClone);
 
         }, null, null);
 
+        function addItemClone(clone) {
+            modalImageTools.find(".images-list .list").prepend(clone.show("fade"));
+        }
+    });
+
+    modalImageTools.on("shown.bs.modal", function () {
+        if (modalImageTools.find(".list .images-list-item").length)
+            return;
+
+        $.post(modalImageTools.find(".images-list").attr("data-action"), null,
+            function (data, textStatus, jqXHR) {
+                if (data.success) {
+                    $.each(data.images, function (index, value) {
+                        let clone = modalImageTools.find(".images-list .model .images-list-item").clone().hide();
+
+                        clone.find(".img-fluid")
+                            .attr("src", value.thumb)
+                            .attr("alt", value.name)
+                            .attr("title", value.tags)
+                            .attr("data-original-title", value.tags);
+
+                        clone.find("#image-name").val(value.name);
+                        clone.find("#image-id").val(value.id);
+                        clone.find("#image-thumb").val(value.thumb);
+                        clone.find("#image-url").val(value.url);
+
+                        modalImageTools.find(".list").append(clone.fadeIn());
+
+                    });
+
+                    modalImageTools.find(".images-pagination").html(data.pagination);
+                }
+            },
+            "json"
+        );
     });
 
     /**
