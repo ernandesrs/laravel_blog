@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ImageRequest;
 use App\Models\Media\Image;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
@@ -17,14 +19,29 @@ class ImageController extends Controller
     private $imagesPath = "images";
 
     /**
-     * @return View
+     * @return JsonResponse|View
      */
-    public function index(): View
+    public function index(Request $request)
     {
+        $images = $this->filter($request);
+
         return view("admin.medias.images-list", [
             "pageTitle" => "Gerenciando imagens",
-            "images" => Image::whereNotNull("id")->orderBy("created_at", "DESC")->paginate(12)->withQueryString()
+            "images" => $images
         ]);
+    }
+
+    private function filter(Request $request)
+    {
+        $search = $request->get("search");
+        $filter = $request->get("filter");
+
+        $images = Image::whereNotNull("id");
+        if ($filter && !empty($search)) {
+            $images->whereRaw("MATCH(name,tags) AGAINST('{$search}')");
+        }
+
+        return $images->orderBy("created_at", "DESC")->paginate(12)->withQueryString();
     }
 
     /**

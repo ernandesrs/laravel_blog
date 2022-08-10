@@ -1,5 +1,6 @@
 @extends('layouts.admin', [
     'mainBar' => [
+        'filterFormAction' => route('admin.images.index'),
         'title' => $pageTitle,
         'buttons' => [t_button_link_data('btn btn-outline-success', 'Novo upload', route('admin.images.store'), icon_class('plusLg'), null, 'jsBtnImageUploadModal')],
     ],
@@ -15,7 +16,7 @@
                             <div class="">
                                 <img class="img-fluid img-thumbnail"
                                     src="{{ thumb(Storage::path('public/' . $image->path), 350, 225) }}"
-                                    alt="{{ $image->name }}">
+                                    alt="{{ $image->name }}" data-toggle="tooltip" title="Tags: {{ $image->tags }}" data-placement="bottom">
                             </div>
                             <div class="pt-2 text-center">
                                 <small>
@@ -67,7 +68,11 @@
             @else
                 <div class="col-12 col-sm-10 col-md-8">
                     <p class="mb-0 py-3 text-center text-muted h5">
-                        Nenhuma imagem armazenada ainda
+                        @if (empty(input_value($_GET ?? null, 'filter')))
+                            Nenhuma imagem armazenada ainda
+                        @else
+                            Sem resultados para sua busca
+                        @endif
                     </p>
                 </div>
             @endif
