@@ -1,5 +1,27 @@
 @extends('layouts.admin', [
     'mainBar' => [
+        'filterFormAction' => route('admin.blog.articles.index'),
+        'filterFormFields' => [
+            [
+                'name' => 'status',
+                'label' => 'Status',
+                'type' => 'select',
+                'options' => [
+                    'draft' => 'Rascunho',
+                    'published' => 'Publicado',
+                    'scheduled' => 'Agendado',
+                ],
+            ],
+            [
+                'name' => 'order',
+                'label' => 'Ordem',
+                'type' => 'select',
+                'options' => [
+                    'asc' => 'Mais antigo',
+                    'desc' => 'Mais recente',
+                ],
+            ],
+        ],
         'title' => $pageTitle,
         'buttons' => [t_button_link_data('btn btn-outline-success', 'Novo artigo', route('admin.blog.articles.create'), icon_class('plusLg'), null, null)],
     ],

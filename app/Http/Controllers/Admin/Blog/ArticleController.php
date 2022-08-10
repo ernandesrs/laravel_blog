@@ -10,6 +10,7 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\Media\Image;
 use App\Models\Slug;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
@@ -19,12 +20,40 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $articles = $this->filter($request);
+
         return view("admin.blog.articles-list", [
             "pageTitle" => "Lista de artigos",
-            "articles" => Article::whereNotNull("id")->orderBy("created_at", "DESC")->paginate(12)
+            "articles" => $articles->paginate(12)->withQueryString()
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return
+     */
+    private function filter(Request $request)
+    {
+        $filtered["search"] = $request->get("search");
+        $filtered["status"] = $request->get("status");
+        $filtered["order"] = $request->get("order");
+        $filtered["filter"] = $request->get("filter");
+
+        $articles = Article::whereNotNull("id")->orderBy("created_at", "desc");
+        if ($filtered["filter"]) {
+            if ($filtered["search"])
+                $articles->whereRaw("MATCH(title,description) AGAINST('{$filtered['search']}')");
+
+            if ($filtered["status"] && in_array($filtered["status"], Article::STATUS))
+                $articles->where("status", $filtered["status"]);
+
+            if ($filtered["order"] && in_array($filtered["order"], ["asc", "desc"]))
+                $articles->orderBy("created_at", $filtered["order"]);
+        }
+
+        return $articles;
     }
 
     /**
