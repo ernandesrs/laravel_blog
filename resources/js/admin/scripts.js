@@ -87,6 +87,40 @@ $(function () {
         }
     });
 
+    modalImageTools.on("click", ".page-link", function (e) {
+        e.preventDefault();
+
+        $.post($(this).attr("href"), null,
+            function (data, textStatus, jqXHR) {
+                if (data.success) {
+
+                    modalImageTools.find(".list").html("");
+
+                    $.each(data.images, function (index, value) {
+                        let clone = modalImageTools.find(".images-list .model .images-list-item").clone().hide();
+
+                        clone.find(".img-fluid")
+                            .attr("src", value.thumb)
+                            .attr("alt", value.name)
+                            .attr("title", value.tags)
+                            .attr("data-original-title", value.tags);
+
+                        clone.find("#image-name").val(value.name);
+                        clone.find("#image-id").val(value.id);
+                        clone.find("#image-thumb").val(value.thumb);
+                        clone.find("#image-url").val(value.url);
+
+                        modalImageTools.find(".list").append(clone.fadeIn());
+
+                    });
+
+                    modalImageTools.find(".images-pagination").html(data.pagination);
+                }
+            },
+            "json"
+        );
+    });
+
     modalImageTools.on("shown.bs.modal", function () {
         if (modalImageTools.find(".list .images-list-item").length)
             return;
