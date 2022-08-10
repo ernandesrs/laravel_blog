@@ -47,42 +47,49 @@
                                     </span>
                                     <p class="text-muted mb-0 d-none d-sm-block">
                                         <small>
-                                            {{ $article->description }}
+                                            {{ substr($article->description, 0, 150) }}...
                                         </small>
                                     </p>
                                     <p class="mb-0">
                                         @php
                                             $author = $article->author();
                                             $categories = $article->categories()->get();
+                                            
+                                            $categoriesShow = $categories->map(function ($item) {
+                                                return $item->title;
+                                            });
                                         @endphp
                                         <span class="badge badge-light">
-                                            {{ $author->name }}
+                                            {{ icon_elem('userFill') }}
+                                            {{ substr($author->name, 0, 12) . (strlen($author->name) > 12 ? '...' : null) }}
                                         </span>
-                                        <span>
-                                            @foreach ($categories as $category)
-                                                <span class="badge badge-secondary">{{ $category->title }}</span>
-                                            @endforeach
+                                        <span class="badge badge-secondary" data-toggle="tooltip"
+                                            title="Todas categorias: {{ $categoriesShow->join(', ') }}">
+                                            {{ icon_elem('folderFill') }}
+                                            {{ $categoriesShow->slice(0, 2)->join(', ') }}
                                         </span>
                                     </p>
                                 </div>
                             </div>
                         </td>
                         <td class="align-middle text-right">
-                            <a class="btn btn-primary {{ icon_class('pencilSquare') }} mb-1 mb-xl-0"
-                                href="{{ route('admin.blog.articles.edit', ['article' => $article->id]) }}"></a>
-                            @include('includes.button-confirmation', [
-                                'button' => t_button_confirmation_data(
-                                    'danger',
-                                    'btn btn-outline-danger',
-                                    'Você está excluindo este artigo permanentemente e isso não pode ser desfeito.',
-                                    route('admin.blog.articles.destroy', [
-                                        'article' => $article->id,
-                                    ]),
-                                    null,
-                                    icon_class('trash')
-                                ),
-                            ])
-
+                            <div class="d-flex flex-row">
+                                <a class="btn btn-primary {{ icon_class('pencilSquare') }} mb-xl-0"
+                                    href="{{ route('admin.blog.articles.edit', ['article' => $article->id]) }}"></a>
+                                <span class="mx-1"></span>
+                                @include('includes.button-confirmation', [
+                                    'button' => t_button_confirmation_data(
+                                        'danger',
+                                        'btn btn-outline-danger',
+                                        'Você está excluindo este artigo permanentemente e isso não pode ser desfeito.',
+                                        route('admin.blog.articles.destroy', [
+                                            'article' => $article->id,
+                                        ]),
+                                        null,
+                                        icon_class('trash')
+                                    ),
+                                ])
+                            </div>
                         </td>
                     </tr>
                 @endforeach
