@@ -16,7 +16,8 @@
                             <div class="">
                                 <img class="img-fluid img-thumbnail"
                                     src="{{ thumb(Storage::path('public/' . $image->path), 350, 225) }}"
-                                    alt="{{ $image->name }}" data-toggle="tooltip" title="Tags: {{ $image->tags }}" data-placement="bottom">
+                                    alt="{{ $image->name }}" data-toggle="tooltip" title="Tags: {{ $image->tags }}"
+                                    data-placement="bottom">
                             </div>
                             <div class="pt-2 text-center">
                                 <small>
@@ -43,7 +44,7 @@
                                             'button' => t_button_data(
                                                 'btn btn-sm btn-secondary',
                                                 null,
-                                                null,
+                                                route('admin.images.show', ['image' => $image->id]),
                                                 icon_class('pencilSquare'),
                                                 null,
                                                 'jsImageEdit'
@@ -89,4 +90,28 @@
 @section('modals')
     @include('admin.medias.includes.modal-image')
     @include('includes.modal-confirmation')
+    @include('admin.medias.includes.modal-image-edit')
+@endsection
+
+@section('scripts')
+    <script>
+        $(".jsImageEdit").on("click", function(e) {
+            e.preventDefault();
+            let modal = $("#jsImageEditModal");
+            let action = $(this).attr("data-action");
+
+            $.ajax({
+                type: "POST",
+                url: action,
+                data: null,
+                dataType: "json",
+                success: function(response) {
+                    modal.find("#name").val(response.image.name);
+                    modal.find("#tags").val(response.image.tags);
+                    modal.find("form").attr("action", response.action);
+                    modal.modal();
+                }
+            });
+        });
+    </script>
 @endsection

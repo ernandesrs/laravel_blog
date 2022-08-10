@@ -118,6 +118,7 @@ Route::group([
     // IMAGE
     Route::get("/images", [AdminImageController::class, "index"])->name("admin.images.index");
     Route::post("/get", [AdminImageController::class, "get"])->name("admin.images.get");
+    Route::post("/show/{image}", [AdminImageController::class, "show"])->name("admin.images.show");
     Route::post("/image/salvar", [AdminImageController::class, "store"])->name("admin.images.store");
     Route::post("/image/atualizar/{image}", [AdminImageController::class, "update"])->name("admin.images.update");
     Route::post("/image/excluir/{image}", [AdminImageController::class, "destroy"])->name("admin.images.destroy");

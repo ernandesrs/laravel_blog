@@ -122,7 +122,15 @@ class ImageController extends Controller
      */
     public function show(Image $image)
     {
-        //
+        return response()->json([
+            "success" => true,
+            "image" => [
+                "id" => $image->id,
+                "name" => $image->name,
+                "tags" => $image->tags,
+            ],
+            "action" => route("admin.images.update", ["image" => $image->id])
+        ]);
     }
 
     /**
@@ -134,7 +142,17 @@ class ImageController extends Controller
      */
     public function update(ImageRequest $request, Image $image)
     {
-        //
+        $validated = $request->validated();
+
+        $image->name = $validated["name"];
+        $image->tags = $validated["tags"];
+        $image->save();
+
+        message()->success("Informações de imagem atualizados com sucesso!")->float()->flash();
+        return response()->json([
+            "success" => true,
+            "reload" => true,
+        ]);
     }
 
     /**

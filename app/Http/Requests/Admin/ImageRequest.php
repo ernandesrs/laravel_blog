@@ -23,11 +23,15 @@ class ImageRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             "name" => ["nullable", "max:30"],
-            "tags" => ["required", "max:30"],
-            "image" => ["required", "max:5000", "mimes:png,jpg,webp"]
+            "tags" => ["required", "max:30"]
         ];
+
+        if (!$this->image)
+            $rules += ["image" => ["required", "max:5000", "mimes:png,jpg,webp"]];
+
+        return $rules;
     }
 
     /**
