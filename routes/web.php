@@ -5,7 +5,6 @@ use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\Blog\ArticleController as AdminArticleController;
 use App\Http\Controllers\Admin\Blog\CategoryController as AdminCategoryController;
-use App\Http\Controllers\Admin\Blog\TagController as AdminTagController;
 use App\Http\Controllers\Admin\Media\ImageController as AdminImageController;
 use App\Http\Controllers\Auth\ForgotController;
 use App\Http\Controllers\Auth\LoginController;
@@ -115,12 +114,6 @@ Route::group([
     Route::get("/blog/categoria/editar/{category}", [AdminCategoryController::class, "edit"])->name("admin.blog.categories.edit");
     Route::post("/blog/categoria/atualizar/{category}", [AdminCategoryController::class, "update"])->name("admin.blog.categories.update");
     Route::post("/blog/categoria/excluir/{category}", [AdminCategoryController::class, "destroy"])->name("admin.blog.categories.destroy");
-
-    // BLOG: TAGS
-    Route::get("/blog/tags", [AdminTagController::class, "index"])->name("admin.blog.tags.index");
-    Route::post("/blog/tag/salvar", [AdminTagController::class, "store"])->name("admin.blog.tags.store");
-    Route::post("/blog/tag/atualizar/{tag}", [AdminTagController::class, "update"])->name("admin.blog.tags.update");
-    Route::post("/blog/tag/excluir/{tag}", [AdminTagController::class, "destroy"])->name("admin.blog.tags.destroy");
 
     // IMAGE
     Route::get("/images", [AdminImageController::class, "index"])->name("admin.images.index");

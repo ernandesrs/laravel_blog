@@ -58,14 +58,6 @@ return [
                     "route" => "admin.images.index",
                     "target" => "_self",
                     "activeIn" => ["admin.images.index"]
-                ],
-                [
-                    "icon" => icon_class("video"),
-                    "text" => "Vídeos",
-                    "title" => "",
-                    "route" => "admin.images.index",
-                    "target" => "_self",
-                    "activeIn" => ["admin.images.index"]
                 ]
             ],
         ],
@@ -91,15 +83,7 @@ return [
                     "route" => "admin.blog.categories.index",
                     "target" => "_self",
                     "activeIn" => ["admin.blog.categories.index"]
-                ],
-                [
-                    "icon" => icon_class("tagsFill"),
-                    "text" => "Tags",
-                    "title" => "",
-                    "route" => "admin.blog.tags.index",
-                    "target" => "_self",
-                    "activeIn" => ["admin.blog.tags.index"]
-                ],
+                ]
             ],
         ],
         [
