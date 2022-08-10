@@ -17,10 +17,11 @@ class CreateImagesTable extends Migration
             $table->id();
 
             $table->string("name", 30)->nullable(false);
-            $table->string("tags", 30)->nullable(false);
+            $table->string("tags", 75)->nullable(false);
             $table->string("extension", 6)->nullable(false);
             $table->integer("size")->nullable(false);
             $table->string("path")->nullable(false);
+            $table->fullText(["name", "tags"], "fulltext_index_search");
 
             $table->timestamps();
         });
