@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Helpers\Message\Message;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -53,13 +54,18 @@ class LoginController extends Controller
         if (Auth::attempt($validated)) {
             $request->session()->regenerate();
 
-            $name = auth()->user()->first_name;
+            $user = auth()->user();
 
-            (new Message())->default("Pronto {$name}, agora você está logado! Muito bem vindo!")->time(10)->flash();
+            (new Message())->default("Pronto {$user->first_name}, agora você está logado! Muito bem vindo!")->time(10)->flash();
+
+            if ($user->level == User::LEVEL_9)
+                $route = "admin.home";
+            else
+                $route = "front.home";
 
             return response()->json([
                 "success" => true,
-                "redirect" => route("front.home")
+                "redirect" => route($route)
             ]);
         }
 
