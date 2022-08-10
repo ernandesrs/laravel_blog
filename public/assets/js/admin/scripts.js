@@ -35,7 +35,7 @@ $(function () {
 
     let modal = $("#jsImageUploadModal");
     let modalImageTools = $("#jsImageToolsModal");
-    let modalImageToolsForm = modalImageTools.find("form");
+    let modalImageToolsForm = modalImageTools.find(".jsFormSubmit");
 
     /**
      * 
@@ -72,7 +72,7 @@ $(function () {
             itemClone.find(".img-fluid").attr("src", response.thumb).attr("title", response.tags).attr("data-original-title", response.tags);
 
             let allItems = modalImageTools.find(".images-list .list .images-list-item");
-            console.log(allItems.length);
+
             if (allItems.length == 9) {
                 $(allItems[8]).fadeOut(function () {
                     $(this).remove();
@@ -85,6 +85,37 @@ $(function () {
         function addItemClone(clone) {
             modalImageTools.find(".images-list .list").prepend(clone.show("fade"));
         }
+    });
+
+    modalImageTools.on("submit", ".jsSearchFormSubmit", function (e) {
+
+        e.preventDefault();
+        formSubmit(e, $(this), null, function (response) {
+            if (response.success) {
+                modalImageTools.find(".images-list .list").html("");
+                modalImageTools.find(".images-pagination").html("");
+
+                $.each(response.images, function (index, value) {
+                    let clone = modalImageTools.find(".images-list .model .images-list-item").clone().hide();
+
+                    clone.find(".img-fluid")
+                        .attr("src", value.thumb)
+                        .attr("alt", value.name)
+                        .attr("title", value.tags)
+                        .attr("data-original-title", value.tags);
+
+                    clone.find("#image-name").val(value.name);
+                    clone.find("#image-id").val(value.id);
+                    clone.find("#image-thumb").val(value.thumb);
+                    clone.find("#image-url").val(value.url);
+
+                    modalImageTools.find(".list").append(clone.fadeIn());
+                });
+
+                modalImageTools.find(".images-pagination").html(response.pagination);
+            }
+        });
+
     });
 
     modalImageTools.on("click", ".page-link", function (e) {

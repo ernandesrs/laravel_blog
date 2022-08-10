@@ -19,9 +19,10 @@
                         <hr>
                         <div class="form-row">
                             <div class="col-12">
-                                <form method="GET" class="jsFormSubmit" action="{{ route('admin.images.index') }}">
+                                <form method="POST" class="jsSearchFormSubmit" action="{{ route('admin.images.get') }}">
                                     @csrf
                                     <div class="form-row justify-content-center">
+                                        <input type="hidden" name="filter" value="1">
                                         <div class="col-12">
                                             <div class="form-group d-flex">
                                                 <label for="search" class="sr-only">Buscar</label>

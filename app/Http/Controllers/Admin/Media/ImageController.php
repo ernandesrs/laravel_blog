@@ -31,36 +31,38 @@ class ImageController extends Controller
         ]);
     }
 
-    public function get(Request $request)
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function get(Request $request): JsonResponse
     {
         $images = $this->filter($request);
 
-        if ($request->isXmlHttpRequest()) {
-            $images = $images->paginate(9)->withQueryString();
+        $images = $images->paginate(9)->withQueryString();
 
-            $imagesArr = [];
-            foreach ($images as $image) {
-                $imagesArr[] = [
-                    "id" => $image->id,
-                    "url" => Storage::url($image->path),
-                    "thumb" => thumb(Storage::path("public/{$image->path}"), 200, 125),
-                    "name" => $image->name,
-                    "tags" => $image->tags
-                ];
-            }
-
-            return response()->json([
-                "success" => true,
-                "images" => $imagesArr,
-                "pagination" => $images->links()->render()
-            ]);
+        $imagesArr = [];
+        foreach ($images as $image) {
+            $imagesArr[] = [
+                "id" => $image->id,
+                "url" => Storage::url($image->path),
+                "thumb" => thumb(Storage::path("public/{$image->path}"), 200, 100),
+                "name" => $image->name,
+                "tags" => $image->tags
+            ];
         }
 
-        return [
-            "images" => $images,
-        ];
+        return response()->json([
+            "success" => true,
+            "images" => $imagesArr,
+            "pagination" => $images->links()->render()
+        ]);
     }
 
+    /**
+     * @param Request $request
+     * @return
+     */
     private function filter(Request $request)
     {
         $search = $request->get("search");
@@ -68,7 +70,7 @@ class ImageController extends Controller
 
         $images = Image::whereNotNull("id");
         if ($filter && !empty($search)) {
-            $images->whereRaw("MATCH() AGAINST('{$search}')");
+            $images->whereRaw("MATCH(name,tags) AGAINST('{$search}')");
         }
 
         return $images->orderBy("created_at", "DESC");
