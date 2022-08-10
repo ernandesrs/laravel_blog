@@ -97,7 +97,7 @@ class ArticleController extends Controller
         message()->success("O artigo <strong>{$article->title}</strong> foi criado com sucesso!")->float()->flash();
         return response()->json([
             "success" => true,
-            "redirect" => route("admin.blog.articles.index")
+            "redirect" => route("admin.blog.articles.edit", ["article" => $article])
         ]);
     }
 
