@@ -118,52 +118,40 @@ class PageController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  PageRequest  $request
      * @param  \App\Models\Page  $page
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Page $page)
+    public function update(PageRequest $request, Page $page)
     {
-        $validator = $this->validatePage($request, $page);
+        $validated = $request->validated();
 
-        if ($errors = $validator->errors()->messages()) {
-            return response()->json([
-                "success" => false,
-                "message" => message()->warning("Erro ao validar dados, verifique e tente de novo.")->float()->render(),
-                "errors" => $errors
-            ]);
-        }
-
-        // DADOS VALIDADOS
-        $validated = $validator->validated();
-
-        // INSERE DADOS VALIDADOS
-        $page->set($validated);
-
-        // SLUGS
-        if ($page->protection != Page::PROTECTION_SYSTEM) {
-            $slugs = $page->slugs();
-            $slugs->set(Str::slug($page->title), $page->lang);
-            $slugs->save();
-        }
+        // DADOS DA PÁGINA
+        $page->title = $validated["title"];
+        $page->description = $validated["description"];
+        $page->content_type = $validated["content_type"];
+        $page->follow = $validated["follow"] ?? null ? true : false;
+        $page->status = $validated["status"];
+        $page->content = $page->getContent($validated);
 
         // UPLOAD DE CAPA
         if ($cover = $validated["cover"] ?? null) {
-            if ($page->cover) {
-                Thumb::clear($page->cover);
-                Storage::disk("public")->delete($page->cover);
-            }
+            $image = Image::where("id", $cover)->first();
+            if ($image)
+                $page->cover = $image->path;
+        }
 
-            $page->cover = $cover->store($this->coversPath, "public");
+        if ($page->protection != Page::PROTECTION_SYSTEM) {
+            /** @var Slug $slugs */
+            $slugs = $page->slugs()->first();
+            $slugs->set($validated["title"], $page->lang);
+            $slugs->save();
         }
 
         if (!$page->save()) {
-
-            Storage::disk("public")->delete($page->cover);
-
             return response()->json([
                 "success" => false,
-                "message" => message()->warning("Erro ao validar dados, verifique e tente de novo.")->float()->render()
+                "message" => message()->warning("Houve um erro ao salvar a página. Um log foi registrado.")->float()->render()
             ]);
         }
 

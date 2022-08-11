@@ -25,15 +25,8 @@ class PageRequest extends FormRequest
      */
     public function rules()
     {
-        $title_unique = "unique:pages,title";
-
-        // UPDATE
-        if ($this->page) {
-            $title_unique .= "," . $this->page->id;
-        }
-
-        return [
-            "title" => ["required", $title_unique, "max:255"],
+        $rules = [
+            "title" => ["required", "max:255"],
             "description" => ["required", "min:5", "max:255"],
             "content_type" => ["required", Rule::in(Page::CONTENT_TYPES)],
             "follow" => ["nullable"],
@@ -43,6 +36,15 @@ class PageRequest extends FormRequest
             "status" => ["required", Rule::in(Page::STATUS)],
             "scheduled_to" => ["required_if:status," . Page::STATUS_SCHEDULED]
         ];
+
+        // UPDATE
+        if ($this->page) {
+            $rules["title"] = array_merge($rules["title"], ["unique:pages,title," . $this->page->id]);
+        } else {
+            $rules["title"] = array_merge($rules["title"], ["unique:pages,title"]);
+        }
+
+        return $rules;
     }
 
     /**
