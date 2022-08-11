@@ -21,6 +21,7 @@ foreach ($keys as $key => $value) {
                 ],
             ],
         ],
+        'buttons' => [t_button_link_data('btn btn-outline-success', 'Nova página', route('admin.pages.create'), icon_class('plusLg'))],
     ],
 ])
 
@@ -37,7 +38,7 @@ foreach ($keys as $key => $value) {
                         $author = $page->author();
                         
                         /** @var \App\Models\Slug $slugs */
-                        $slugs = $page->slugs();
+                        $slugs = $page->slugs()->first();
                         
                         $slug = $slugs->slug($page->lang);
                     @endphp
@@ -48,7 +49,7 @@ foreach ($keys as $key => $value) {
                                     alt="{{ $page->name }}" style="width: 125px; height: 75px;">
                                 <div class="d-flex flex-column">
                                     <span>
-                                        @if ($page->protection == \App\Models\Page::PROTECTION_SYSTEM)
+                                        @if ($page->protection == m_page_protection_system())
                                             <a href="{{ route('front.home') }}/{{ $slug }}" target="_blank">
                                                 {{ $page->title }}
                                             </a>
@@ -60,38 +61,39 @@ foreach ($keys as $key => $value) {
                                     </span>
                                     <span class="pb-1">
                                         <small>
-                                            {{ substr($page->description, 0, 75) }}...
+                                            {{ substr($page->description, 0, 125) }}...
                                         </small>
                                     </span>
                                     <div class="d-flex flex-wrap">
                                         <span class="badge badge-dark-light">
                                             {{ icon_elem('user') }}
-                                            {{ $author ? substr($author->first_name, 0, 28) : null }}...
+                                            {{ $author ? substr($author->name, 0, 12) : null }}
+                                            {{ strlen($author->name) > 12 ? '...' : null }}
                                         </span>
                                         <span class="mx-1"></span>
                                         <span class="badge badge-light-dark" data-toggle="tooltip" data-placement="top"
                                             title="{{ ucfirst(__('terms.page_status.' . $page->status)) }}">
                                             @if ($page->scheduled_to)
                                                 {{ icon_elem('calendarEvent') }}
-                                                {{ date('d/m/Y H:i', strtotime($page->scheduled_to)) }}
+                                                {{ date('d/m/Y H:i:s', strtotime($page->scheduled_to)) }}
                                             @elseif($page->published_at)
                                                 {{ icon_elem('calendarCheck') }}
-                                                {{ date('d/m/Y H:i', strtotime($page->published_at)) }}
+                                                {{ date('d/m/Y H:i:s', strtotime($page->published_at)) }}
                                             @else
                                                 {{ icon_elem('calendarX') }}
-                                                {{ date('d/m/Y H:i', strtotime($page->created_at)) }}
+                                                {{ date('d/m/Y H:i:s', strtotime($page->created_at)) }}
                                             @endif
                                         </span>
                                         <span class="mx-1"></span>
                                         <span class="badge badge-light">
-                                            {{ $page->content_type == \App\Models\Page::CONTENT_TYPE_VIEW ? 'Página customizada' : 'Texto' }}
+                                            {{ $page->content_type == m_page_content_view() ? 'Página customizada' : 'Texto' }}
                                         </span>
                                     </div>
                                 </div>
                             </div>
                         </td>
                         <td class="align-middle text-right">
-                            <a class="btn btn-sm btn-info {{ icon_class('pencilSquare') }}"
+                            <a class="btn btn-info {{ icon_class('pencilSquare') }}"
                                 href="{{ route('admin.pages.edit', ['page' => $page->id]) }}"></a>
 
                             @include('includes.button-confirmation', [

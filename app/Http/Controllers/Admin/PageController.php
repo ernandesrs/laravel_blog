@@ -82,7 +82,7 @@ class PageController extends Controller
 
         // UPLOAD DE CAPA
         if ($cover = $validated["cover"] ?? null) {
-            $image = Image::where("id", $cover);
+            $image = Image::where("id", $cover)->first();
             if ($image)
                 $page->cover = $image->path;
         }
