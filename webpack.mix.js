@@ -25,7 +25,7 @@ mix
         "node_modules/jquery-ui-dist/jquery-ui.js"
     ], "public/assets/js/jquery.min.js")
     .scripts(["node_modules/jquery-mask-plugin/dist/jquery.mask.min.js"], "public/assets/js/jquery-mask.min.js")
-    .scripts(['resources/js/plugins/form-submit.js', 'resources/js/scripts.js'], 'public/assets/js/scripts.min.js')
+    .scripts(['resources/js/scripts.js'], 'public/assets/js/scripts.min.js')
 
     // js admin
     .scripts(["resources/js/admin/scripts.js"], "public/assets/js/admin/scripts.js")

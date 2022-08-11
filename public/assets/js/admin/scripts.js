@@ -31,9 +31,14 @@ $(function () {
 
 });
 
+/**
+ * 
+ * Modal ImageUploadModal e jsImageToolsModal
+ * 
+ */
 $(function () {
 
-    let modal = $("#jsImageUploadModal");
+    let modalImageUpload = $("#jsImageUploadModal");
     let modalImageTools = $("#jsImageToolsModal");
     let modalImageToolsForm = modalImageTools.find(".jsFormSubmit");
 
@@ -45,17 +50,9 @@ $(function () {
      */
     modalImageToolsForm.removeClass("jsFormSubmit");
 
-    $(".jsBtnImageUploadModal").on("click", function (e) {
-        e.preventDefault();
-        let button = $(this);
-
-        modal.find("form").attr("action", button.attr("data-action"));
-        modal.find(".title").html("Upload de nova imagem");
-
-        modal.modal();
-
-    });
-
+    /**
+     * ao fazer um upload no formulário do modal modalImageTools
+     */
     modalImageToolsForm.on("submit", function (e) {
         e.preventDefault();
 
@@ -87,6 +84,9 @@ $(function () {
         }
     });
 
+    /**
+     * ao realizar uma pesquisa no formulário de busca do modal modalImageTools
+     */
     modalImageTools.on("submit", ".jsSearchFormSubmit", function (e) {
 
         e.preventDefault();
@@ -118,6 +118,9 @@ $(function () {
 
     });
 
+    /**
+     * ao clicar no link de navegação de página do modal modalImageTools
+     */
     modalImageTools.on("click", ".page-link", function (e) {
         e.preventDefault();
 
@@ -152,6 +155,9 @@ $(function () {
         );
     });
 
+    /**
+     * ao abrir modal modalImageTools
+     */
     modalImageTools.on("shown.bs.modal", function () {
         if (modalImageTools.find(".list .images-list-item").length)
             return;
@@ -187,16 +193,16 @@ $(function () {
     /**
      * reseta modal jsImageUploadModal
      */
-    modal.on("hidden.bs.modal", function () {
+     modalImageUpload.on("hidden.bs.modal", function () {
 
-        modal.find("form").attr("action", "");
-        modal.find(".message-area").html("");
+        modalImageUpload.find("form").attr("action", "");
+        modalImageUpload.find(".message-area").html("");
 
-        modal.find("#image").val("");
-        modal.find("#tags").val("");
-        modal.find("#name").val("");
+        modalImageUpload.find("#image").val("");
+        modalImageUpload.find("#tags").val("");
+        modalImageUpload.find("#name").val("");
 
-        addFormErrors($(modal.find("form"), []));
+        addFormErrors($(modalImageUpload.find("form"), []));
 
     });
 
