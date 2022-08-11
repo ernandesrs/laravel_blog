@@ -2,7 +2,7 @@
     'mainBar' => [
         'filterFormAction' => route('admin.images.index'),
         'title' => $pageTitle,
-        'buttons' => [t_button_link_data('btn btn-outline-success', 'Novo upload', route('admin.images.store'), icon_class('plusLg'), null, 'jsBtnImageUploadModal')],
+        'buttons' => [t_button_link_data('btn btn-outline-success', 'Novo upload', route('admin.images.store'), icon_class('plusLg'), null, 'jsBtnOpenUploadModal')],
     ],
 ])
 
@@ -47,7 +47,7 @@
                                                 route('admin.images.show', ['image' => $image->id]),
                                                 icon_class('pencilSquare'),
                                                 null,
-                                                'jsImageEdit'
+                                                'jsBtnOpenImageEditModal'
                                             ),
                                         ])
                                         @include('includes.button-confirmation', [
@@ -88,14 +88,19 @@
 @endsection
 
 @section('modals')
-    @include('admin.medias.includes.modal-image')
+    @include('admin.medias.includes.modal-image-upload')
     @include('includes.modal-confirmation')
     @include('admin.medias.includes.modal-image-edit')
 @endsection
 
 @section('scripts')
     <script>
-        $(".jsImageEdit").on("click", function(e) {
+        $(".jsBtnOpenUploadModal").on("click", function(e) {
+            e.preventDefault();
+            $("#jsImageUploadModal").modal();
+        });
+
+        $(".jsBtnOpenImageEditModal").on("click", function(e) {
             e.preventDefault();
             let modal = $("#jsImageEditModal");
             let action = $(this).attr("data-action");

@@ -5,6 +5,7 @@
                 <h2 class="h5 title">Editar dados da imagem</h2>
                 <hr>
                 <form class="jsFormSubmit" action="" method="post">
+                    @csrf
                     <div class="form-row">
                         <div class="col-12">
                             <div class="form-group">
