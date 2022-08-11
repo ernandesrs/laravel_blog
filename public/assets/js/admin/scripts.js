@@ -40,7 +40,7 @@ $(function () {
 
     let modalImageUpload = $("#jsImageUploadModal");
     let modalImageTools = $("#jsImageToolsModal");
-    let modalImageToolsForm = modalImageTools.find(".jsFormSubmit");
+    let modalImageToolsImageUploadForm = modalImageTools.find(".jsFormSubmit");
 
     /**
      * 
@@ -48,16 +48,13 @@ $(function () {
      * e não da forma padrão
      * 
      */
-    modalImageToolsForm.removeClass("jsFormSubmit");
+    modalImageToolsImageUploadForm.removeClass("jsFormSubmit");
 
     /**
      * ao fazer um upload no formulário do modal modalImageTools
      */
-    modalImageToolsForm.on("submit", function (e) {
-        e.preventDefault();
-
+    modalImageToolsImageUploadForm.on("submit", function (e) {
         formSubmit(e, $(this), null, function (response) {
-
             if (!response.success)
                 return;
 
@@ -87,9 +84,7 @@ $(function () {
     /**
      * ao realizar uma pesquisa no formulário de busca do modal modalImageTools
      */
-    modalImageTools.on("submit", ".jsSearchFormSubmit", function (e) {
-
-        e.preventDefault();
+    modalImageTools.on("submit", ".jsImageToolsModalSearchFormSubmit", function (e) {
         formSubmit(e, $(this), null, function (response) {
             if (response.success) {
                 modalImageTools.find(".images-list .list").html("");
@@ -109,7 +104,7 @@ $(function () {
                     clone.find("#image-thumb").val(value.thumb);
                     clone.find("#image-url").val(value.url);
 
-                    modalImageTools.find(".list").append(clone.fadeIn());
+                    modalImageTools.find(".list").append(clone.show("fade"));
                 });
 
                 modalImageTools.find(".images-pagination").html(response.pagination);
@@ -124,13 +119,14 @@ $(function () {
     modalImageTools.on("click", ".page-link", function (e) {
         e.preventDefault();
 
-        $.post($(this).attr("href"), null,
-            function (data, textStatus, jqXHR) {
-                if (data.success) {
+        ajaxRequest($(this).attr("href"), null, null,
+            // success
+            function (response) {
+                if (response.success) {
 
                     modalImageTools.find(".list").html("");
 
-                    $.each(data.images, function (index, value) {
+                    $.each(response.images, function (index, value) {
                         let clone = modalImageTools.find(".images-list .model .images-list-item").clone().hide();
 
                         clone.find(".img-fluid")
@@ -144,14 +140,13 @@ $(function () {
                         clone.find("#image-thumb").val(value.thumb);
                         clone.find("#image-url").val(value.url);
 
-                        modalImageTools.find(".list").append(clone.fadeIn());
+                        modalImageTools.find(".list").append(clone.show("fade"));
 
                     });
 
-                    modalImageTools.find(".images-pagination").html(data.pagination);
+                    modalImageTools.find(".images-pagination").html(response.pagination);
                 }
-            },
-            "json"
+            }, null, null, "POST"
         );
     });
 
@@ -162,10 +157,11 @@ $(function () {
         if (modalImageTools.find(".list .images-list-item").length)
             return;
 
-        $.post(modalImageTools.find(".images-list").attr("data-action"), null,
-            function (data, textStatus, jqXHR) {
-                if (data.success) {
-                    $.each(data.images, function (index, value) {
+        ajaxRequest(modalImageTools.find(".images-list").attr("data-action"), null, null,
+            // success
+            function (response) {
+                if (response.success) {
+                    $.each(response.images, function (index, value) {
                         let clone = modalImageTools.find(".images-list .model .images-list-item").clone().hide();
 
                         clone.find(".img-fluid")
@@ -179,21 +175,20 @@ $(function () {
                         clone.find("#image-thumb").val(value.thumb);
                         clone.find("#image-url").val(value.url);
 
-                        modalImageTools.find(".list").append(clone.fadeIn());
+                        modalImageTools.find(".list").append(clone.show("fade"));
 
                     });
 
-                    modalImageTools.find(".images-pagination").html(data.pagination);
+                    modalImageTools.find(".images-pagination").html(response.pagination);
                 }
-            },
-            "json"
+            }, null, null, "POST"
         );
     });
 
     /**
      * reseta modal jsImageUploadModal
      */
-     modalImageUpload.on("hidden.bs.modal", function () {
+    modalImageUpload.on("hidden.bs.modal", function () {
 
         modalImageUpload.find("form").attr("action", "");
         modalImageUpload.find(".message-area").html("");
@@ -211,14 +206,14 @@ $(function () {
      */
     modalImageTools.on("hidden.bs.modal", function () {
 
-        modal.find("form").attr("action", "");
-        modal.find(".message-area").html("");
+        modalImageTools.find("form").attr("action", "");
+        modalImageTools.find(".message-area").html("");
 
-        modal.find("#image").val("");
-        modal.find("#tags").val("");
-        modal.find("#name").val("");
+        modalImageTools.find("#image").val("");
+        modalImageTools.find("#tags").val("");
+        modalImageTools.find("#name").val("");
 
-        addFormErrors($(modal.find("form"), []));
+        addFormErrors($(modalImageTools.find("form"), []));
 
     });
 

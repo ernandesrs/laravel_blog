@@ -93,8 +93,13 @@ $(function () {
 /**
  * @param {JQuery.SubmitEvent} event 
  * @param {jQuery} form 
+ * @param {Function} before 
+ * @param {Function} success 
+ * @param {Function} complete 
+ * @param {Function} error 
+ * @param {String} method 
  */
-function formSubmit(event, form) {
+function formSubmit(event, form, before = null, success = null, complete = null, error = null, method = "POST") {
     event.preventDefault();
     let data = new FormData(form[0]);
     let action = form.attr("action");
@@ -123,6 +128,8 @@ function formSubmit(event, form) {
                         "z-index": "998",
                     }).hide().show("fade")
             );
+
+            if (before) before();
         },
 
         // success
@@ -142,6 +149,8 @@ function formSubmit(event, form) {
 
             if (response.errors ?? null)
                 addFormErrors(form, response.errors);
+
+            if (success) success(response);
         },
 
         // complete
@@ -174,10 +183,13 @@ function formSubmit(event, form) {
                                 </small>
                             </div>`), messageArea);
             }
+
+            if (complete) complete(response);
         },
 
         // error
         function (response) {
+            if (error) error(response);
         }
     );
 }

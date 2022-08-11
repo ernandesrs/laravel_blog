@@ -19,7 +19,7 @@
                         <hr>
                         <div class="form-row">
                             <div class="col-12">
-                                <form method="POST" class="jsSearchFormSubmit" action="{{ route('admin.images.get') }}">
+                                <form method="POST" class="jsImageToolsModalSearchFormSubmit" action="{{ route('admin.images.get') }}">
                                     @csrf
                                     <div class="form-row justify-content-center">
                                         <input type="hidden" name="filter" value="1">
