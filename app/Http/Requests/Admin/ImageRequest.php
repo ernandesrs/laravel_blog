@@ -25,7 +25,7 @@ class ImageRequest extends FormRequest
     {
         $rules = [
             "name" => ["nullable", "max:30"],
-            "tags" => ["required", "max:30"]
+            "tags" => ["required", "max:100"]
         ];
 
         if (!$this->image)
