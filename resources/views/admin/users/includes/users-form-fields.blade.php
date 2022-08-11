@@ -1,4 +1,8 @@
 <div class="form-row">
+    <div class="col-12">
+        @include('includes.message')
+    </div>
+
     <div class="col-12 col-md-6">
         <div class="form-group">
             <label for="first_name">Nome:</label>
@@ -62,7 +66,8 @@
         <div class="form-group">
             <label for="photo">Foto:</label>
             <div class="custom-file">
-                <input type="file" class="custom-file-input" name="photo" id="photo" lang="{{ config("app.locale") }}">
+                <input type="file" class="custom-file-input" name="photo" id="photo"
+                    lang="{{ config('app.locale') }}">
                 <label class="custom-file-label" for="photo">Escolher arquivo</label>
             </div>
         </div>
