@@ -25,17 +25,6 @@ if ($page) {
 
                     @include('admin.pages.includes.pages-form-fields')
 
-                    <div class="text-right">
-                        <button class="btn btn-primary {{ icon_class('checkLg') }}"
-                            data-active-icon="{{ icon_class('checkLg') }}" data-alt-icon="{{ icon_class('loading') }}"
-                            type="submit">
-                            @if ($page)
-                                Atualizar
-                            @else
-                                Cadastrar
-                            @endif
-                        </button>
-                    </div>
                 </form>
             </div>
 

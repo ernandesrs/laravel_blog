@@ -36,6 +36,22 @@ class Page extends Model
     public const PROTECTIONS = [self::PROTECTION_NONE, self::PROTECTION_AUTHOR, self::PROTECTION_SYSTEM];
 
     /**
+     * @param array $validatedData
+     * @return string
+     */
+    public function getContent(array $validatedData): string
+    {
+        if ($validatedData["content_type"] == self::CONTENT_TYPE_VIEW) {
+            $content = [
+                "view_path" => $validatedData["view_path"]
+            ];
+            return json_encode($content);
+        }
+
+        return $validatedData["content"];
+    }
+
+    /**
      * @param string $slug
      * @param string $lang
      * @return Page|null
@@ -50,52 +66,6 @@ class Page extends Model
             $page->content = json_decode($page->content);
 
         return $page;
-    }
-
-    /**
-     * @param array $validated
-     * @param User|null $user
-     * @return Page
-     */
-    public function set(array $validated, ?User $user = null): Page
-    {
-        if ($user) $this->author = $user->id;
-
-        $this->title = $validated["title"];
-        $this->description = $validated["description"];
-        $this->lang = $validated["lang"] ?? config("app.locale");
-        $this->content_type = $validated["content_type"] ?? $this->content_type;
-
-        if ($this->content_type == Page::CONTENT_TYPE_VIEW) {
-            $content = (array) json_decode($this->content);
-            if (!$content)
-                $content = ["view_path" => null];
-
-            $content["view_path"] = $validated["view_path"] ?? $content["view_path"];
-
-            $this->content = json_encode($content);
-        } else
-            $this->content = $validated["content"] ?? $this->content;
-
-        if ($validated["follow"] ?? null)
-            $this->follow = true;
-        else
-            $this->follow = false;
-
-        $this->status = $validated["status"] ?? $this->status;
-
-        if ($this->status == Page::STATUS_SCHEDULED) {
-            $this->published_at = null;
-            $this->scheduled_to = date("Y-m-d H:i:s");
-        } elseif ($this->status == Page::STATUS_PUBLISHED) {
-            $this->published_at = date("Y-m-d H:i:s");
-            $this->scheduled_to = null;
-        } else {
-            $this->published_at = null;
-            $this->scheduled_to = null;
-        }
-
-        return $this;
     }
 
     /**

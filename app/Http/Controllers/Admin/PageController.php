@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Thumb;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PageRequest;
+use App\Models\Media\Image;
 use App\Models\Page;
 use App\Models\Slug;
 use Illuminate\Http\Request;
@@ -48,61 +50,54 @@ class PageController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param PageRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PageRequest $request)
     {
-        $validator = $this->validatePage($request);
+        $validated = $request->validated();
 
-        if ($errors = $validator->errors()->messages()) {
-            return response()->json([
-                "success" => false,
-                "message" => message()->warning("Erro ao validar dados, verifique e tente de novo.")->float()->render(),
-                "errors" => $errors
-            ]);
-        }
-
-        // DADOS VALIDADOS
-        $validated = $validator->validated();
-
-        // DADOS DA PÁGINA
-        $page = (new Page())->set($validated, $request->user());
-
-        // DADOS DO SLUG
-        $slug = new Slug();
-        $slug = $slug->set($page->title, $page->lang);
-
+        // MAKE SLUG
+        $slug = (new Slug())->set($validated["title"], config("app.locale"));
         if (!$slug->save()) {
             return response()->json([
                 "success" => false,
-                "message" => message()->warning("Erro ao criar slug para o título informado.")->float()->render(),
-                "errors" => ["title" => "Tente outro título"]
+                "message" => message()->warning("Houve um erro ao tentar criar um slug para a página")->float()->render(),
+                "errors" => [
+                    "title" => "Erro ao criar slug com este título"
+                ]
             ]);
         }
 
-        $page->slug = $slug->id;
+        // DADOS DA PÁGINA
+        $page = new Page();
+        $page->user_id = auth()->user()->id;
+        $page->slug_id = $slug->id;
+        $page->title = $validated["title"];
+        $page->description = $validated["description"];
+        $page->content_type = $validated["content_type"];
+        $page->follow = $validated["follow"] ?? null ? true : false;
+        $page->status = $validated["status"];
+        $page->content = $page->getContent($validated);
 
         // UPLOAD DE CAPA
-        if ($cover = $validated["cover"] ?? null)
-            $page->cover = $cover->store($this->coversPath, "public");
+        if ($cover = $validated["cover"] ?? null) {
+            $image = Image::where("id", $cover);
+            if ($image)
+                $page->cover = $image->path;
+        }
 
         if (!$page->save()) {
-
-            $slug->delete();
-            Storage::disk("public")->delete($page->cover);
-
             return response()->json([
                 "success" => false,
-                "message" => message()->warning("Erro ao criar slug para o título informado.")->float()->render(),
-                "errors" => ["title" => "Tente outro título"]
+                "message" => message()->warning("Houve um erro ao criar a página. Um log foi registrado.")->float()->render()
             ]);
         }
 
         message()->success("Nova página cadastrada com sucesso!")->float()->flash();
         return response()->json([
             "success" => true,
-            "redirect" => route("admin.pages.index")
+            "redirect" => route("admin.pages.edit", ["page" => $page->id])
         ]);
     }
 

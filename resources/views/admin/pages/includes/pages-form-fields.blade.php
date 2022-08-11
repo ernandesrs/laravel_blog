@@ -101,7 +101,8 @@
             </div>
 
             {{-- content: text --}}
-            <div class="col-12 {{ $page ? ($page->content_type != m_page_content_text() ? 'd-none' : null) : null }} jsTextField">
+            <div
+                class="col-12 {{ $page ? ($page->content_type != m_page_content_text() ? 'd-none' : null) : null }} jsTextField">
                 <div class="form-group">
                     <label for="content">Conteúdo:</label>
                     <textarea id="summernoteContent" name="content">{{ input_value($article ?? null, 'content') }}</textarea>
@@ -173,6 +174,19 @@
                     <input class="form-control" type="date" name="scheduled_to" id="scheduled_to"
                         value="{{ $scheduledTo ? date('Y-m-d', strtotime($scheduledTo)) : null }}">
                 </div>
+            </div>
+
+            {{-- button submit --}}
+            <div class="col-12 text-center">
+                <button class="btn btn-primary {{ icon_class('checkLg') }}"
+                    data-active-icon="{{ icon_class('checkLg') }}" data-alt-icon="{{ icon_class('loading') }}"
+                    type="submit">
+                    @if ($page)
+                        Atualizar
+                    @else
+                        Cadastrar
+                    @endif
+                </button>
             </div>
         </div>
     </div>
