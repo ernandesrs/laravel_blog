@@ -1,6 +1,5 @@
 body {
     background: linear-gradient(265deg, $light-light 24%, $light 51%);
-    width: 100%;
     min-height: 100vh;
     overflow-x: hidden;
     font-family: "Nunito", sans-serif;
@@ -11,6 +10,7 @@ body {
     flex-direction: column;
     width: 100%;
     min-height: 100vh;
+    position: relative;
 }
 
 .left-side,

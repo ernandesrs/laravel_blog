@@ -39,7 +39,10 @@
             <div class="container-fluid">
 
                 <header class="header">
-                    <h1 class="h5 mb-0">{{ config('app.name') }}</h1>
+                    <a href="{{ route('front.home') }}" title="Página inicial">
+                        <h1 class="sr-only">{{ config('app.name') }}</h1>
+                        <span>{{ config('app.name') }}</span>
+                    </a>
                     <button class="btn-menu-toggler {{ icon_class('list') }} jsBtnToggler"></button>
                 </header>
 
@@ -90,7 +93,8 @@
                     </p>
                     <p class="mb-0">
                         <small>
-                            <a href="{{ route('front.dinamicPage', ['slug' => 'politicas-de-privacidade']) }}">Termos de
+                            <a href="{{ route('front.dinamicPage', ['slug' => 'politicas-de-privacidade']) }}">Termos
+                                de
                                 privacidade</a>
                             <span class="mx-1">|</span>
                             <a href="{{ route('front.dinamicPage', ['slug' => 'termos-de-uso']) }}">Termos de

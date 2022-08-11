@@ -9302,7 +9302,6 @@ h5,
 
 body {
   background: linear-gradient(265deg, rgb(252, 252, 252) 24%, rgb(241, 241, 241) 51%);
-  width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
   font-family: "Nunito", sans-serif;
@@ -9313,6 +9312,7 @@ body {
   flex-direction: column;
   width: 100%;
   min-height: 100vh;
+  position: relative;
 }
 
 .left-side,
@@ -9460,6 +9460,10 @@ body .h5 {
   }
 }
 @media (min-width: 992px) {
+  body {
+    display: flex;
+    justify-content: center;
+  }
   body h1,
 body .h1 {
     font-size: 2rem;
@@ -9480,15 +9484,16 @@ body .h4 {
 body .h5 {
     font-size: 1.2rem;
   }
-  .wrapp {
+  .wrap {
     flex-direction: row;
+    width: 1280px;
   }
   .left-side {
     max-width: 300px;
     align-items: flex-start;
     height: 100vh;
     border-bottom: none;
-    position: fixed;
+    position: absolute;
     left: 0;
     top: 0;
   }

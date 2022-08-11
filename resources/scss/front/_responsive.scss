@@ -82,6 +82,8 @@
 // Dispositivos large (desktops com 992px ou mais)
 @media (min-width: 992px) {
     body {
+        display: flex;
+        justify-content: center;
 
         h1,
         .h1 {
@@ -109,8 +111,9 @@
         }
     }
 
-    .wrapp {
+    .wrap {
         flex-direction: row;
+        width: 1280px;
     }
 
     .left-side {
@@ -118,7 +121,7 @@
         align-items: flex-start;
         height: 100vh;
         border-bottom: none;
-        position: fixed;
+        position: absolute;
         left: 0;
         top: 0;
 
