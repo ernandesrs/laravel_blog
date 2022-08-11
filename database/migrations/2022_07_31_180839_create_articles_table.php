@@ -17,7 +17,7 @@ class CreateArticlesTable extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
 
-            $table->string("title")->nullable(false);
+            $table->string("title", 100)->nullable(false);
             $table->string("description")->nullable(false);
             $table->string("cover")->nullable(true);
             $table->string("lang", 5)->nullable(false)->default(config("app.locale"));
@@ -26,7 +26,7 @@ class CreateArticlesTable extends Migration
             $table->boolean("follow")->nullable(false)->default(true);
             $table->fullText(["title", "description"], "fulltext_search_index");
 
-            $table->string("status")->nullable(false)->default("draft");
+            $table->string("status", 10)->nullable(false)->default("draft");
             $table->timestamp("published_at")->nullable(true);
             $table->timestamp("scheduled_to")->nullable(true);
 

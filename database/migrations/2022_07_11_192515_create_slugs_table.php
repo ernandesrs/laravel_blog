@@ -16,7 +16,8 @@ class CreateSlugsTable extends Migration
         Schema::create('slugs', function (Blueprint $table) {
             $table->id();
 
-            $table->string("pt_BR")->nullable(false);
+            foreach (config("app.locales") as $locale)
+                $table->string("pt_BR")->nullable(false);
 
             $table->timestamps();
         });
