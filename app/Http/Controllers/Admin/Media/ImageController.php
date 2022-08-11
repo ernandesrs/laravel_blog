@@ -97,8 +97,6 @@ class ImageController extends Controller
 
         $image->save();
 
-        message()->success("Upload de nova image concluída com sucesso!")->float()->flash();
-
         $response = [
             "success" => true,
             "redirect" => route("admin.images.index"),
@@ -110,6 +108,8 @@ class ImageController extends Controller
 
         if ($redirect === false)
             $response["redirect"] = false;
+        else
+            message()->success("Upload de nova image concluída com sucesso!")->float()->flash();
 
         return response()->json($response);
     }
