@@ -12,37 +12,11 @@ return [
         ],
         [
             "icon" => icon_class("users"),
-            "text" => "Gerenciar membros",
+            "text" => "Usuários",
             "title" => "",
+            "route" => "admin.users.index",
             "activeIn" => ["admin.users.index", "admin.users.create", "admin.users.edit"],
             "target" => "_self",
-            "items" => [
-                [
-                    "icon" => icon_class("list"),
-                    "text" => "Listar membros",
-                    "title" => "",
-                    "route" => "admin.users.index",
-                    "target" => "_self",
-                    "activeIn" => ["admin.users.index"]
-                ],
-                [
-                    "icon" => icon_class("userPlus"),
-                    "text" => "Novo",
-                    "title" => "",
-                    "route" => "admin.users.create",
-                    "target" => "_self",
-                    "activeIn" => ["admin.users.create"]
-                ],
-                [
-                    "icon" => icon_class("pencilSquare"),
-                    "text" => "Editar usuário",
-                    "title" => "",
-                    "route" => "",
-                    "target" => "_self",
-                    "activeIn" => ["admin.users.edit"],
-                    "visibleIn" => ["admin.users.edit"]
-                ]
-            ]
         ],
         [
             "icon" => icon_class("media"),

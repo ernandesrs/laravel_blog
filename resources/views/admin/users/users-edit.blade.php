@@ -1,6 +1,7 @@
 @extends('layouts.admin', [
     'mainBar' => [
         'title' => $pageTitle,
+        'buttons' => [t_button_link_data('btn btn-primary', 'Voltar', route('admin.users.index'), icon_class('arrowLeft')), t_button_link_data('btn btn-outline-success', 'Novo usuário', route('admin.users.create'), icon_class('plusLg'))],
     ],
 ])
 

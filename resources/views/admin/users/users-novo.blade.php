@@ -1,6 +1,7 @@
 @extends('layouts.admin', [
     'mainBar' => [
         'title' => $pageTitle,
+        'buttons' => [t_button_link_data('btn btn-primary', 'Voltar', route('admin.users.index'), icon_class('arrowLeft'))],
     ],
 ])
 
@@ -14,9 +15,8 @@
 
                     @include('admin.users.includes.users-form-fields')
 
-                    <button class="btn btn-primary {{ icon_class('checkLg') }}"
-                        data-active-icon="{{ icon_class('checkLg') }}" data-alt-icon="{{ icon_class('loading') }}"
-                        type="submit">
+                    <button class="btn btn-primary {{ icon_class('checkLg') }}" data-active-icon="{{ icon_class('checkLg') }}"
+                        data-alt-icon="{{ icon_class('loading') }}" type="submit">
                         Registrar
                     </button>
                 </form>
