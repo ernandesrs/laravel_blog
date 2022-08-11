@@ -83,9 +83,20 @@
 
             <footer class="footer text-center">
                 <div class="container-fluid">
-                    <small>
-                        Direitos reservados à {{ config('app.name') }} &copy; {{ date('Y') }}
-                    </small>
+                    <p class="mb-0">
+                        <small>
+                            Direitos reservados à {{ config('app.name') }} &copy; {{ date('Y') }}
+                        </small>
+                    </p>
+                    <p class="mb-0">
+                        <small>
+                            <a href="{{ route('front.dinamicPage', ['slug' => 'politicas-de-privacidade']) }}">Termos de
+                                privacidade</a>
+                            <span class="mx-1">|</span>
+                            <a href="{{ route('front.dinamicPage', ['slug' => 'termos-de-uso']) }}">Termos de
+                                uso</a>
+                        </small>
+                    </p>
                 </div>
             </footer>
         </div>

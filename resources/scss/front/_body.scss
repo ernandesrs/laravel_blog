@@ -129,7 +129,7 @@ body {
 
     .footer {
         background-color: $dark;
-        height: $footer-height;
+        min-height: $footer-height;
         color: $light-dark;
     }
 }
