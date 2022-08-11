@@ -2,26 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\Thumb;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PageRequest;
 use App\Models\Media\Image;
 use App\Models\Page;
 use App\Models\Slug;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use Rolandstarke\Thumbnail\Facades\Thumbnail;
-use Illuminate\Support\Str;
 
 class PageController extends Controller
 {
-    /**
-     * @var string
-     */
-    private $coversPath = "covers";
-
     /**
      * Display a listing of the resource.
      *
@@ -30,7 +18,7 @@ class PageController extends Controller
     public function index()
     {
         return view("admin.pages.pages-list", [
-            "pageTitle" => "Listando páginas",
+            "pageTitle" => "Listando paginas",
             "pages" => Page::whereNotNull("id")->orderBy("protection", "DESC")->orderBy("created_at", "DESC")->paginate(12)->withQueryString()
         ]);
     }
@@ -178,12 +166,7 @@ class PageController extends Controller
             return;
         }
 
-        $slugs = $page->slugs();
-
-        if ($page->cover) {
-            Thumb::clear($page->cover);
-            Storage::disk("public")->delete($page->cover);
-        }
+        $slugs = $page->slugs()->first();
 
         $page->delete();
 
@@ -195,46 +178,5 @@ class PageController extends Controller
             "success" => true,
             "reload" => true
         ]);
-    }
-
-    /**
-     * @param Request $request
-     * @param Page|null $page
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    public function validatePage(Request $request, ?Page $page = null): \Illuminate\Contracts\Validation\Validator
-    {
-        $only = ["title", "description", "cover", "lang", "content_type", "content", "follow", "view_path", "status", "scheduled_to"];
-        $rules = [
-            "title" => ["required", "max:255"]
-        ];
-
-        if ($page)
-            $rules["title"] = array_merge($rules["title"], [Rule::unique('pages')->ignore($page->id)]);
-        else
-            $rules["title"] += array_merge($rules["title"], ["unique:pages,title"]);
-
-        $rules += [
-            "description" => ["required", "max:255"],
-            "cover" => ["mimes:jpg,png,webp", "max:2048", Rule::dimensions()->minWidth(800)->minHeight(600)],
-            "lang" => [Rule::in(config("app.locales"))],
-            "content_type" => ["required", Rule::in(Page::CONTENT_TYPES)],
-            "content" => [],
-            "follow" => ["string"],
-            "view_path" => ["required_if:content_type," . Page::CONTENT_TYPE_VIEW],
-            "status" => ["required", Rule::in(Page::STATUS)],
-            "scheduled_to" => ["required_if:status," . Page::STATUS_SCHEDULED],
-        ];
-
-        if ($page && $page->protection == Page::PROTECTION_SYSTEM) {
-            unset(
-                $only["content_type"],
-                $only["status"],
-                $rules["content_type"],
-                $rules["status"]
-            );
-        }
-
-        return Validator::make($request->only($only), $rules);
     }
 }

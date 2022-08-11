@@ -56,6 +56,6 @@ class Slug extends Model
      */
     public function hasPages(): ?int
     {
-        return Page::where("slug", $this->id)->count();
+        return Page::where("slug_id", $this->id)->count();
     }
 }
