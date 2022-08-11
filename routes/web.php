@@ -139,4 +139,4 @@ Route::get("/home", function () {
 });
 Route::get("/termos-e-condicoes", [FrontController::class, "termsAndConditions"])->name("front.termsAndConditions");
 Route::get("/p/{slug}", [FrontController::class, "dinamicPage"])->name("front.dinamicPage");
-Route::get("/builder", [FrontController::class, "builder"]);
+Route::get("/builder/builder", [FrontController::class, "builder"]);
