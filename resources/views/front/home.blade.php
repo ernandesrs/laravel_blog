@@ -2,22 +2,12 @@
 
 @section('content')
     {{-- article featured --}}
-    @if (count($articles ?? []))
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card card-body article-summary featured-article">
-                    @include('front.includes.article-summary', [
-                        'article' => $articles[0],
-                    ])
-                </div>
-            </div>
-        </div>
-
+    @if ($articles->count())
         {{-- articles list --}}
         <div class="row">
-            @foreach ($articles as $article)
-                <div class="col-12 col-sm-6 col-lg-12 col-xl-6 mb-4">
-                    <div class="card card-body article-summary">
+            @foreach ($articles as $key => $article)
+                <div class="col-12 {{ $key == 0 ? null : 'col-sm-6 col-md-4 col-lg-6 col-xl-4' }} mb-4">
+                    <div class="card card-body article-summary {{ $key == 0 ? 'featured-article' : null }}">
                         @include('front.includes.article-summary', ['article' => $article])
                     </div>
                 </div>
