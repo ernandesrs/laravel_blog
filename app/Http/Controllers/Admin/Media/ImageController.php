@@ -104,7 +104,7 @@ class ImageController extends Controller
             "redirect" => route("admin.images.index"),
             "id" => $image->id,
             "url" => Storage::url($image->path),
-            "thumb" => thumb(Storage::path("public/{$image->path}"), 200, 125),
+            "thumb" => thumb(Storage::path("public/{$image->path}"), 200, 100),
             "name" => $image->name,
         ];
 

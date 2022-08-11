@@ -206,7 +206,6 @@ $(function () {
      */
     modalImageTools.on("hidden.bs.modal", function () {
 
-        modalImageTools.find("form").attr("action", "");
         modalImageTools.find(".message-area").html("");
 
         modalImageTools.find("#image").val("");

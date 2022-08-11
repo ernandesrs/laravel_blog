@@ -26,7 +26,7 @@ class PageRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            "title" => ["required", "max:255"],
+            "title" => ["required", "max:100"],
             "description" => ["required", "min:5", "max:255"],
             "content_type" => ["required", Rule::in(Page::CONTENT_TYPES)],
             "follow" => ["nullable"],

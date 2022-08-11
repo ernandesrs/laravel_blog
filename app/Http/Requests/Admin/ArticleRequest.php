@@ -47,7 +47,7 @@ class ArticleRequest extends FormRequest
         }
 
         return [
-            "title" => ["required", $title_unique, "max:255"],
+            "title" => ["required", $title_unique, "max:100"],
             "description" => ["required", "min:5", "max:255"],
             "content" => ["required"],
             "cover" => ["nullable", "integer"],
