@@ -32,7 +32,7 @@
 
             @if ($page)
                 @php
-                    $slugs = $page->slugs();
+                    $slugs = $page->slugs()->first();
                     $slug = $slugs->slug($page->lang);
                 @endphp
             @endif
@@ -105,7 +105,7 @@
                 class="col-12 {{ $page ? ($page->content_type != m_page_content_text() ? 'd-none' : null) : null }} jsTextField">
                 <div class="form-group">
                     <label for="content">Conteúdo:</label>
-                    <textarea id="summernoteContent" name="content">{{ input_value($article ?? null, 'content') }}</textarea>
+                    <textarea id="summernoteContent" name="content">{{ input_value($page ?? null, 'content') }}</textarea>
                 </div>
             </div>
         </div>
