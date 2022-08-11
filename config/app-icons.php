@@ -7,6 +7,7 @@ return [
     "arrowRight" => "bi bi-arrow-right",
 
     'calendar' => 'bi bi-calendar',
+    'calendarFill' => 'bi bi-calendar-fill',
     'calendarCheck' => 'bi bi-calendar-check',
     'calendarCheckFill' => 'bi bi-calendar-check-fill',
     'calendarEvent' => 'bi bi-calendar-event',

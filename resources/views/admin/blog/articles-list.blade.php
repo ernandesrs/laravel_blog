@@ -43,11 +43,18 @@
 
                                 <div class="d-flex flex-column">
                                     <span class="font-weight-bold">
-                                        {{ $article->title }}
+                                        @if ($article->status == 'published')
+                                            <a href="{{ route('front.article', ['slug' => $article->slugs()->first()->slug($article->lang)]) }}"
+                                                title="Ver {{ $article->title }}" target="_blank">
+                                                {{ $article->title }}
+                                            </a>
+                                        @else
+                                            {{ $article->title }}
+                                        @endif
                                     </span>
                                     <p class="text-muted mb-0 d-none d-sm-block">
                                         <small>
-                                            {{ substr($article->description, 0, 150) }}...
+                                            {{ substr($article->description, 0, 150) . '' . (strlen($article->description) > 150 ? '...' : null) }}
                                         </small>
                                     </p>
                                     <p class="mb-0">
@@ -59,7 +66,7 @@
                                                 return $item->title;
                                             });
                                         @endphp
-                                        <span class="badge badge-light">
+                                        <span class="badge badge-dark-light">
                                             {{ icon_elem('userFill') }}
                                             {{ substr($author->name, 0, 12) . (strlen($author->name) > 12 ? '...' : null) }}
                                         </span>
@@ -67,6 +74,28 @@
                                             title="Todas categorias: {{ $categoriesShow->join(', ') }}">
                                             {{ icon_elem('folderFill') }}
                                             {{ $categoriesShow->slice(0, 2)->join(', ') }}
+                                        </span>
+                                        @php
+                                            if ($article->status == 'published') {
+                                                $statusTitle = 'Publicado em: ' . date('d/m/Y H:i:s', strtotime($article->published_at));
+                                            } elseif ($article->status == 'scheduled') {
+                                                $statusTitle = 'Agendado para: ' . date('d/m/Y H:i:s', strtotime($article->scheduled_to));
+                                            } else {
+                                                $statusTitle = 'Criado em: ' . date('d/m/Y H:i:s', strtotime($article->created_at));
+                                            }
+                                            
+                                        @endphp
+                                        <span
+                                            class="badge badge-{{ $article->status == 'published' ? 'success' : ($article->status == 'scheduled' ? 'info' : 'light') }}"
+                                            data-toggle="tooltip" title="{{ $statusTitle }}">
+                                            {{ icon_elem('calendarFill') }}
+                                            @if ($article->status == 'published')
+                                                {{ date('d/m/Y', strtotime($article->published_at)) }}
+                                            @elseif($article->status == 'scheduled')
+                                                {{ date('d/m/Y', strtotime($article->scheduled_to)) }}
+                                            @else
+                                                {{ date('d/m/Y', strtotime($article->created_at)) }}
+                                            @endif
                                         </span>
                                     </p>
                                 </div>
