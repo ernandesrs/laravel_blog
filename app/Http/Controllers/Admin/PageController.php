@@ -117,23 +117,30 @@ class PageController extends Controller
         // DADOS DA PÁGINA
         $page->title = $validated["title"];
         $page->description = $validated["description"];
-        $page->content_type = $validated["content_type"];
         $page->follow = $validated["follow"] ?? null ? true : false;
-        $page->status = $validated["status"];
-        $page->content = $page->getContent($validated);
+
+        if ($page->protection != Page::PROTECTION_SYSTEM) {
+            $page->content_type = $validated["content_type"];
+            $page->status = $validated["status"];
+            $page->content = $page->getContent($validated);
+
+            /** @var Slug $slugs */
+            $slugs = $page->slugs()->first();
+            $slugs->set($validated["title"], $page->lang);
+            $slugs->save();
+        } else {
+            if ($page->content_type == Page::CONTENT_TYPE_TEXT)
+                $page->content = $page->getContent([
+                    "content_type" => $page->content_type,
+                    "content" => $validated["content"],
+                ]);
+        }
 
         // UPLOAD DE CAPA
         if ($cover = $validated["cover"] ?? null) {
             $image = Image::where("id", $cover)->first();
             if ($image)
                 $page->cover = $image->path;
-        }
-
-        if ($page->protection != Page::PROTECTION_SYSTEM) {
-            /** @var Slug $slugs */
-            $slugs = $page->slugs()->first();
-            $slugs->set($validated["title"], $page->lang);
-            $slugs->save();
         }
 
         if (!$page->save()) {

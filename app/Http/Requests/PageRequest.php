@@ -40,6 +40,12 @@ class PageRequest extends FormRequest
         // UPDATE
         if ($this->page) {
             $rules["title"] = array_merge($rules["title"], ["unique:pages,title," . $this->page->id]);
+
+            if($this->page->protection == Page::PROTECTION_SYSTEM){
+                unset($rules["content_type"]);
+                unset($rules["status"]);
+                unset($rules["view_path"]);
+            }
         } else {
             $rules["title"] = array_merge($rules["title"], ["unique:pages,title"]);
         }
