@@ -48,7 +48,7 @@ $(function () {
      * e não da forma padrão
      * 
      */
-    modalImageToolsImageUploadForm.removeClass("jsFormSubmit");
+    modalImageToolsImageUploadForm.removeClass("jsFormSubmit").addClass("jsImageToolsModalImageUpload");
 
     /**
      * ao fazer um upload no formulário do modal modalImageTools
@@ -212,7 +212,7 @@ $(function () {
         modalImageTools.find("#tags").val("");
         modalImageTools.find("#name").val("");
 
-        addFormErrors($(modalImageTools.find("form"), []));
+        addFormErrors($(modalImageTools.find(".jsImageToolsModalImageUpload"), []));
 
     });
 
