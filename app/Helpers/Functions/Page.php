@@ -38,6 +38,22 @@ function m_page_content_types(): array
 }
 
 /**
+ * @return string
+ */
+function m_page_content_text(): string
+{
+    return Page::CONTENT_TYPE_TEXT;
+}
+
+/**
+ * @return string
+ */
+function m_page_content_view(): string
+{
+    return Page::CONTENT_TYPE_VIEW;
+}
+
+/**
  * Obtém array de status de página do modelo Page
  * @return array
  */
@@ -47,10 +63,58 @@ function m_page_status(): array
 }
 
 /**
+ * @return string
+ */
+function m_page_status_draft(): string
+{
+    return Page::STATUS_DRAFT;
+}
+
+/**
+ * @return string
+ */
+function m_page_status_scheduled(): string
+{
+    return Page::STATUS_SCHEDULED;
+}
+
+/**
+ * @return string
+ */
+function m_page_status_published(): string
+{
+    return Page::STATUS_PUBLISHED;
+}
+
+/**
  * Obtém array de tipos de proteção
  * @return array
  */
 function m_page_protections(): array
 {
     return Page::PROTECTIONS;
+}
+
+/**
+ * @return string
+ */
+function m_page_protection_none(): string
+{
+    return Page::PROTECTION_NONE;
+}
+
+/**
+ * @return string
+ */
+function m_page_protection_author(): string
+{
+    return Page::PROTECTION_AUTHOR;
+}
+
+/**
+ * @return string
+ */
+function m_page_protection_system(): string
+{
+    return Page::PROTECTION_SYSTEM;
 }
