@@ -39,6 +39,9 @@ if ($article ?? null) {
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 
     <script>
+        /*
+         * TRADUÇÃO PT-BR PARA O SUMMERNOTE
+         */
         (function($) {
             $.extend(true, $.summernote.lang, {
                 'pt-BR': {
@@ -196,6 +199,9 @@ if ($article ?? null) {
             });
         })(jQuery);
 
+        /*
+         * INICIALIZANDO O SUMMERNOTE
+         */
         $(document).ready(function() {
             $("#summernoteContent").summernote({
                 placeholder: 'Escreva seu artigo',
@@ -231,6 +237,9 @@ if ($article ?? null) {
             });
         });
 
+        /*
+         * CRIANDO UM BOTÃO DE INSERIR IMAGEM PARA A BARRA DE FERRAMENTAS DO SUMMERNOTE
+         */
         var InsertImageCustomButton = function(context) {
             var ui = $.summernote.ui;
 
@@ -265,8 +274,14 @@ if ($article ?? null) {
             return button.render(); // return button as jquery object
         }
 
+        /*
+         * INICIALIZANDO O SELECTPICKER
+         */
         $('.select').selectpicker();
 
+        /*
+         * OBTENDO/REMOVENDO OPÇÕES SELECIONADAS COM O SELECTPICKER
+         */
         $('.selectpicker').on('changed.bs.select', function(e, clickedIndex, isSelected, previousValue) {
             let categories = [];
             let value = $(this).find("option").eq(clickedIndex).val();
@@ -290,6 +305,9 @@ if ($article ?? null) {
             $("input[name=categories]").val(categories.join(","));
         });
 
+        /*
+         * MOSTRA/OCULTA CAMPO DE DATA 
+         */
         $("#status").on("change", function() {
             let select = $(this);
             let option = select.val();
@@ -306,25 +324,24 @@ if ($article ?? null) {
             }
         });
 
+        /*
+         * ABRE MODAL DE IMAGENS E MONITORA INSERÇÃO DE IMAGEMS
+         */
         $("#jsButtonInsertCover").on("click", function(e) {
             e.preventDefault();
 
-            $("#jsImageToolsModal")
-                .attr("data-local-id", "#cover")
-                .attr("data-local-thumb", ".cover-preview")
-                .attr("data-local-url", null)
-                .modal();
+            $("#jsImageToolsModal").modal();
 
             $(document).on("click", ".jsInsertImage", function(e) {
                 e.preventDefault();
                 let modal = $("#jsImageToolsModal");
-                let insertButton = $(this);
+                let imageData = $(this).parent();
 
-                let image = $(`<img class="img-fluid img-thumbnail" src="" alt="Cover preview">`)
-                    .attr("src", insertButton.parent().find("#image-thumb").val());
+                let image = $(`<img class="img-fluid img-thumbnail" src="" alt="Cover preview">`).attr(
+                    "src", imageData.find("#image-thumb").val());
 
-                $(modal.attr("data-local-thumb")).html(image)
-                $(modal.attr("data-local-id")).val(insertButton.parent().find("#image-id").val());
+                $(".cover-preview").html(image)
+                $("#cover").val(imageData.find("#image-id").val());
 
                 modal.modal("hide");
             });
