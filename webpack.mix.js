@@ -29,6 +29,7 @@ mix
 
     // js admin
     .scripts(["resources/js/admin/scripts.js"], "public/assets/js/admin/scripts.js")
+    .scripts(["resources/js/admin/my.summernote.script.js"], "public/assets/js/admin/my.summernote.script.js")
 
     // js member
     .scripts(["resources/js/member/scripts.js"], "public/assets/js/member/scripts.js")

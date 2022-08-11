@@ -10,6 +10,7 @@
     "/assets/js/jquery-mask.min.js": "/assets/js/jquery-mask.min.js",
     "/assets/js/scripts.min.js": "/assets/js/scripts.min.js",
     "/assets/js/admin/scripts.js": "/assets/js/admin/scripts.js",
+    "/assets/js/admin/my.summernote.script.js": "/assets/js/admin/my.summernote.script.js",
     "/assets/js/member/scripts.js": "/assets/js/member/scripts.js",
     "/assets/js/front/scripts.js": "/assets/js/front/scripts.js",
     "/assets/js/auth/scripts.js": "/assets/js/auth/scripts.js"
