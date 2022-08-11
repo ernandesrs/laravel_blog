@@ -13,45 +13,38 @@ use Illuminate\Support\Facades\Hash;
 class FrontController extends Controller
 {
     /**
-     * @return View
-     */
-    public function termsAndConditions(): View
-    {
-        $page = Page::findBySlug("termos-e-condicoes", config("app.locale"));
-
-        return view($page->content->view_path ?? "front.terms-and-conditions", [
-            "pageTitle" => $page->title ?? "Terms & Conditions",
-            "pageDescription" => $page->description ?? "",
-            "pageFollow" => $page->follow ?? true,
-            "pageCover" => ($page ?? null) ? m_page_cover_thumb($page, [800, 600]) : null,
-            "pageUrl" => route("front.home"),
-        ]);
-    }
-
-    /**
      * @param string $slug
      * @return View|RedirectResponse
      */
     public function dinamicPage(string $slug)
     {
-        $page = Page::findBySlug($slug, config("app.locale"));
-        if (!$page || $page->status != Page::STATUS_PUBLISHED) {
-            message()->default("Página não encontrada!", "Erro!")->time(10)->flash();
-            return redirect()->route("front.home");
-        }
+        $page = Page::findBySlug($slug, app()->getLocale());
+
+        if (!$page || $page->status != Page::STATUS_PUBLISHED)
+            return redirect()->route("front.error", ["error" => 404]);
+
+        $slugs = $page->slugs()->first();
 
         $view = "front.page";
-        if ($page->content_type == Page::CONTENT_TYPE_VIEW)
+        if ($page->content_type == Page::CONTENT_TYPE_VIEW) {
             $view = $page->content->view_path;
+        }
 
         // IMPLEMENTAR
         return view($view, [
-            "pageTitle" => $page->title ?? "Page",
-            "pageDescription" => $page->description ?? "",
+            "pageTitle" => $page->title,
+            "pageDescription" => $page->description,
             "pageFollow" => $page->follow,
             "pageCover" => m_page_cover_thumb($page, [800, 600]),
-            "pageUrl" => route("front.home"),
+            "pageUrl" => route("front.dinamicPage", ["slug" => $slugs->slug(app()->getLocale())]),
+
+            "page" => $page
         ]);
+    }
+
+    public function error(string $error)
+    {
+        echo "Erro: {$error}!";
     }
 
     /**

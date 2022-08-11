@@ -9,7 +9,6 @@ use App\Models\Page;
 use App\Models\Slug;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
@@ -21,13 +20,16 @@ class BlogController extends Controller
      */
     public function index(): View
     {
-        $page = Page::findBySlug("home", config("app.locale"));
+        $slugs = Slug::where(config("app.locale"), "inicio")->first();
 
-        return view($page->content->view_path ?? "front.home", [
-            "pageTitle" => $page->title ?? "Home",
-            "pageDescription" => $page->description ?? "",
-            "pageFollow" => $page->follow ?? true,
-            "pageCover" => ($page ?? null) ? m_page_cover_thumb($page, [800, 600]) : null,
+        $page = Page::where("slug_id", $slugs->id)->where("lang", app()->getLocale())->first();
+        $content = json_decode($page->content);
+
+        return view($content->view_path, [
+            "pageTitle" => $page->title,
+            "pageDescription" => $page->description,
+            "pageFollow" => $page->follow,
+            "pageCover" => m_page_cover_thumb($page, [800, 600]),
             "pageUrl" => route("front.home"),
 
             "articles" => Article::where("status", Article::STATUS_PUBLISHED)->orderBy("published_at", "DESC")->paginate($this->articlesLimit)
