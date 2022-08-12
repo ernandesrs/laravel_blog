@@ -25,6 +25,9 @@ class FrontController extends Controller
 
         $slugs = $page->slugs()->first();
 
+        if ($slugs->slug(app()->getLocale()))
+            return redirect()->route("front.home");
+
         $view = "front.page";
         if ($page->content_type == Page::CONTENT_TYPE_VIEW) {
             $view = $page->content->view_path;

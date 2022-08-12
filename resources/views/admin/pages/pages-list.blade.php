@@ -49,8 +49,8 @@ foreach ($keys as $key => $value) {
                                     alt="{{ $page->name }}" style="width: 125px; height: 75px;">
                                 <div class="d-flex flex-column">
                                     <span>
-                                        @if ($page->protection == m_page_protection_system())
-                                            <a href="{{ route('front.home') }}/{{ $slug }}" target="_blank">
+                                        @if ($slug == 'inicio')
+                                            <a href="{{ route('front.home') }}" target="_blank">
                                                 {{ $page->title }}
                                             </a>
                                         @else
