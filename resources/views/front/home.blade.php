@@ -25,7 +25,7 @@
 
         <div class="row justify-content-center py-2">
             <div class="col-12 d-flex justify-content-end align-items-center">
-                <span class="mr-2 font-weight-bold text-muted">Ver mais:</span> {{ $articles->links() }}
+                {{ $articles->links() }}
             </div>
         </div>
     @else
