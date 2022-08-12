@@ -129,14 +129,20 @@ Route::group([
  * FRONT ROUTES
  *
  */
-Route::get("/", [BlogController::class, "index"])->name("front.home");
-Route::get("/{slug}", [BlogController::class, "article"])->name("front.article");
-Route::get("/categoria/{slug}", [BlogController::class, "category"])->name("front.category");
-Route::get("/busca/resultados", [BlogController::class, "search"])->name("front.search");
+Route::group([
+    "middleware" => "access_register"
+], function () {
+    Route::get("/", [BlogController::class, "index"])->name("front.home");
+    Route::get("/{slug}", [BlogController::class, "article"])->name("front.article");
+    Route::get("/categoria/{slug}", [BlogController::class, "category"])->name("front.category");
+    Route::get("/busca/resultados", [BlogController::class, "search"])->name("front.search");
 
-Route::get("/home", function () {
-    return redirect()->route("front.home");
+    Route::get("/home", function () {
+        return redirect()->route("front.home");
+    });
+
+    Route::get("/p/{slug}", [FrontController::class, "dinamicPage"])->name("front.dinamicPage");
+    Route::get("/error/{error}", [FrontController::class, "error"])->name("front.error");
 });
-Route::get("/p/{slug}", [FrontController::class, "dinamicPage"])->name("front.dinamicPage");
-Route::get("/error/{error}", [FrontController::class, "error"])->name("front.error");
+
 Route::get("/builder/builder", [FrontController::class, "builder"]);
