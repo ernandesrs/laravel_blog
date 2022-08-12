@@ -1,5 +1,6 @@
 <div class="article">
-    <img class="img img-fluid" src="{{ m_article_cover_thumb($article, 'medium') }}" alt="{{ $article->title }}">
+    <img class="img img-fluid" src="{{ m_article_cover_thumb($article, $featured ?? false ? 'medium' : 'medium') }}"
+        alt="{{ $article->title }}">
 
     <div class="title-and-desc">
         <h2 class="title">
@@ -19,7 +20,7 @@
         <span class="mr-2">
             {{ icon_elem('userFill') }} <span>{{ substr($article->author()->first()->name, 0, 8) }}...</span>
         </span>
-        <span class="ml-auto ml-lg-2">
+        <span class="ml-2">
             {{ icon_elem('calendarCheckFill') }}
             <span>{{ date('d/m/Y H:i:s', strtotime($article->published_at)) }}</span>
         </span>

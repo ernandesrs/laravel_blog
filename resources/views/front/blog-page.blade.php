@@ -9,7 +9,8 @@ $isSearchResult = empty($_GET['s']) ? false : true;
 @section('content')
     <article class="blog-page {{ $isArticle ? 'article-page' : 'page-page' }}">
         {{-- header --}}
-        <header class="text-center jumbotron">
+        <header class="text-center jumbotron"
+            style="background-image: url({{ thumb(Storage::path('public/' . ($isArticle ? $article->cover : ($isCategory ? $category->cover ?? '' : ''))), 1200, 800) }})">
             <h1 class="display-4">
                 @if ($isArticle)
                     {{ $article->title }}
@@ -85,8 +86,8 @@ $isSearchResult = empty($_GET['s']) ? false : true;
         @if ($isCategory || $isSearchResult)
             <div class="row justify-content">
                 @foreach ($articles as $article)
-                    <div class="col-12 col-sm-6 col-lg-12 col-xl-6 mb-4">
-                        <div class="card card-body article-summary">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-6 mb-4">
+                        <div class="card card-body article-summary border-0">
                             @include('front.includes.article-summary', ['article' => $article])
                         </div>
                     </div>

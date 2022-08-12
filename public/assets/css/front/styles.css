@@ -9304,6 +9304,10 @@ h5,
   border-color: rgb(241, 241, 241);
 }
 
+.pagination {
+  margin-bottom: 0;
+}
+
 body {
   background: linear-gradient(265deg, rgb(252, 252, 252) 24%, rgb(241, 241, 241) 51%);
   min-height: 100vh;
@@ -9458,12 +9462,63 @@ body {
   justify-content: center;
   min-height: 375px;
 }
+.right-side .main .article-page .jumbotron,
+.right-side .main .page-page .jumbotron {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-blend-mode: multiply;
+  position: relative;
+}
+.right-side .main .article-page .jumbotron *,
+.right-side .main .page-page .jumbotron * {
+  position: relative;
+  z-index: 3;
+}
+.right-side .main .article-page .jumbotron .display-4,
+.right-side .main .page-page .jumbotron .display-4 {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+.right-side .main .article-page .jumbotron .lead,
+.right-side .main .page-page .jumbotron .lead {
+  font-size: 1.1rem;
+}
+.right-side .main .article-page .jumbotron::before,
+.right-side .main .page-page .jumbotron::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 0.25rem;
+}
+.right-side .main .article-page .jumbotron::before,
+.right-side .main .page-page .jumbotron::before {
+  background: linear-gradient(to bottom, rgba(240, 240, 240, 0.9), rgba(241, 241, 241, 0.75));
+  height: 100%;
+  z-index: 1;
+}
+.right-side .main .article-page h2 {
+  font-weight: 600;
+  color: rgb(42, 42, 42);
+}
+.right-side .main .article-page p {
+  color: rgb(53, 53, 53);
+}
 .right-side .footer {
   background-color: rgb(42, 42, 42);
   min-height: 50px;
   color: rgb(240, 240, 240);
 }
 
+@media (min-width: 576px) {
+  .right-side .main .article-summary.featured-article .article .title-and-desc .title {
+    font-size: 1.6rem;
+  }
+}
 @media (min-width: 768px) {
   body h1,
 body .h1 {
@@ -9492,13 +9547,32 @@ body .h5 {
   .right-side .main .article-summary.featured-article .article .title-and-desc {
     align-self: flex-start;
     margin-left: 1rem;
-    padding-top: 1rem;
+    padding-top: 0;
   }
   .right-side .main .article-summary.featured-article .article .title-and-desc .title {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
   .right-side .main .article-summary.featured-article .info {
     padding: 1rem 0 0 0;
+  }
+  .right-side .main .article-page .jumbotron .display-4,
+.right-side .main .page-page .jumbotron .display-4 {
+    font-size: 2rem;
+  }
+  .right-side .main .article-page .jumbotron .lead,
+.right-side .main .page-page .jumbotron .lead {
+    font-size: 1.2rem;
+  }
+  .right-side .main .article-page h2 {
+    font-size: 1.4rem;
+    color: rgb(42, 42, 42);
+  }
+  .right-side .main .article-page h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  .right-side .main .article-page p {
+    color: rgb(53, 53, 53);
   }
 }
 @media (min-width: 992px) {
@@ -9528,7 +9602,8 @@ body .h5 {
   }
   .wrap {
     flex-direction: row;
-    width: 1280px;
+    width: 100%;
+    max-width: 1280px;
   }
   .left-side {
     max-width: 300px;
@@ -9573,10 +9648,26 @@ body .h5 {
   }
   .right-side .main .article-summary.featured-article .article .title-and-desc {
     margin-left: 0;
-    padding-top: 0;
+    padding-top: 1rem;
   }
   .right-side .main .article-summary.featured-article .article .title-and-desc .title {
-    font-size: 2rem;
+    font-size: 2.2rem;
+  }
+  .right-side .main .article-page .jumbotron .display-4,
+.right-side .main .page-page .jumbotron .display-4 {
+    font-size: 2.5rem;
+  }
+  .right-side .main .article-page .jumbotron .lead,
+.right-side .main .page-page .jumbotron .lead {
+    font-size: 1.4rem;
+  }
+  .right-side .main .article-page h2 {
+    font-size: 1.6rem;
+    font-weight: 600;
+  }
+  .right-side .main .article-page h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
   }
 }
 @media (min-width: 1200px) {
@@ -9605,5 +9696,14 @@ body .h5 {
   }
   .right-side .main .article-summary.featured-article .article .title-and-desc {
     margin-left: 1rem;
+    padding-top: 0;
+  }
+  .right-side .main .article-page h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+  .right-side .main .article-page h3 {
+    font-size: 1.6rem;
+    font-weight: 600;
   }
 }

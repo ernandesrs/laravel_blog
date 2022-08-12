@@ -1,5 +1,21 @@
 // Dispositivos small (telefones em modo paisagem, com 576px ou mais)
-@media (min-width: 576px) {}
+@media (min-width: 576px) {
+    .right-side {
+        .main {
+            .article-summary {
+                &.featured-article {
+                    .article {
+                        .title-and-desc {
+                            .title {
+                                font-size: 1.6rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 // Dispositivos médios (tablets com 768px ou mais)
 @media (min-width: 768px) {
@@ -43,10 +59,10 @@
                         .title-and-desc {
                             align-self: flex-start;
                             margin-left: $spacer;
-                            padding-top: $spacer / 1;
+                            padding-top: 0;
 
                             .title {
-                                font-size: 1.8rem;
+                                font-size: 2rem;
                             }
                         }
                     }
@@ -54,6 +70,35 @@
                     .info {
                         padding: $spacer 0 0 0;
                     }
+                }
+            }
+
+            .article-page,
+            .page-page {
+                .jumbotron {
+                    .display-4 {
+                        font-size: 2rem;
+                    }
+
+                    .lead {
+                        font-size: 1.2rem;
+                    }
+                }
+            }
+
+            .article-page {
+                h2 {
+                    font-size: 1.4rem;
+                    color: $dark;
+                }
+
+                h3 {
+                    font-size: 1.2rem;
+                    font-weight: 600;
+                }
+
+                p {
+                    color: $dark-light;
                 }
             }
         }
@@ -95,7 +140,8 @@
 
     .wrap {
         flex-direction: row;
-        width: 1280px;
+        width: 100%;
+        max-width: 1280px;
     }
 
     .left-side {
@@ -156,13 +202,38 @@
 
                         .title-and-desc {
                             margin-left: 0;
-                            padding-top: 0;
+                            padding-top: $spacer;
 
                             .title {
-                                font-size: 2rem;
+                                font-size: 2.2rem;
                             }
                         }
                     }
+                }
+            }
+
+            .article-page,
+            .page-page {
+                .jumbotron {
+                    .display-4 {
+                        font-size: 2.5rem;
+                    }
+
+                    .lead {
+                        font-size: 1.4rem;
+                    }
+                }
+            }
+
+            .article-page {
+                h2 {
+                    font-size: 1.6rem;
+                    font-weight: 600;
+                }
+
+                h3 {
+                    font-size: 1.4rem;
+                    font-weight: 600;
                 }
             }
         }
@@ -208,8 +279,21 @@
 
                         .title-and-desc {
                             margin-left: $spacer;
+                            padding-top: 0;
                         }
                     }
+                }
+            }
+
+            .article-page {
+                h2 {
+                    font-size: 1.8rem;
+                    font-weight: 600;
+                }
+
+                h3 {
+                    font-size: 1.6rem;
+                    font-weight: 600;
                 }
             }
         }
