@@ -77,10 +77,10 @@
                                 @foreach ($access as $ac)
                                     <tr>
                                         <td class="text-center align-middle">
-                                            {{ $ac->all_access }}
+                                            {{ $ac->access }}
                                         </td>
                                         <td class="align-middle">
-                                            <a href="{{ config('app.url') . ($ac->path != '/' ? '/' . $ac->path : '') }}"
+                                            <a href="{{ route($ac->name, (array) json_decode($ac->params)) }}"
                                                 target="_blank">
                                                 {{ substr($ac->path, 0, 50) . (strlen($ac->path) > 50 ? '...' : null) }}
                                             </a>

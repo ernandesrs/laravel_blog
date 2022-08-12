@@ -13,7 +13,7 @@ class AdminController extends Controller
     {
         return view("admin.home", [
             "pageTitle" => "Administração",
-            "access" => AccessRegister::whereNotNull("id")->orderBy("all_access", "DESC")->limit(5)->get()
+            "access" => AccessRegister::whereNotNull("id")->orderBy("access", "DESC")->limit(5)->get()
         ]);
     }
 }
