@@ -1,13 +1,5 @@
 // Dispositivos small (telefones em modo paisagem, com 576px ou mais)
-@media (min-width: 576px) {
-
-    .right-side {
-
-        .main {}
-
-    }
-
-}
+@media (min-width: 576px) {}
 
 // Dispositivos médios (tablets com 768px ou mais)
 @media (min-width: 768px) {
@@ -43,28 +35,18 @@
 
         .main {
             .article-summary {
-                .info {
-                    .tags {
-                        display: block;
-                    }
-                }
-
                 &.featured-article {
                     .article {
                         align-items: center;
                         flex-direction: row;
 
-                        .img {
-                            width: 100%;
-                            max-width: 425px;
-                        }
-
                         .title-and-desc {
                             align-self: flex-start;
                             margin-left: $spacer;
+                            padding-top: $spacer / 1;
 
                             .title {
-                                font-size: 2.5rem;
+                                font-size: 1.8rem;
                             }
                         }
                     }
@@ -136,6 +118,14 @@
             width: 100%;
             position: relative;
             top: unset;
+
+            .sidebar-elem {
+                &.categories {
+                    .nav {
+                        justify-content: start;
+                    }
+                }
+            }
         }
     }
 
@@ -162,14 +152,14 @@
 
                 &.featured-article {
                     .article {
-                        .img {
-                            width: 100%;
-                            max-width: 525px;
-                        }
+                        flex-direction: column;
 
                         .title-and-desc {
+                            margin-left: 0;
+                            padding-top: 0;
+
                             .title {
-                                font-size: 2.8rem;
+                                font-size: 2rem;
                             }
                         }
                     }
@@ -206,6 +196,22 @@
         h5,
         .h5 {
             font-size: 1.4rem;
+        }
+    }
+
+    .right-side {
+        .main {
+            .article-summary {
+                &.featured-article {
+                    .article {
+                        flex-direction: row;
+
+                        .title-and-desc {
+                            margin-left: $spacer;
+                        }
+                    }
+                }
+            }
         }
     }
 }

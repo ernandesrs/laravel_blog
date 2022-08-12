@@ -29,7 +29,6 @@ body {
     align-items: center;
     width: 100%;
     height: 75px;
-    background-color: $light-dark;
     border-bottom: 1px solid rgb($dark-light, 0.125);
     position: relative;
     z-index: 500;
@@ -37,6 +36,12 @@ body {
     .header {
         display: flex;
         align-items: center;
+        min-height: $header-height;
+        padding: $spacer;
+
+        .logo {
+            font-size: 1.2rem;
+        }
 
         .btn-menu-toggler {
             background-color: transparent;
@@ -56,7 +61,7 @@ body {
 
     .sidebar {
         display: none;
-        background-color: $light;
+        background-color: $light-dark;
         width: calc(100% - ($spacer * 2));
         position: absolute;
         top: 77px;
@@ -64,6 +69,38 @@ body {
 
         &.show {
             display: block;
+        }
+
+        .sidebar-elem {
+            background-color: transparent;
+            margin-bottom: $spacer;
+            padding: $spacer;
+
+            .title {
+                font-size: 1rem;
+                font-weight: 600;
+                padding-bottom: $spacer / 1.5;
+                color: $dark-light;
+                cursor: default;
+            }
+
+            &.categories {
+                .nav {
+                    flex-direction: row;
+                    justify-content: center;
+
+                    .nav-link {
+                        background-color: $light-light;
+                        margin: 1px;
+                        border-radius: $border-radius;
+
+                        &:hover {
+                            background-color: $dark-light;
+                            color: $light-light;
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -91,14 +128,23 @@ body {
 
                 .title-and-desc {
                     width: 100%;
-                    padding: $spacer / 2 0;
+                    padding: $spacer / 1 0;
 
                     .title {
+                        font-size: 1rem;
+                        font-weight: 600;
                         margin: 0;
+
+                        a {
+                            &:hover {
+                                text-decoration: none;
+                            }
+                        }
                     }
 
                     .description {
                         margin: 0;
+                        color: $dark-light;
                     }
                 }
             }
@@ -106,14 +152,26 @@ body {
             .info {
                 font-size: 0.785rem;
 
-                .categories {}
-
-                .tags {
-                    display: none;
+                .categories {
+                    font-weight: 500;
                 }
             }
 
-            &.featured-article {}
+            &.featured-article {
+                .article {
+                    align-items: center;
+
+                    .img {
+                        width: 100%;
+                    }
+
+                    .title-and-desc {
+                        .title {
+                            font-size: 1.2rem;
+                        }
+                    }
+                }
+            }
         }
 
         .blog-page {

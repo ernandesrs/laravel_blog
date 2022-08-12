@@ -9300,6 +9300,10 @@ h5,
   font-size: 1rem;
 }
 
+.card {
+  border-color: rgb(241, 241, 241);
+}
+
 body {
   background: linear-gradient(265deg, rgb(252, 252, 252) 24%, rgb(241, 241, 241) 51%);
   min-height: 100vh;
@@ -9335,7 +9339,6 @@ body {
   align-items: center;
   width: 100%;
   height: 75px;
-  background-color: rgb(240, 240, 240);
   border-bottom: 1px solid rgba(53, 53, 53, 0.125);
   position: relative;
   z-index: 500;
@@ -9343,6 +9346,11 @@ body {
 .left-side .header {
   display: flex;
   align-items: center;
+  min-height: 60px;
+  padding: 1rem;
+}
+.left-side .header .logo {
+  font-size: 1.2rem;
 }
 .left-side .header .btn-menu-toggler {
   background-color: transparent;
@@ -9358,7 +9366,7 @@ body {
 }
 .left-side .sidebar {
   display: none;
-  background-color: rgb(241, 241, 241);
+  background-color: rgb(240, 240, 240);
   width: calc(100% - 2rem);
   position: absolute;
   top: 77px;
@@ -9366,6 +9374,31 @@ body {
 }
 .left-side .sidebar.show {
   display: block;
+}
+.left-side .sidebar .sidebar-elem {
+  background-color: transparent;
+  margin-bottom: 1rem;
+  padding: 1rem;
+}
+.left-side .sidebar .sidebar-elem .title {
+  font-size: 1rem;
+  font-weight: 600;
+  padding-bottom: 0.6666666667rem;
+  color: rgb(53, 53, 53);
+  cursor: default;
+}
+.left-side .sidebar .sidebar-elem.categories .nav {
+  flex-direction: row;
+  justify-content: center;
+}
+.left-side .sidebar .sidebar-elem.categories .nav .nav-link {
+  background-color: rgb(252, 252, 252);
+  margin: 1px;
+  border-radius: 0.25rem;
+}
+.left-side .sidebar .sidebar-elem.categories .nav .nav-link:hover {
+  background-color: rgb(53, 53, 53);
+  color: rgb(252, 252, 252);
 }
 
 .right-side {
@@ -9390,19 +9423,34 @@ body {
 }
 .right-side .main .article-summary .article .title-and-desc {
   width: 100%;
-  padding: 0.5rem 0;
+  padding: 1rem 0;
 }
 .right-side .main .article-summary .article .title-and-desc .title {
+  font-size: 1rem;
+  font-weight: 600;
   margin: 0;
+}
+.right-side .main .article-summary .article .title-and-desc .title a:hover {
+  text-decoration: none;
 }
 .right-side .main .article-summary .article .title-and-desc .description {
   margin: 0;
+  color: rgb(53, 53, 53);
 }
 .right-side .main .article-summary .info {
   font-size: 0.785rem;
 }
-.right-side .main .article-summary .info .tags {
-  display: none;
+.right-side .main .article-summary .info .categories {
+  font-weight: 500;
+}
+.right-side .main .article-summary.featured-article .article {
+  align-items: center;
+}
+.right-side .main .article-summary.featured-article .article .img {
+  width: 100%;
+}
+.right-side .main .article-summary.featured-article .article .title-and-desc .title {
+  font-size: 1.2rem;
 }
 .right-side .main .blog-page .jumbotron {
   display: flex;
@@ -9437,23 +9485,17 @@ body .h4 {
 body .h5 {
     font-size: 1.1rem;
   }
-  .right-side .main .article-summary .info .tags {
-    display: block;
-  }
   .right-side .main .article-summary.featured-article .article {
     align-items: center;
     flex-direction: row;
   }
-  .right-side .main .article-summary.featured-article .article .img {
-    width: 100%;
-    max-width: 425px;
-  }
   .right-side .main .article-summary.featured-article .article .title-and-desc {
     align-self: flex-start;
     margin-left: 1rem;
+    padding-top: 1rem;
   }
   .right-side .main .article-summary.featured-article .article .title-and-desc .title {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
   }
   .right-side .main .article-summary.featured-article .info {
     padding: 1rem 0 0 0;
@@ -9506,6 +9548,9 @@ body .h5 {
     position: relative;
     top: unset;
   }
+  .left-side .sidebar .sidebar-elem.categories .nav {
+    justify-content: start;
+  }
   .right-side {
     max-width: calc(100% - 300px);
     margin-left: 300px;
@@ -9523,12 +9568,15 @@ body .h5 {
   .right-side .main .article-summary .info {
     font-size: 0.875rem;
   }
-  .right-side .main .article-summary.featured-article .article .img {
-    width: 100%;
-    max-width: 525px;
+  .right-side .main .article-summary.featured-article .article {
+    flex-direction: column;
+  }
+  .right-side .main .article-summary.featured-article .article .title-and-desc {
+    margin-left: 0;
+    padding-top: 0;
   }
   .right-side .main .article-summary.featured-article .article .title-and-desc .title {
-    font-size: 2.8rem;
+    font-size: 2rem;
   }
 }
 @media (min-width: 1200px) {
@@ -9551,5 +9599,11 @@ body .h4 {
   body h5,
 body .h5 {
     font-size: 1.4rem;
+  }
+  .right-side .main .article-summary.featured-article .article {
+    flex-direction: row;
+  }
+  .right-side .main .article-summary.featured-article .article .title-and-desc {
+    margin-left: 1rem;
   }
 }

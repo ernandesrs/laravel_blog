@@ -39,7 +39,7 @@
             <div class="container-fluid">
 
                 <header class="header">
-                    <a href="{{ route('front.home') }}" title="Página inicial">
+                    <a class="logo" href="{{ route('front.home') }}" title="Página inicial">
                         <h1 class="sr-only">{{ config('app.name') }}</h1>
                         <span>{{ config('app.name') }}</span>
                     </a>
@@ -47,8 +47,20 @@
                 </header>
 
                 <div class="sidebar">
+                    {{-- search --}}
                     <div class="sidebar-elem">
-                        <nav class="nav flex-column">
+                        <div class="search-bar">
+                            <form action="{{ route('front.search') }}" method="get">
+                                <input class="form-control text-center" type="search" name="s"
+                                    value="{{ input_value($_GET ?? null, 's') }}" placeholder="Buscar...">
+                            </form>
+                        </div>
+                    </div>
+
+                    {{-- categories --}}
+                    <div class="sidebar-elem categories">
+                        <h2 class="title mb-0">Categorias</h2>
+                        <nav class="nav">
                             @php
                                 $categories = \App\Models\Category::all();
                             @endphp
@@ -64,6 +76,7 @@
                             @endforeach
                         </nav>
                     </div>
+
                 </div>
 
             </div>
@@ -72,12 +85,6 @@
         <div class="right-side">
             <div class="container-fluid">
                 <main class="main">
-                    <div class="search-bar pb-4">
-                        <form action="{{ route('front.search') }}" method="get">
-                            <input class="form-control text-center" type="search" name="s"
-                                value="{{ input_value($_GET ?? null, 's') }}" placeholder="Pesquise por um artigo">
-                        </form>
-                    </div>
                     @include('includes.message')
                     @yield('content')
                 </main>
