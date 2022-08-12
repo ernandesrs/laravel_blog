@@ -7,7 +7,7 @@ $isSearchResult = empty($_GET['s']) ? false : true;
 @endphp
 
 @section('content')
-    <article class="blog-page">
+    <article class="blog-page {{ $isArticle ? 'article-page' : 'page-page' }}">
         {{-- header --}}
         <header class="text-center jumbotron">
             <h1 class="display-4">
@@ -77,6 +77,10 @@ $isSearchResult = empty($_GET['s']) ? false : true;
                 </p>
             @endif
         </header>
+
+        <div class="pb-4">
+            @include('front.includes.ads', ['adsType' => 'horizontal'])
+        </div>
 
         @if ($isCategory || $isSearchResult)
             <div class="row justify-content">

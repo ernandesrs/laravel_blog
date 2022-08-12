@@ -24,6 +24,8 @@
 
     <title>{{ config('app.name') }} - {{ $pageTitle }}</title>
 
+    {!! \App\Helpers\GoogleAdsense::script() !!}
+
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-icons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/front/styles.css') }}">
 
@@ -55,6 +57,10 @@
                                     value="{{ input_value($_GET ?? null, 's') }}" placeholder="Buscar...">
                             </form>
                         </div>
+                    </div>
+
+                    <div class="sidebar-elem">
+                        @include('front.includes.ads', ['adsType' => 'block'])
                     </div>
 
                     {{-- categories --}}

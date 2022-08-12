@@ -11,6 +11,12 @@
                         @include('front.includes.article-summary', ['article' => $article])
                     </div>
                 </div>
+
+                @if ($key == 0)
+                    <div class="col-12 pb-4">
+                        @include('front.includes.ads', ['adsType' => 'horizontal'])
+                    </div>
+                @endif
             @endforeach
         </div>
 
