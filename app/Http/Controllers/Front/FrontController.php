@@ -25,7 +25,7 @@ class FrontController extends Controller
 
         $slugs = $page->slugs()->first();
 
-        if ($slugs->slug(app()->getLocale()))
+        if (in_array($slugs->slug(app()->getLocale()), ["inicio", "home"]))
             return redirect()->route("front.home");
 
         $view = "front.page";
