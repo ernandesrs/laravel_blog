@@ -91,6 +91,20 @@ if ($article ?? null) {
         });
 
         /*
+         * CONTA CARACTERES DO TÍTULO
+         */
+        $("#title").on("keyup", function(e) {
+            $("#title-help-text .count").text(strlen($(this).val()));
+        });
+
+        /*
+         * CONTA CARACTERES DA DESCRIÇÃO
+         */
+        $("#description").on("keyup", function(e) {
+            $("#description-help-text .count").text(strlen($(this).val()));
+        });
+
+        /*
          * ABRE MODAL DE IMAGENS E MONITORA INSERÇÃO DE IMAGEMS
          */
         $("#jsButtonInsertCover").on("click", function(e) {
@@ -112,5 +126,10 @@ if ($article ?? null) {
                 modal.modal("hide");
             });
         });
+
+        function strlen(str) {
+            let text = String(str);
+            return text.length;
+        }
     </script>
 @endsection

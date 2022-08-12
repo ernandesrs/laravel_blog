@@ -6,6 +6,10 @@
                 <label for="title">Título:</label>
                 <input class="form-control" type="text" name="title" id="title"
                     value="{{ input_value($article ?? null, 'title') }}">
+                <small id="title-help-text" class="form-text text-muted">
+                    Recomendado entre 65 e 80 caracteres(<span
+                        class="count">{{ strlen(input_value($article ?? null, 'title') ?? '') }}</span>).
+                </small>
             </div>
         </div>
 
@@ -13,6 +17,10 @@
             <div class="form-group">
                 <label for="description">Descrição:</label>
                 <textarea class="form-control" name="description" id="description">{{ input_value($article ?? null, 'description') }}</textarea>
+                <small id="description-help-text" class="form-text text-muted">
+                    Recomendado entre 120 e 130 caracteres(<span
+                        class="count">{{ strlen(input_value($article ?? null, 'description') ?? '') }}</span>).
+                </small>
             </div>
         </div>
 
