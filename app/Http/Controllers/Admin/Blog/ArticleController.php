@@ -200,10 +200,13 @@ class ArticleController extends Controller
         $article->status = $validated["status"];
 
         if ($article->status == Article::STATUS_SCHEDULED) {
-            $article->scheduled_to = date("Y-m-d H:i:s", strtotime($validated["scheduled_to"]));
+            if ($article->getOriginal("status") != Article::STATUS_SCHEDULED)
+                $article->scheduled_to = date("Y-m-d H:i:s", strtotime($validated["scheduled_to"]));
+
             $article->published_at = null;
         } else if ($article->status == Article::STATUS_PUBLISHED) {
-            $article->published_at = date("Y-m-d H:i:s");
+            if ($article->getOriginal("status") != Article::STATUS_PUBLISHED)
+                $article->published_at = date("Y-m-d H:i:s");
             $article->scheduled_to = null;
         } else {
             $article->published_at = null;
