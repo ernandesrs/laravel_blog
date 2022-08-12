@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AccessRegister;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -11,7 +12,8 @@ class AdminController extends Controller
     public function home()
     {
         return view("admin.home", [
-            "pageTitle" => "Administração"
+            "pageTitle" => "Administração",
+            "access" => AccessRegister::whereNotNull("id")->orderBy("all_access", "DESC")->limit(5)->get()
         ]);
     }
 }

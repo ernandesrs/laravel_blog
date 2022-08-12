@@ -34,8 +34,7 @@
                             <a
                                 href="{{ route('admin.pages.index', ['filter' => true, 'status' => 'scheduled']) }}">Agendadas</a>
                             <span class="mx-1">|</span>
-                            <a
-                                href="{{ route('admin.pages.index', ['filter' => true, 'status' => 'draft']) }}">Rascunho</a>
+                            <a href="{{ route('admin.pages.index', ['filter' => true, 'status' => 'draft']) }}">Rascunho</a>
                         </small>
                     </div>
                 </div>
@@ -54,6 +53,47 @@
                             <a href="">Example #2</a>
                         </small>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card card-body">
+                <h2 class="mb-0">Mais acessados</h2>
+                <hr>
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover table-borderless">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Acessos</th>
+                                <th>URL</th>
+                                <th>Último acesso</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if ($access->count())
+                                @foreach ($access as $ac)
+                                    <tr>
+                                        <td class="text-center align-middle">
+                                            {{ $ac->all_access }}
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="{{ config('app.url') . ($ac->path != '/' ? '/' . $ac->path : '') }}"
+                                                target="_blank">
+                                                {{ substr($ac->path, 0, 50) . (strlen($ac->path) > 50 ? '...' : null) }}
+                                            </a>
+                                        </td>
+                                        <td class="align-middle">
+                                            {{ date('d/m/Y H:i:s', strtotime($ac->updated_at)) }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                            @endif
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
