@@ -66,24 +66,35 @@ foreach ($keys as $key => $value) {
                                     </span>
                                     <div class="d-flex flex-wrap">
                                         <span class="badge badge-dark-light">
-                                            {{ icon_elem('user') }}
+                                            {{ icon_elem('userFill') }}
                                             {{ $author ? substr($author->name, 0, 12) : null }}
                                             {{ strlen($author->name) > 12 ? '...' : null }}
                                         </span>
                                         <span class="mx-1"></span>
-                                        <span class="badge badge-light-dark" data-toggle="tooltip" data-placement="top"
-                                            title="{{ ucfirst(__('terms.page_status.' . $page->status)) }}">
-                                            @if ($page->scheduled_to)
-                                                {{ icon_elem('calendarEvent') }}
-                                                {{ date('d/m/Y H:i:s', strtotime($page->scheduled_to)) }}
-                                            @elseif($page->published_at)
-                                                {{ icon_elem('calendarCheck') }}
-                                                {{ date('d/m/Y H:i:s', strtotime($page->published_at)) }}
+                                        
+                                        @php
+                                            if ($page->status == 'published') {
+                                                $statusTitle = 'Publicado em: ' . date('d/m/Y H:i:s', strtotime($page->published_at));
+                                            } elseif ($page->status == 'scheduled') {
+                                                $statusTitle = 'Agendado para: ' . date('d/m/Y H:i:s', strtotime($page->scheduled_to));
+                                            } else {
+                                                $statusTitle = 'Criado em: ' . date('d/m/Y H:i:s', strtotime($page->created_at));
+                                            }
+                                            
+                                        @endphp
+                                        <span
+                                            class="badge badge-{{ $page->status == 'published' ? 'success' : ($page->status == 'scheduled' ? 'info' : 'light') }}"
+                                            data-toggle="tooltip" title="{{ $statusTitle }}">
+                                            {{ icon_elem('calendarFill') }}
+                                            @if ($page->status == 'published')
+                                                {{ date('d/m/Y', strtotime($page->published_at)) }}
+                                            @elseif($page->status == 'scheduled')
+                                                {{ date('d/m/Y', strtotime($page->scheduled_to)) }}
                                             @else
-                                                {{ icon_elem('calendarX') }}
-                                                {{ date('d/m/Y H:i:s', strtotime($page->created_at)) }}
+                                                {{ date('d/m/Y', strtotime($page->created_at)) }}
                                             @endif
                                         </span>
+
                                         <span class="mx-1"></span>
                                         <span class="badge badge-light">
                                             {{ $page->content_type == m_page_content_view() ? 'Página customizada' : 'Texto' }}

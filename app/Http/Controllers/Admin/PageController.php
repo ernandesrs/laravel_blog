@@ -65,8 +65,13 @@ class PageController extends Controller
         $page->description = $validated["description"];
         $page->content_type = $validated["content_type"];
         $page->follow = $validated["follow"] ?? null ? true : false;
-        $page->status = $validated["status"];
         $page->content = $page->getContent($validated);
+        $page->status = $validated["status"];
+
+        if ($validated["status"] == Page::STATUS_SCHEDULED)
+            $page->scheduled_to = date("Y-m-d H:i:s", strtotime($validated["scheduled_to"]));
+        elseif ($validated["status"] == Page::STATUS_PUBLISHED)
+            $page->published_at = date("Y-m-d H:i:s");
 
         // UPLOAD DE CAPA
         if ($cover = $validated["cover"] ?? null) {
@@ -121,8 +126,22 @@ class PageController extends Controller
 
         if ($page->protection != Page::PROTECTION_SYSTEM) {
             $page->content_type = $validated["content_type"];
-            $page->status = $validated["status"];
             $page->content = $page->getContent($validated);
+            $page->status = $validated["status"];
+
+            if ($page->status == Page::STATUS_SCHEDULED) {
+                if ($page->getOriginal("status") != Page::STATUS_SCHEDULED)
+                    $page->scheduled_to = date("Y-m-d H:i:s", strtotime($validated["scheduled_to"]));
+
+                $page->published_at = null;
+            } else if ($page->status == Page::STATUS_PUBLISHED) {
+                if ($page->getOriginal("status") != Page::STATUS_PUBLISHED)
+                    $page->published_at = date("Y-m-d H:i:s");
+                $page->scheduled_to = null;
+            } else {
+                $page->published_at = null;
+                $page->scheduled_to = null;
+            }
 
             /** @var Slug $slugs */
             $slugs = $page->slugs()->first();
