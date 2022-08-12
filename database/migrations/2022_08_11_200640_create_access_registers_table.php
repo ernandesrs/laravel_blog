@@ -17,7 +17,9 @@ class CreateAccessRegistersTable extends Migration
             $table->id();
 
             $table->string("path");
-            $table->integer("all_access")->nullable(false)->default(0);
+            $table->integer("access")->nullable(false)->default(0);
+            $table->string("name", 100)->nullable(false);
+            $table->json("params")->nullable(false);
 
             $table->timestamps();
         });
