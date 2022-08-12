@@ -7,14 +7,18 @@
             <div class="card card-body d-flex flex-row align-items-center cards-list-item">
                 {{ icon_elem('users') }}
                 <div class="card-item-content">
-                    <h5 class="h3 mb-0">Usuários</h5>
+                    <h5 class="h3 mb-0">
+                        ({{ \App\Models\User::all()->count() }}) Usuários
+                    </h5>
                     <div>
                         <small>
-                            <a href="{{ route('admin.users.index', ['filter' => true, 'status' => 'unverified']) }}">Não
-                                verificados</a>
+                            <a href="{{ route('admin.users.index', ['filter' => true, 'status' => 'unverified']) }}">
+                                ({{ \App\Models\User::whereNull('email_verified_at')->count() }}) Não verificados
+                            </a>
                             <span class="mx-1">|</span>
-                            <a
-                                href="{{ route('admin.users.index', ['filter' => true, 'status' => 'verified']) }}">Verificados</a>
+                            <a href="{{ route('admin.users.index', ['filter' => true, 'status' => 'verified']) }}">
+                                ({{ \App\Models\User::whereNotNull('email_verified_at')->count() }}) Verificados
+                            </a>
                         </small>
                     </div>
                 </div>
@@ -25,16 +29,17 @@
             <div class="card card-body d-flex flex-row align-items-center cards-list-item">
                 {{ icon_elem('pageEarmarkText') }}
                 <div class="card-item-content">
-                    <h5 class="h3 mb-0">Páginas</h5>
+                    <h5 class="h3 mb-0">
+                        ({{ \App\Models\Article::all()->count() }}) Artigos
+                    </h5>
                     <div>
                         <small>
-                            <a
-                                href="{{ route('admin.pages.index', ['filter' => true, 'status' => 'published']) }}">Publicadas</a>
+                            <a href="{{ route('admin.blog.articles.index', ['filter' => true, 'status' => 'published']) }}">({{ \App\Models\Article::where('status', \App\Models\Article::STATUS_PUBLISHED)->count() }})
+                                Publicados</a>
                             <span class="mx-1">|</span>
                             <a
-                                href="{{ route('admin.pages.index', ['filter' => true, 'status' => 'scheduled']) }}">Agendadas</a>
-                            <span class="mx-1">|</span>
-                            <a href="{{ route('admin.pages.index', ['filter' => true, 'status' => 'draft']) }}">Rascunho</a>
+                                href="{{ route('admin.blog.articles.index', ['filter' => true, 'status' => 'scheduled']) }}">({{ \App\Models\Article::where('status', \App\Models\Article::STATUS_SCHEDULED)->count() }})
+                                Agendados</a>
                         </small>
                     </div>
                 </div>
@@ -43,14 +48,24 @@
 
         <div class="col-12 col-sm-6 col-md-4 col-lg-6 col-xl-4 mb-4">
             <div class="card card-body d-flex flex-row align-items-center cards-list-item">
-                {{ icon_elem('appIndicator') }}
+                {{ icon_elem('pageEarmarkText') }}
                 <div class="card-item-content">
-                    <h5 class="h3 mb-0">Example</h5>
+                    <h5 class="h3 mb-0">
+                        ({{ \App\Models\Page::all()->count() }}) Páginas
+                    </h5>
                     <div>
                         <small>
-                            <a href="">Example #1</a>
+                            <a href="{{ route('admin.pages.index', ['filter' => true, 'status' => 'published']) }}">
+                                ({{ \App\Models\Page::where('status', 'published')->count() }}) Publicadas
+                            </a>
                             <span class="mx-1">|</span>
-                            <a href="">Example #2</a>
+                            <a href="{{ route('admin.pages.index', ['filter' => true, 'status' => 'scheduled']) }}">
+                                ({{ \App\Models\Page::where('status', 'scheduled')->count() }}) Agendadas
+                            </a>
+                            <span class="mx-1">|</span>
+                            <a href="{{ route('admin.pages.index', ['filter' => true, 'status' => 'draft']) }}">
+                                ({{ \App\Models\Page::where('status', 'draft')->count() }}) Rascunho
+                            </a>
                         </small>
                     </div>
                 </div>
@@ -58,6 +73,7 @@
         </div>
     </div>
 
+    {{-- mais acessados --}}
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="card card-body">
