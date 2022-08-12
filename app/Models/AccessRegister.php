@@ -9,5 +9,5 @@ class AccessRegister extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["path", "all_access"];
+    protected $fillable = ["path", "access", "name", "params"];
 }
