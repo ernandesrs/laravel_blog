@@ -22,7 +22,7 @@
         </span>
         <span class="ml-2">
             {{ icon_elem('calendarCheckFill') }}
-            <span>{{ date('d/m/Y H:i:s', strtotime($article->published_at)) }}</span>
+            <span>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $article->published_at)->diffForHumans() }}</span>
         </span>
     </div>
 
