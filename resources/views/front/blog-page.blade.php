@@ -115,7 +115,7 @@ $isSearchResult = empty($_GET['s']) ? false : true;
                          **/
 
                         var disqus_config = function() {
-                            this.page.url = "{{ $pageUrl }}"; // Replace PAGE_URL with your page's canonical URL variable
+                            this.page.url = "{{ $seo->getUrl() }}"; // Replace PAGE_URL with your page's canonical URL variable
                             this.page.identifier =
                                 {{ $article->id }}; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
                         };

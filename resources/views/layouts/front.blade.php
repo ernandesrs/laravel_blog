@@ -6,23 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!--  Essential META Tags -->
-    <meta property="og:title" content="{{ $pageDescription }}">
-    <meta property="og:type" content="article" />
-    <meta property="og:image" content="{{ $pageCover }}">
-    <meta property="og:url" content="{{ $pageUrl }}">
-    <meta name="twitter:card" content="{{ $pageCover }}">
-
-    <!--  Non-Essential, But Recommended -->
-    <meta property="og:description" content="{{ $pageDescription }}">
-    <meta property="og:site_name" content="{{ config('app.name') }} - {{ $pageTitle }}">
-    <meta name="twitter:image:alt" content="{{ $pageCover }}">
-
-    <meta name="description" content="{{ $pageDescription }}">
-    <meta name="robots" content="{{ $pageFollow ? 'index,follow' : 'noindex,nofollow' }}" />
-    <link rel="canonical" href="{{ $pageUrl }}" />
-
-    <title>{{ config('app.name') }} - {{ $pageTitle }}</title>
+    {!! $seo ?? null ? $seo->render() : null !!}
 
     {!! \App\Helpers\GoogleAdsense::script() !!}
 

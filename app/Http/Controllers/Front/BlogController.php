@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Helpers\Seo;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Category;
@@ -26,12 +27,7 @@ class BlogController extends Controller
         $content = json_decode($page->content);
 
         return view($content->view_path, [
-            "pageTitle" => $page->title,
-            "pageDescription" => $page->description,
-            "pageFollow" => $page->follow,
-            "pageCover" => m_page_cover_thumb($page, [800, 600]),
-            "pageUrl" => route("front.home"),
-
+            "seo" => Seo::set($page->title, $page->description, route("front.home"), m_page_cover_thumb($page, [800, 600])),
             "articles" => Article::where("status", Article::STATUS_PUBLISHED)->orderBy("published_at", "DESC")->paginate($this->articlesLimit)
         ]);
     }
@@ -56,11 +52,7 @@ class BlogController extends Controller
         }
 
         return view("front.blog-page", [
-            "pageTitle" => $article->title ?? "Home",
-            "pageDescription" => $article->description ?? "",
-            "pageFollow" => $article->follow ?? true,
-            "pageCover" => ($article ?? null) ? m_article_cover_thumb($article, [800, 600]) : null,
-            "pageUrl" => route("front.article", ["slug" => $slug]),
+            "seo" => Seo::set($article->title, $article->description, route("front.article", ["slug" => $slug]), m_article_cover_thumb($article, [800, 600])),
             "article" => $article
         ]);
     }
@@ -85,11 +77,7 @@ class BlogController extends Controller
         }
 
         return view("front.blog-page", [
-            "pageTitle" => $category->title ?? "Home",
-            "pageDescription" => $category->description ?? "",
-            "pageFollow" => true,
-            "pageCover" => null,
-            "pageUrl" => route("front.category", ["slug" => $slug]),
+            "seo" => Seo::set($category->title, $category->description, route("front.category", ["slug" => $slug]), ""),
             "category" => $category,
             "articles" => $category->articles()->where("status", Article::STATUS_PUBLISHED)->orderBy("published_at", "DESC")->paginate($this->articlesLimit)->withQueryString()
         ]);
@@ -108,12 +96,7 @@ class BlogController extends Controller
         $articles = Article::whereNotNull("id")->whereRaw("MATCH(title, description) AGAINST('{$search}')");
 
         return view("front.blog-page", [
-            "pageTitle" => "Resultados para a busca: " . $search,
-            "pageDescription" => "Página de resultado de busca para " . $search,
-            "pageFollow" => false,
-            "pageCover" => null,
-            "pageUrl" => route("front.search", ["s" => $search]),
-
+            "seo" => Seo::set("Resultados para a busca: " . $search, "Página de resultado de busca para " . $search, route("front.search", ["s" => $search]), ""),
             "articles" => $articles->orderBy("published_at", "DESC")->paginate($this->articlesLimit)->withQueryString()
         ]);
     }
