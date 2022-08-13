@@ -18,6 +18,7 @@ class CreateCategoriesTable extends Migration
 
             $table->string("title", 25)->nullable(false)->unique();
             $table->string("description", 125)->nullable();
+            $table->string("cover", 255)->nullable();
             $table->string("lang", 5)->nullable(false)->default(config("app.locale"));
             $table->foreignId("slug_id")->nullable(false);
             $table->fullText(["title", "description"], "fulltext_index_search");
