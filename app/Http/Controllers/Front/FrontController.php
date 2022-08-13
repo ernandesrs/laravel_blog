@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Helpers\Seo;
 use App\Http\Controllers\Controller;
 use App\Models\Page;
 use App\Models\Slug;
@@ -35,12 +36,7 @@ class FrontController extends Controller
 
         // IMPLEMENTAR
         return view($view, [
-            "pageTitle" => $page->title,
-            "pageDescription" => $page->description,
-            "pageFollow" => $page->follow,
-            "pageCover" => m_page_cover_thumb($page, [800, 600]),
-            "pageUrl" => route("front.dinamicPage", ["slug" => $slugs->slug(app()->getLocale())]),
-
+            "seo" => Seo::set($page->title, $page->description, route("front.dinamicPage", ["slug" => $slugs->slug(app()->getLocale())]), m_page_cover_thumb($page, [800, 600])),
             "page" => $page
         ]);
     }
