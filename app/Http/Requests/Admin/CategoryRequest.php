@@ -41,6 +41,7 @@ class CategoryRequest extends FormRequest
         return [
             "title" => ["required", "string", $unique, "min:2", "max:25"],
             "description" => ["nullable", "string", "max:125"],
+            "cover" => ["nullable", "integer"],
         ];
     }
 

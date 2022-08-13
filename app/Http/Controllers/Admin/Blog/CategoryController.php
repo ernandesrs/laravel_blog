@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin\Blog;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CategoryRequest;
 use App\Models\Category;
+use App\Models\Media\Image;
 use App\Models\Slug;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -20,16 +22,6 @@ class CategoryController extends Controller
             "pageTitle" => "Categorias",
             "categories" => Category::all()
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -58,6 +50,13 @@ class CategoryController extends Controller
         $category->description = $validated["description"] ?? null;
         $category->lang = $lang;
         $category->slug_id = $slug->id;
+
+        if ($cover = $validated["cover"] ?? null) {
+            $image = Image::where("id", $cover)->first();
+            if ($image)
+                $category->cover = $image->path;
+        }
+
         if (!$category->save()) {
             return response()->json([
                 "success" => false,
@@ -73,17 +72,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Category  $category
@@ -91,9 +79,11 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        $category->thumb = $category->cover ? thumb(Storage::path("public/" . $category->cover), 200, 100) : null;
+
         return response()->json([
-            "success"=>true,
-            "category"=> $category
+            "success" => true,
+            "category" => $category
         ]);
     }
 
@@ -109,9 +99,15 @@ class CategoryController extends Controller
         $validated = $request->validated();
 
         $category->title = $validated["title"];
-        $category->description = $validated["description"]??null;
+        $category->description = $validated["description"] ?? null;
 
-        if($category->title != $category->getOriginal("title")){
+        if ($cover = $validated["cover"] ?? null) {
+            $image = Image::where("id", $cover)->first();
+            if ($image)
+                $category->cover = $image->path;
+        }
+
+        if ($category->title != $category->getOriginal("title")) {
             // UPDATE SLUG
             $slug = Slug::where("id", $category->slug_id)->first();
             $slug->set($category->title, $category->lang);
@@ -142,14 +138,14 @@ class CategoryController extends Controller
     {
         $slug = $category->slugs();
 
-        if(!$category->delete()){
+        if (!$category->delete()) {
             return response()->json([
-                "success"=>false,
-                "message"=>message()->warning("Houve um erro inesperado ao tentar excluir a categoria. Um log foi registrado.")->render(),
+                "success" => false,
+                "message" => message()->warning("Houve um erro inesperado ao tentar excluir a categoria. Um log foi registrado.")->render(),
             ]);
         }
-        
-        if($slug)
+
+        if ($slug)
             $slug->delete();
 
         message()->success("A categoria foi excluída com sucesso.")->float()->flash();

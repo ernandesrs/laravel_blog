@@ -63,25 +63,37 @@
 
 @section('scripts')
     <script>
-        let modal = $("#jsNewCategoryModal");
+        let categoryModal = $("#jsNewCategoryModal");
 
+        /*
+         * Abre modal no modo cadastro ou edição
+         */
         $(".jsBtnNewCategory, .jsBtnEditCategory").on("click", function() {
             let action = $(this).attr("data-action");
             let data = null;
 
             if ($(this).hasClass("jsBtnNewCategory")) {
                 modalCreate();
-                modal.find("form").attr("action", action);
+                categoryModal.find("form").attr("action", action);
+                categoryModal.find(".cover-preview").html(
+                    `<p class="mb-0 text-muted text-center">Cover preview</p>`);
             } else {
                 let updateAction = "{{ route('admin.blog.categories.update', ['category' => '__id__']) }}";
 
                 $.get(action, null,
                     function(data, textStatus, jqXHR) {
                         if (data.success) {
-                            modal.find("#title").val(data.category.title ?? null);
-                            modal.find("#description").val(data.category.description ?? null);
+                            categoryModal.find("#title").val(data.category.title ?? null);
+                            categoryModal.find("#description").val(data.category.description ?? null);
+                            if (data.category.thumb)
+                                categoryModal.find(".cover-preview").html(
+                                    `<img class="img-fluid img-thumbnail" src="${data.category.thumb}" alt="Cover preview">`
+                                );
+                            else
+                                categoryModal.find(".cover-preview").html(
+                                    `<p class="mb-0 text-muted text-center">Cover preview</p>`);
 
-                            modal.find("form")
+                            categoryModal.find("form")
                                 .attr("action", updateAction.replace("__id__", data.category.id));
                         } else {
                             // 
@@ -93,29 +105,55 @@
                 modalUpdate();
             }
 
-            modal.modal('show');
+            categoryModal.modal('show');
         });
 
-        modal.on("hidden.bs.modal", function(e) {
-            modal.find(".modal-title").html("");
-            modal.find(".message-area").html("");
-            addFormErrors($(modal.find("form")), []);
+        /*
+         * ABRE MODAL DE IMAGENS E MONITORA INSERÇÃO DE IMAGEMS
+         */
+        $("#jsButtonInsertCover").on("click", function(e) {
+            e.preventDefault();
+            let imageToolsModal = $("#jsImageToolsModal")
+
+            imageToolsModal.modal();
+
+            imageToolsModal.on("click", ".jsInsertImage", function(e) {
+                e.preventDefault();
+                let imageData = $(this).parent();
+
+                let image = $(`<img class="img-fluid img-thumbnail" src="" alt="Cover preview">`).attr(
+                    "src", imageData.find("#image-thumb").val());
+
+                $(".cover-preview").html(image)
+                categoryModal.find("#cover").val(imageData.find("#image-id").val());
+
+                imageToolsModal.modal("hide");
+            });
+        });
+
+        categoryModal.on("hidden.bs.modal", function(e) {
+            console.log("KKKK");
+            categoryModal.find(".modal-title").html("");
+            categoryModal.find(".message-area").html("");
+            categoryModal.find(".title").html("");
+            categoryModal.find(".description").html("");
+            addFormErrors($(categoryModal.find("form")), []);
         });
 
         function modalCreate() {
-            modal.find(".modal-title").html("Nova categoria");
-            modal.find(".btn").removeClass("btn-info").addClass("btn-success").text("Salvar");
+            categoryModal.find(".modal-title").html("Nova categoria");
+            categoryModal.find("button[type=submit]").removeClass("btn-info").addClass("btn-success").text("Salvar");
         }
 
         function modalUpdate() {
-            modal.find(".modal-title").html("Atualizar categoria");
-            modal.find(".btn").removeClass("btn-success").addClass("btn-info").text("Atualizar");
+            categoryModal.find(".modal-title").html("Atualizar categoria");
+            categoryModal.find("button[type=submit]").removeClass("btn-success").addClass("btn-info").text("Atualizar");
         }
     </script>
 @endsection
 
 @section('modals')
     @include('includes.modal-confirmation')
-
     @include('admin.blog.includes.modal-category')
+    @include('admin.medias.includes.modal-image-tools')
 @endsection
