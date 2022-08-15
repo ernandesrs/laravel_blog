@@ -137,10 +137,6 @@ Route::group([
     Route::get("/categoria/{slug}", [BlogController::class, "category"])->name("front.category");
     Route::get("/busca/resultados", [BlogController::class, "search"])->name("front.search");
 
-    Route::get("/home", function () {
-        return redirect()->route("front.home");
-    });
-
     Route::get("/p/{slug}", [FrontController::class, "dinamicPage"])->name("front.dinamicPage");
 
     Route::get("/map/sitemap", [FrontController::class, "sitemap"])->name("front.sitemap");
