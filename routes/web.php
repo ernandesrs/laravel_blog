@@ -146,3 +146,7 @@ Route::group([
 });
 
 Route::get("/builder/builder", [FrontController::class, "builder"]);
+
+Route::fallback(function () {
+    return view("error");
+});

@@ -41,11 +41,6 @@ class FrontController extends Controller
         ]);
     }
 
-    public function error(string $error)
-    {
-        echo "Erro: {$error}!";
-    }
-
     /**
      * @return void
      */
