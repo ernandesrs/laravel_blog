@@ -7,7 +7,7 @@
         <div class="row">
             @foreach ($articles as $key => $article)
                 <div class="col-12 {{ $key == 0 ? null : 'col-sm-6 col-md-4 col-lg-6' }} mb-4">
-                    <div class="card card-body article-summary {{ $key == 0 ? 'featured-article' : 'border-0' }}">
+                    <div class="card card-body article-summary {{ $key == 0 ? 'featured-article' : 'no-featured-article border-0' }}">
                         @include('front.includes.article-summary', [
                             'article' => $article,
                             'featured' => $key == 0 ? true : false,

@@ -3,9 +3,9 @@ $footer-height: 50px;
 
 $sidebar-width: 300px;
 
-$primary: #1e9ed0;
-$primary-light: #04a6e7;
-$primary-dark: #0b85b6;
+$primary: #6d7e85;
+$primary-light: #8aa4b0;
+$primary-dark: #47565c;
 
 $secondary: #436ed3;
 $secondary-light: #4f7eec;
@@ -15,9 +15,20 @@ $light: rgb(241, 241, 241);
 $light-light: rgb(252, 252, 252);
 $light-dark: rgb(240, 240, 240);
 
-$dark: rgb(42, 42, 42);
-$dark-light: rgb(53, 53, 53);
-$dark-dark: rgb(35, 35, 35);
+$dark: rgb(55, 55, 55);
+$dark-light: rgb(80, 80, 80);
+$dark-dark: rgb(51, 51, 51);
+
+$blue:    $primary !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #e83e8c !default;
+$red:     #dc3545 !default;
+$orange:  #fd7e14 !default;
+$yellow:  #ffc107 !default;
+$green:   #28a745 !default;
+$teal:    #20c997 !default;
+$cyan:    #17a2b8 !default;
 
 $theme-colors: (
     "primary": $primary,

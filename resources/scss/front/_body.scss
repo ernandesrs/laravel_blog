@@ -3,6 +3,13 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     font-family: "Nunito", sans-serif;
+
+    a {
+        &:hover {
+            color: $secondary;
+            text-decoration: none;
+        }
+    }
 }
 
 .wrap {
@@ -95,7 +102,7 @@ body {
                         border-radius: $border-radius;
 
                         &:hover {
-                            background-color: $dark-light;
+                            background-color: $secondary;
                             color: $light-light;
                         }
                     }
@@ -133,7 +140,7 @@ body {
                     .title {
                         font-size: 1rem;
                         font-weight: 600;
-                        margin: 0;
+                        margin: 0 0 $spacer / 4 0;
 
                         a {
                             &:hover {
@@ -239,8 +246,6 @@ body {
     }
 
     .footer {
-        background-color: $dark;
         min-height: $footer-height;
-        color: $light-dark;
     }
 }

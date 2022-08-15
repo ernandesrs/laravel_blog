@@ -80,9 +80,9 @@
                 </main>
 
             </div>
-
             <footer class="footer text-center">
                 <div class="container-fluid">
+                    <hr>
                     <p class="mb-0">
                         <small>
                             Direitos reservados à {{ config('app.name') }} &copy; {{ date('Y') }}

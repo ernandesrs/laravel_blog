@@ -87,7 +87,7 @@ $isSearchResult = empty($_GET['s']) ? false : true;
             <div class="row justify-content">
                 @foreach ($articles as $article)
                     <div class="col-12 col-sm-6 col-md-4 col-lg-6 mb-4">
-                        <div class="card card-body article-summary border-0">
+                        <div class="card card-body article-summary no-featured-article border-0">
                             @include('front.includes.article-summary', ['article' => $article])
                         </div>
                     </div>
