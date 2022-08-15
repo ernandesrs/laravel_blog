@@ -4,15 +4,53 @@ namespace App\Http\Controllers\Front;
 
 use App\Helpers\Seo;
 use App\Http\Controllers\Controller;
+use App\Models\Article;
+use App\Models\Category;
 use App\Models\Page;
 use App\Models\Slug;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
+use Watson\Sitemap\Facades\Sitemap;
 
 class FrontController extends Controller
 {
+    public function sitemap()
+    {
+        $articles = Article::all();
+        $pages = Page::all();
+        $categories = Category::all();
+
+        Sitemap::addTag(route("front.home"));
+
+        foreach ($articles as $article) {
+            /**
+             * @var Slug $slugs
+             */
+            $slugs = $article->slugs()->first();
+            Sitemap::addTag(route("front.article", ["slug" => $slugs->slug($article->lang)]), $article->updated_at, "daily", "0.8");
+        }
+
+        foreach ($pages as $page) {
+            /**
+             * @var Slug $slugs
+             */
+            $slugs = $page->slugs()->first();
+            Sitemap::addTag(route("front.dinamicPage", ["slug" => $slugs->slug($page->lang)]), $page->updated_at, "daily", "0.8");
+        }
+
+        foreach ($categories as $category) {
+            /**
+             * @var Slug $slugs
+             */
+            $slugs = $category->slugs()->first();
+            Sitemap::addTag(route("front.category", ["slug" => $slugs->slug($category->lang)]), $category->updated_at, "daily", "0.8");
+        }
+
+        return Sitemap::render();
+    }
+
     /**
      * @param string $slug
      * @return View|RedirectResponse

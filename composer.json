@@ -16,7 +16,8 @@
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "rolandstarke/laravel-thumbnail": "^1.0"
+        "rolandstarke/laravel-thumbnail": "^1.0",
+        "watson/sitemap": "4.0.1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

@@ -142,7 +142,8 @@ Route::group([
     });
 
     Route::get("/p/{slug}", [FrontController::class, "dinamicPage"])->name("front.dinamicPage");
-    Route::get("/error/{error}", [FrontController::class, "error"])->name("front.error");
+
+    Route::get("/map/sitemap", [FrontController::class, "sitemap"])->name("front.sitemap");
 });
 
 Route::get("/builder/builder", [FrontController::class, "builder"]);
