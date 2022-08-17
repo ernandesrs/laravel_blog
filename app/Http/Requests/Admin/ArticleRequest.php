@@ -51,7 +51,7 @@ class ArticleRequest extends FormRequest
             "description" => ["required", "min:5", "max:255"],
             "content" => ["required"],
             "cover" => ["nullable", "integer"],
-            "categories" => ["required"],
+            "categories" => ["required_unless:status," . Article::STATUS_DRAFT],
             "status" => ["required", Rule::in(Article::STATUS)],
             "scheduled_to" => ["required_if:status," . Article::STATUS_SCHEDULED]
         ];

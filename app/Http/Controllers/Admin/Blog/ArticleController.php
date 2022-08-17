@@ -118,7 +118,7 @@ class ArticleController extends Controller
             ]);
         }
 
-        if (count($validated["categories"])) {
+        if (count($validated["categories"] ?? [])) {
             $categories = Category::find($validated["categories"]);
             $article->categories()->attach($categories);
         }
