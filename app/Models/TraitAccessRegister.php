@@ -34,6 +34,8 @@ trait TraitAccessRegister
             $this->access_register_id = $accessRegister->id;
 
             $this->save();
+
+            $accessRegister = $this->access()->first();
         }
 
         $accessRegister->register();
