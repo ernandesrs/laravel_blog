@@ -19,6 +19,11 @@
                 </div>
 
                 <div class="form-group">
+                    <input type="checkbox" name="rembemberme" id="rembemberme">
+                    <label for="rembemberme">Lembre-se de mim</label>
+                </div>
+
+                <div class="form-group">
                     <div class="g-recaptcha" data-sitekey="{{ env('APP_GOOGLE_RECAPTCHAV2_SITE_KEY') }}"></div>
                 </div>
 

@@ -51,7 +51,7 @@ class LoginController extends Controller
             unset($validated["g-recaptcha-response"]);
         }
 
-        if (Auth::attempt($validated)) {
+        if (Auth::attempt($validated, ($validated["rembemberme"] ?? null) ? true : false)) {
             $request->session()->regenerate();
 
             $user = auth()->user();
@@ -96,10 +96,11 @@ class LoginController extends Controller
      */
     private function loginValidator(Request $request)
     {
-        $only = ["email", "password"];
+        $only = ["email", "password", "rembemberme"];
         $rules = [
             "email" => ["required", "email"],
-            "password" => ["required"]
+            "password" => ["required"],
+            "rembemberme" => ["nullable"]
         ];
 
         if (g_recaptcha()) {
