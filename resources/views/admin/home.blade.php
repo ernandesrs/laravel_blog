@@ -78,12 +78,19 @@
         <div class="col-12">
             <div class="card card-body">
                 <h2 class="mb-0">Mais acessados</h2>
+                <p class="mb-0">
+                    <small>
+                        O registro semanal é resetado toda semana.
+                    </small>
+                </p>
                 <hr>
                 <div class="table-responsive">
                     <table class="table table-sm table-hover table-borderless">
                         <thead>
                             <tr>
                                 <th class="text-center">Acessos</th>
+                                <th class="text-center">Esta semana</th>
+                                <th class="text-center">Hoje</th>
                                 <th>URL</th>
                                 <th>Último acesso</th>
                             </tr>
@@ -91,17 +98,28 @@
                         <tbody>
                             @if ($access->count())
                                 @foreach ($access as $ac)
+                                    @php
+                                        $url = route($ac->name, (array) json_decode($ac->params));
+                                        $monitored = $ac->monitored();
+                                        $access = (array) json_decode($ac->daily_access_register);
+                                        
+                                        $dailyAccess = $access[strtolower(date('D'))];
+                                        $weeklyAccess = $ac->weekly_access;
+                                    @endphp
+
                                     <tr>
                                         <td class="text-center align-middle">
                                             {{ $ac->access }}
                                         </td>
+                                        <td class="text-center align-middle">
+                                            {{ $weeklyAccess }}
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            {{ $dailyAccess }}
+                                        </td>
                                         <td class="align-middle">
-                                            @php
-                                                $url = route($ac->name, (array) json_decode($ac->params));
-                                                $monitored = $ac->monitored();
-                                            @endphp
                                             <a href="{{ $url }}" target="_blank">
-                                                {{ substr($monitored->title, 0, 50) . (strlen($monitored->title) > 50 ? '...' : null) }}
+                                                {{ substr($monitored->title, 0, 35) . (strlen($monitored->title) > 35 ? '...' : null) }}
                                             </a>
                                         </td>
                                         <td class="align-middle">
