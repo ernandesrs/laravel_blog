@@ -130,7 +130,6 @@ Route::group([
  *
  */
 Route::group([
-    "middleware" => "access_register"
 ], function () {
     Route::get("/", [BlogController::class, "index"])->name("front.home");
     Route::get("/{slug}", [BlogController::class, "article"])->name("front.article");
@@ -146,4 +145,4 @@ Route::get("/builder/builder", [FrontController::class, "builder"]);
 
 Route::fallback(function () {
     return view("error");
-});
+})->name("front.error");

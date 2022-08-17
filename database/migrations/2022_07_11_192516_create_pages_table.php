@@ -34,9 +34,11 @@ class CreatePagesTable extends Migration
             // FOREIGN KEYS
             $table->foreignId("user_id")->unsigned()->nullable(true);
             $table->foreignId("slug_id")->unsigned()->nullable(false);
+            $table->foreignId("access_register_id")->unsigned()->nullable(true);
 
             $table->foreign("user_id")->references("id")->on("users")->nullOnDelete();
             $table->foreign("slug_id")->references("id")->on("slugs")->restrictOnDelete();
+            $table->foreign("access_register_id")->references("id")->on("access_registers")->restrictOnDelete();
 
             $table->timestamps();
         });

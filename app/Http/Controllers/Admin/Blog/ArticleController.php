@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin\Blog;
 use App\Helpers\Thumb;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ArticleRequest;
-use App\Http\Requests\Admin\ImageRequest;
-use App\Models\AccessRegister;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Media\Image;
@@ -91,15 +89,10 @@ class ArticleController extends Controller
             ]);
         }
 
-        // MAKE ACCESS REGISTER
-        $accessRegister = new AccessRegister();
-        $accessRegister->save();
-
         // MAKE ARTICLE
         $article = new Article();
         $article->slug_id = $slug->id;
         $article->user_id = $request->user()->id;
-        $article->access_register_id = $accessRegister->id;
         $article->title = $validated["title"];
         $article->description = $validated["description"];
         $article->lang = config("app.locale");

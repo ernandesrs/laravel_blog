@@ -60,7 +60,7 @@ class FrontController extends Controller
         $page = Page::findBySlug($slug, app()->getLocale());
 
         if (!$page || $page->status != Page::STATUS_PUBLISHED)
-            return redirect()->route("front.error", ["error" => 404]);
+            return redirect()->route("front.error");
 
         $slugs = $page->slugs()->first();
 
@@ -71,6 +71,8 @@ class FrontController extends Controller
         if ($page->content_type == Page::CONTENT_TYPE_VIEW) {
             $view = $page->content->view_path;
         }
+    
+        $page->register();
 
         // IMPLEMENTAR
         return view($view, [
@@ -100,6 +102,16 @@ class FrontController extends Controller
         $user->password = Hash::make("admin");
         $user->email_verified_at = date("Y-m-d H:i:s");
         $user->save();
+
+        $allCategorySlug = new Slug();
+        $allCategorySlug->set("todos", config("app.locale"));
+        $allCategorySlug->save();
+
+        $category = new Category();
+        $category->slug_id = $allCategorySlug->id;
+        $category->title = "Todos";
+        $category->description = "";
+        $category->save();
 
         /**
          * home page create

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Page extends Model
 {
     use HasFactory;
+    use TraitAccessRegister;
 
     public const CONTENT_TYPE_TEXT = "text";
     public const CONTENT_TYPE_VIEW = "view";

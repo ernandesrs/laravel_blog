@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PageRequest;
-use App\Models\AccessRegister;
 use App\Models\Media\Image;
 use App\Models\Page;
 use App\Models\Slug;
@@ -58,15 +57,10 @@ class PageController extends Controller
             ]);
         }
 
-        // MAKE ACCESS REGISTER
-        $accessRegister = new AccessRegister();
-        $accessRegister->save();
-
         // DADOS DA PÁGINA
         $page = new Page();
         $page->user_id = auth()->user()->id;
         $page->slug_id = $slug->id;
-        $page->access_register_id = $accessRegister->id;
         $page->title = $validated["title"];
         $page->description = $validated["description"];
         $page->content_type = $validated["content_type"];
