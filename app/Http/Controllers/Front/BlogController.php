@@ -26,7 +26,7 @@ class BlogController extends Controller
         $page = Page::where("slug_id", $slugs->id)->where("lang", app()->getLocale())->first();
         $content = json_decode($page->content);
 
-        $page->register();
+        $this->registerAccess($page);
 
         return view($content->view_path, [
             "seo" => Seo::set($page->title, $page->description, route("front.home"), m_page_cover_thumb($page, [800, 600])),
@@ -53,7 +53,7 @@ class BlogController extends Controller
             return redirect()->route("front.home");
         }
 
-        $article->register();
+        $this->registerAccess($article);
 
         return view("front.blog-page", [
             "seo" => Seo::set($article->title, $article->description, route("front.article", ["slug" => $slug]), m_article_cover_thumb($article, [800, 600])),

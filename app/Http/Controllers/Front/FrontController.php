@@ -72,7 +72,7 @@ class FrontController extends Controller
             $view = $page->content->view_path;
         }
 
-        $page->register();
+        $this->registerAccess($page);
 
         // IMPLEMENTAR
         return view($view, [
