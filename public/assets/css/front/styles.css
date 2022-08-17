@@ -10450,8 +10450,14 @@ body a:hover {
 .left-side .header {
   display: flex;
   align-items: center;
+  width: 100%;
+  background-color: rgb(241, 241, 241);
+  align-items: center;
   min-height: 60px;
   padding: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 .left-side .header .logo {
   font-size: 1.2rem;
@@ -10474,10 +10480,14 @@ body a:hover {
 }
 .left-side .sidebar {
   display: none;
-  background-color: rgb(240, 240, 240);
-  width: calc(100% - 2rem);
+  background-color: rgb(252, 252, 252);
+  width: 100%;
+  max-width: 475px;
+  overflow-y: auto;
+  min-height: calc(100vh - 75px);
   position: fixed;
-  top: 76px;
+  right: 0;
+  top: 92px;
   z-index: 501;
 }
 .left-side .sidebar.show {
@@ -10508,12 +10518,21 @@ body a:hover {
   background-color: #436ed3;
   color: rgb(252, 252, 252);
 }
+.left-side .sidebar .sidebar-elem.articles-most-viewed .nav .nav-link {
+  cursor: pointer !important;
+}
+.left-side .sidebar .sidebar-elem.articles-most-viewed .nav .nav-link .title {
+  font-size: 1rem;
+}
 
 .right-side {
   display: flex;
   flex-direction: column;
   background-color: rgb(252, 252, 252);
   width: 100%;
+  position: relative;
+  z-index: 499;
+  top: 1rem;
 }
 .right-side .main {
   min-height: calc(100vh - (50px + 2rem));
@@ -10716,6 +10735,9 @@ body .h5 {
     left: 0;
     top: 0;
   }
+  .left-side .header {
+    position: relative;
+  }
   .left-side .header .logo .img-fluid {
     max-height: unset;
   }
@@ -10724,6 +10746,7 @@ body .h5 {
   }
   .left-side .sidebar {
     display: block;
+    background-color: rgb(241, 241, 241);
     width: 100%;
     position: relative;
     top: unset;
@@ -10731,9 +10754,14 @@ body .h5 {
   .left-side .sidebar .sidebar-elem.categories .nav {
     justify-content: start;
   }
+  .left-side .sidebar .sidebar-elem.articles-most-viewed .nav .nav-link .title {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
   .right-side {
     max-width: calc(100% - 300px);
     margin-left: 300px;
+    top: 0;
   }
   .right-side .container-fluid, .right-side .container-sm, .right-side .container-md, .right-side .container-lg, .right-side .container-xl {
     padding-left: 2rem;

@@ -43,8 +43,14 @@ body {
     .header {
         display: flex;
         align-items: center;
+        width: 100%;
+        background-color: $light;
+        align-items: center;
         min-height: $header-height;
         padding: $spacer;
+        position: fixed;
+        top: 0;
+        left: 0;
 
         .logo {
             font-size: 1.2rem;
@@ -73,10 +79,14 @@ body {
 
     .sidebar {
         display: none;
-        background-color: $light-dark;
-        width: calc(100% - ($spacer * 2));
+        background-color: $light-light;
+        width: 100%;
+        max-width: 475px;
+        overflow-y: auto;
+        min-height: calc(100vh - 75px);
         position: fixed;
-        top: 76px;
+        right: 0;
+        top: 92px;
         z-index: 501;
 
         &.show {
@@ -113,6 +123,18 @@ body {
                     }
                 }
             }
+
+            &.articles-most-viewed {
+                .nav {
+                    .nav-link {
+                        cursor: pointer!important;
+
+                        .title {
+                            font-size: 1rem;
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -122,6 +144,9 @@ body {
     flex-direction: column;
     background-color: $light-light;
     width: 100%;
+    position: relative;
+    z-index: 499;
+    top: $spacer * 1;
 
     .main {
         min-height: calc(100vh - ($footer-height + ($spacer * 2)));

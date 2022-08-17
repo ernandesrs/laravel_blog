@@ -71,19 +71,20 @@
                             ->limit(5)
                             ->get();
                     @endphp
-                    <div class="sidebar-elem articles-most viewed">
+                    <div class="sidebar-elem articles-most-viewed">
                         <h2 class="title mb-0">Mais visitados</h2>
                         <nav class="nav flex-column">
                             @foreach ($visited as $v)
                                 @php
                                     $article = $v->monitored();
                                 @endphp
-                                <a class="nav-link d-flex align-items-start px-0" href="">
+                                <a class="nav-link d-flex align-items-start px-0"
+                                    href="{{ route($v->name, (array) json_decode($v->params)) }}">
                                     <img class="img-fluid img-thumbnail mr-2"
                                         src="{{ m_article_cover_thumb($article, [50, 35]) }}" alt="">
-                                    <small>
+                                    <span class="mb-0 title">
                                         {{ substr($article->title, 0, 50) . (strlen($article->title) > 50 ? '...' : null) }}
-                                    </small>
+                                    </span>
                                 </a>
                             @endforeach
                         </nav>
@@ -92,7 +93,7 @@
                     {{-- contato --}}
                     <div class="sidebar-elem contact">
                         <h2 class="title mb-0">Contato</h2>
-                        <p class="mb-0">
+                        <p class="mb-0 text-dark-light">
                             {{ icon_elem('envelopeFill') }} Email:
                         </p>
                         <p class="mb-0 text-muted">

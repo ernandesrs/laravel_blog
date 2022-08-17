@@ -154,6 +154,8 @@
         top: 0;
 
         .header {
+            position: relative;
+
             .logo {
                 .img-fluid {
                     max-height: unset;
@@ -167,6 +169,7 @@
 
         .sidebar {
             display: block;
+            background-color: $light;
             width: 100%;
             position: relative;
             top: unset;
@@ -177,6 +180,17 @@
                         justify-content: start;
                     }
                 }
+
+                &.articles-most-viewed {
+                    .nav {
+                        .nav-link {
+                            .title {
+                                font-size: 0.875rem;
+                                font-weight: 500;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -184,6 +198,7 @@
     .right-side {
         max-width: calc(100% - $sidebar-width);
         margin-left: $sidebar-width;
+        top: 0;
 
         .container-fluid {
             padding-left: $spacer * 2;
