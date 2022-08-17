@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Models\AccessRegister;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -16,6 +17,15 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+
+        /**
+         * reset de dados de visita
+         */
+        $schedule->call(function () {
+            $accessRegisters = AccessRegister::where("weekly_access", "!=", 0)->get();
+            foreach ($accessRegisters as $ar)
+                $ar->weeklyReset();
+        })->weeklyOn(1, '0:0');
     }
 
     /**
@@ -25,7 +35,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
