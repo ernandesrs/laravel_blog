@@ -48,12 +48,12 @@
                     </div>
 
                     {{-- categories --}}
+                    @php
+                        $categories = \App\Models\Category::all();
+                    @endphp
                     <div class="sidebar-elem categories">
                         <h2 class="title mb-0">Categorias</h2>
                         <nav class="nav">
-                            @php
-                                $categories = \App\Models\Category::all();
-                            @endphp
                             @foreach ($categories as $category)
                                 @php
                                     $slugs = $category->slugs()->first();
@@ -62,6 +62,31 @@
                                     href="{{ route('front.category', ['slug' => $slugs->slug(app()->getLocale())]) }}"
                                     title="Ver artigos em {{ $category->title }}">
                                     {{ $category->title }}
+                                </a>
+                            @endforeach
+                        </nav>
+                    </div>
+
+                    {{-- mais vistos --}}
+                    @php
+                        $visited = \App\Models\AccessRegister::where('class', 'App\Models\Article')
+                            ->orderBy('weekly_access', 'DESC')
+                            ->limit(5)
+                            ->get();
+                    @endphp
+                    <div class="sidebar-elem articles-most viewed">
+                        <h2 class="title mb-0">Mais visitados</h2>
+                        <nav class="nav flex-column">
+                            @foreach ($visited as $v)
+                                @php
+                                    $article = $v->monitored();
+                                @endphp
+                                <a class="nav-link d-flex align-items-start px-0" href="">
+                                    <img class="img-fluid img-thumbnail mr-2"
+                                        src="{{ m_article_cover_thumb($article, [50, 35]) }}" alt="">
+                                    <small>
+                                        {{ substr($article->title, 0, 50) . (strlen($article->title) > 50 ? '...' : null) }}
+                                    </small>
                                 </a>
                             @endforeach
                         </nav>
