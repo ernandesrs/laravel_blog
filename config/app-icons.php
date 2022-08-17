@@ -20,6 +20,8 @@ return [
     'checkCircle' => 'bi bi-check-circle',
     'checkCircleFill' => 'bi bi-check-circle-fill',
 
+    'envelopeFill' => 'bi bi-envelope-fill',
+
     'filter' => 'bi bi-filter',
     'folderFill' => 'bi bi-folder-fill',
 

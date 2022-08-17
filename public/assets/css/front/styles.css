@@ -10456,6 +10456,10 @@ body a:hover {
 .left-side .header .logo {
   font-size: 1.2rem;
 }
+.left-side .header .logo .img-fluid {
+  height: 100%;
+  max-height: 60px;
+}
 .left-side .header .btn-menu-toggler {
   background-color: transparent;
   margin-left: auto;
@@ -10472,8 +10476,8 @@ body a:hover {
   display: none;
   background-color: rgb(240, 240, 240);
   width: calc(100% - 2rem);
-  position: absolute;
-  top: 77px;
+  position: fixed;
+  top: 76px;
   z-index: 501;
 }
 .left-side .sidebar.show {
@@ -10711,6 +10715,9 @@ body .h5 {
     position: absolute;
     left: 0;
     top: 0;
+  }
+  .left-side .header .logo .img-fluid {
+    max-height: unset;
   }
   .left-side .header .btn-menu-toggler {
     display: none;

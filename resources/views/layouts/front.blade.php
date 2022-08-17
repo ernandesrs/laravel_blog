@@ -27,7 +27,8 @@
                 <header class="header">
                     <a class="logo" href="{{ route('front.home') }}" title="Página inicial">
                         <h1 class="sr-only">{{ config('app.name') }}</h1>
-                        <span>{{ config('app.name') }}</span>
+                        <img class="img-fluid" src="{{ asset('assets/img/ersouza_logo.png') }}"
+                            alt="{{ config('app.name') }}">
                     </a>
                     <button class="btn-menu-toggler {{ icon_class('list') }} jsBtnToggler"></button>
                 </header>
@@ -41,10 +42,6 @@
                                     value="{{ input_value($_GET ?? null, 's') }}" placeholder="Buscar...">
                             </form>
                         </div>
-                    </div>
-
-                    <div class="sidebar-elem">
-                        @include('front.includes.ads', ['adsType' => 'block'])
                     </div>
 
                     {{-- categories --}}
@@ -90,6 +87,17 @@
                                 </a>
                             @endforeach
                         </nav>
+                    </div>
+
+                    {{-- contato --}}
+                    <div class="sidebar-elem contact">
+                        <h2 class="title mb-0">Contato</h2>
+                        <p class="mb-0">
+                            {{ icon_elem('envelopeFill') }} Email:
+                        </p>
+                        <p class="mb-0">
+                            {{ env('MAIL_CONTACT') }}
+                        </p>
                     </div>
 
                 </div>

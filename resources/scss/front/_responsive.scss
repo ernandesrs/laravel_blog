@@ -154,6 +154,12 @@
         top: 0;
 
         .header {
+            .logo {
+                .img-fluid {
+                    max-height: unset;
+                }
+            }
+
             .btn-menu-toggler {
                 display: none;
             }
