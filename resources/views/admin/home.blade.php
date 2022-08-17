@@ -96,9 +96,12 @@
                                             {{ $ac->access }}
                                         </td>
                                         <td class="align-middle">
-                                            <a href="{{ route($ac->name, (array) json_decode($ac->params)) }}"
-                                                target="_blank">
-                                                {{ substr($ac->path, 0, 50) . (strlen($ac->path) > 50 ? '...' : null) }}
+                                            @php
+                                                $url = route($ac->name, (array) json_decode($ac->params));
+                                                $monitored = $ac->monitored();
+                                            @endphp
+                                            <a href="{{ $url }}" target="_blank">
+                                                {{ substr($monitored->title, 0, 50) . (strlen($monitored->title) > 50 ? '...' : null) }}
                                             </a>
                                         </td>
                                         <td class="align-middle">

@@ -2,16 +2,23 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Route;
 
 trait TraitAccessRegister
 {
-    public function access()
+    /**
+     * @return HasOne
+     */
+    public function access(): HasOne
     {
         return $this->hasOne(AccessRegister::class, "id", "access_register_id");
     }
 
-    public function register()
+    /**
+     * @return void
+     */
+    public function register(): void
     {
         $accessRegister = $this->access()->first();
 
@@ -29,6 +36,8 @@ trait TraitAccessRegister
             $this->save();
         }
 
-        return $accessRegister->register();
+        $accessRegister->register();
+
+        return;
     }
 }

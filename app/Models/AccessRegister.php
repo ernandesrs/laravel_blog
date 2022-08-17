@@ -19,7 +19,18 @@ class AccessRegister extends Model
         "sun" => 0
     ];
 
-    protected $fillable = ["monitored_id", "name", "params"];
+    protected $fillable = ["name", "params"];
+
+    public function monitored()
+    {
+        $monitored = $this->belongsTo(Page::class, "id", "access_register_id");
+        if ($monitored->count())
+            return $monitored->first();
+
+        $monitored = $this->belongsTo(Article::class, "id", "access_register_id");
+        if ($monitored->count())
+            return $monitored->first();
+    }
 
     /**
      * @return void
