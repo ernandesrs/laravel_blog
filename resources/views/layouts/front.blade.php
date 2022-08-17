@@ -95,7 +95,7 @@
                         <p class="mb-0">
                             {{ icon_elem('envelopeFill') }} Email:
                         </p>
-                        <p class="mb-0">
+                        <p class="mb-0 text-muted">
                             {{ env('MAIL_CONTACT') }}
                         </p>
                     </div>

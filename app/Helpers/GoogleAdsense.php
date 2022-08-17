@@ -31,7 +31,7 @@ class GoogleAdsense
     {
         if (self::gads() && env("APP_ENV") == self::showWhenIn)
             return env("APP_GOOGLE_ADSENSE_BLOCKADS");
-        return "<img src='" . asset("assets/img/example/ads250x250.jpg") . "' alt='ads250x250'>";
+        return "<img class='img-fluid' src='" . asset("assets/img/example/ads250x250.jpg") . "' alt='ads250x250'>";
     }
 
     /**
@@ -41,7 +41,7 @@ class GoogleAdsense
     {
         if (self::gads() && env("APP_ENV") == self::showWhenIn)
             return env("APP_GOOGLE_ADSENSE_HORIZONTALADS");
-        return "<img src='" . asset("assets/img/example/ads728x90.jpg") . "' alt='ads728x90'>";
+        return "<img class='img-fluid' src='" . asset("assets/img/example/ads728x90.jpg") . "' alt='ads728x90'>";
     }
 
     /**
@@ -51,6 +51,6 @@ class GoogleAdsense
     {
         if (self::gads() && env("APP_ENV") == self::showWhenIn)
             return env("APP_GOOGLE_ADSENSE_INARTICLEADS");
-        return "<img src='" . asset("assets/img/example/ads728x90.jpg") . "' alt='ads728x90'>";
+        return "<img class='img-fluid' src='" . asset("assets/img/example/ads728x90.jpg") . "' alt='ads728x90'>";
     }
 }
