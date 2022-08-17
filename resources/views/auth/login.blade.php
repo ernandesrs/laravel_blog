@@ -23,9 +23,13 @@
                     <label for="rembemberme">Lembre-se de mim</label>
                 </div>
 
-                <div class="form-group">
-                    <div class="g-recaptcha" data-sitekey="{{ env('APP_GOOGLE_RECAPTCHAV2_SITE_KEY') }}"></div>
-                </div>
+                @if (g_recaptcha())
+                    <div class="col-12 g-recaptcha-col">
+                        <div class="form-group d-flex justify-content-center">
+                            {{ g_recaptcha_render() }}
+                        </div>
+                    </div>
+                @endif
 
                 <div class="form-group d-flex align-items-center">
                     <button class="btn btn-primary">Login</button>
@@ -39,5 +43,7 @@
 @endsection
 
 @section('scripts')
-    <script src='https://www.google.com/recaptcha/api.js'></script>
+    @if (g_recaptcha())
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+    @endif
 @endsection

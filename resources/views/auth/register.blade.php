@@ -52,11 +52,13 @@
                         </div>
                     </div>
 
-                    <div class="col-12">
-                        <div class="form-group">
-                            <div class="g-recaptcha" data-sitekey="{{ env('APP_GOOGLE_RECAPTCHAV2_SITE_KEY') }}"></div>
+                    @if (g_recaptcha())
+                        <div class="col-12 g-recaptcha-col">
+                            <div class="form-group d-flex justify-content-center">
+                                {{ g_recaptcha_render() }}
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
 
                 <div class="form-group d-flex align-items-center">
@@ -69,7 +71,9 @@
 @endsection
 
 @section('scripts')
-    <script src='https://www.google.com/recaptcha/api.js'></script>
+    @if (g_recaptcha())
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+    @endif
     <script src="{{ asset('assets/js/jquery-mask.min.js') }}"></script>
     <script>
         $('#phone').mask('+00 (00) 0 0000-0000');
