@@ -71,7 +71,7 @@ class FrontController extends Controller
         if ($page->content_type == Page::CONTENT_TYPE_VIEW) {
             $view = $page->content->view_path;
         }
-    
+
         $page->register();
 
         // IMPLEMENTAR
@@ -102,16 +102,6 @@ class FrontController extends Controller
         $user->password = Hash::make("admin");
         $user->email_verified_at = date("Y-m-d H:i:s");
         $user->save();
-
-        $allCategorySlug = new Slug();
-        $allCategorySlug->set("todos", config("app.locale"));
-        $allCategorySlug->save();
-
-        $category = new Category();
-        $category->slug_id = $allCategorySlug->id;
-        $category->title = "Todos";
-        $category->description = "";
-        $category->save();
 
         /**
          * home page create
@@ -246,6 +236,20 @@ class FrontController extends Controller
         $commentTerms->user_id = $user->id;
         $commentTerms->slug_id = $commentTermsSlug->id;
         $commentTerms->save();
+
+        /**
+         * default category create
+         */
+
+        $allCategorySlug = new Slug();
+        $allCategorySlug->set("sem-categoria", config("app.locale"));
+        $allCategorySlug->save();
+
+        $category = new Category();
+        $category->slug_id = $allCategorySlug->id;
+        $category->title = "Sem categoria";
+        $category->description = "";
+        $category->save();
 
         echo "Builded";
         return;
