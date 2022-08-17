@@ -18,6 +18,7 @@ class CreateAccessRegistersTable extends Migration
             $table->id();
 
             $table->string("name", 100)->nullable(false)->comment("Nome da rota");
+            $table->string("class")->nullable(false)->comment("Classe");
             $table->json("params")->nullable(false)->comment("Parãmetros da rota");
 
             $table->integer("access")->nullable(false)->default(0)->comment("Todos acessos");

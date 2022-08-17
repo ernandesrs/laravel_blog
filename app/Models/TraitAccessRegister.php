@@ -26,6 +26,7 @@ trait TraitAccessRegister
             $accessRegister = new AccessRegister([
                 "name" => Route::currentRouteName(),
                 "params" => json_encode(Route::current()->parameters),
+                "class" => get_class($this),
                 "access" => 0,
             ]);
 

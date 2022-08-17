@@ -19,7 +19,7 @@ class AccessRegister extends Model
         "sun" => 0
     ];
 
-    protected $fillable = ["name", "params"];
+    protected $fillable = ["name", "class", "params"];
 
     public function monitored()
     {
